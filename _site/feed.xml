@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>luhux | blog</title>
+    <description>simple user</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 13 Jul 2018 19:55:46 +0800</pubDate>
+    <lastBuildDate>Fri, 13 Jul 2018 19:55:46 +0800</lastBuildDate>
+    <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>Throw away the mouse</title>
+        <description>&lt;h1 id=&quot;扔掉鼠标使用linux&quot;&gt;扔掉鼠标使用Linux&lt;/h1&gt;
+
+&lt;p&gt;environment:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Debian 9 最小化安装版本&lt;/li&gt;
+  &lt;li&gt;Keyboard&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;默认无GUI环境。&lt;/p&gt;
+&lt;h2 id=&quot;1安装x服务&quot;&gt;1.安装x服务&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sudo apt install xserver-xorg xinit -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;xserver-xorg : X服务基础文件&lt;/li&gt;
+  &lt;li&gt;xinit : 提供startx命令&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2安装窗口管理器i3wm&quot;&gt;2.安装窗口管理器i3wm&lt;/h2&gt;
+
+&lt;p&gt;i3wm官网: &lt;a href=&quot;https://i3wm.org/&quot;&gt;i3wm&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install i3-wm dwm -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;启动配置:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo 'exec i3' &amp;gt;&amp;gt; ~/.xinitrc  # 将启动命令写入.xinitrc以使用startx启动i3wm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3安装鼠标代替keynav&quot;&gt;3.安装鼠标代替keynav&lt;/h2&gt;
+
+&lt;p&gt;keynav官网: &lt;a href=&quot;https://www.semicomplete.com/projects/keynav/&quot;&gt;keynav&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install keynav -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;配置:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp /usr/share/doc/keynav/keynavrc ~/.keynavrc  # 复制默认配置文件
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用文本编辑器打开~/.keynavrc ：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;查找行 # daemonize 然后去掉注释# 以使keynav以守护进程后台运行&lt;/li&gt;
+  &lt;li&gt;查找行 1 click 1 改为 u warp,click 1,end 定义u为鼠标左键点击指定位置&lt;/li&gt;
+  &lt;li&gt;查找行 2 click 2 改为 i warp,click 2,end 定义i为鼠标中键点击指定位置&lt;/li&gt;
+  &lt;li&gt;查找行 3 click 3 改为 o warp,click 3,end 定义o为鼠标右键点击指定位置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;4安装终端xfce4-terminal&quot;&gt;4.安装终端xfce4-terminal&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install xfce4-terminal -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;5安装中文输入法fictx-googlepinyin&quot;&gt;5.安装中文输入法fictx-googlepinyin&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install fcitx-googlepinyin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用文本编辑器新建~/fcitxenv.sh&lt;/p&gt;
+
+&lt;p&gt;写入:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;GTK_IM_MODULE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;fcitx
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;XMODIFIERS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;@im&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;fictx
+fcitx &amp;amp;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;保存&lt;/p&gt;
+
+&lt;h2 id=&quot;6配置&quot;&gt;6.配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ startx  # 启动图形界面
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;自己选择配置mod按键为windows徽标键&lt;/p&gt;
+
+&lt;p&gt;打开终端: mod键+回车&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ keynav  # 启动keynav
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;keynav基本用法:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Ctrl + ;  启动keynav&lt;/li&gt;
+  &lt;li&gt;启动后可用快捷键:&lt;/li&gt;
+  &lt;li&gt;h,j,k,l 不同方向分割十字准星&lt;/li&gt;
+  &lt;li&gt;H,J,K,L 平移十字准星&lt;/li&gt;
+  &lt;li&gt;回车 鼠标左键单击十字准星瞄准的地方&lt;/li&gt;
+  &lt;li&gt;u,i,o 分别代表鼠标左，中，右键单击指定位置(非默认快捷键,上方用户配置)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;启动fcitx:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source fcitxenv.sh  # 设置变量并启动fcitx
+$ fcitx-configtool # 启动fcitx配置窗口
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;窗口左下角+按钮 &amp;gt; 取消Only show Current Language &amp;gt; 搜索框输入googlepinyin &amp;gt; 选择google拼音 &amp;gt; ok按钮 &amp;gt; 退出配置窗口&lt;/p&gt;
+
+&lt;h2 id=&quot;7使用&quot;&gt;7.使用&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# reboot  # 重启
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;登录终端&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ startx  # 启动图形界面
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;WIN键 + enter 打开终端&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source fcitxenv.sh  # 启动输入法
+$ keynav  # 启动keynav鼠标
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;i3使用:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;WIN + enter 启动终端&lt;/li&gt;
+  &lt;li&gt;WIN + d 启动打开应用菜单&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;WIN + shift + q 关闭当前窗口&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;WIN + 1~9 切换工作区&lt;/li&gt;
+  &lt;li&gt;WIN + shift + 1~9 移动当前窗口到某工作区&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;dmenu使用技巧：可以在选择框中输入程序启动命令前缀来快速定位&lt;/p&gt;
+
+&lt;p&gt;更多使用i3wm请参考i3wm官网&lt;/p&gt;
+
+&lt;p&gt;配上一张我的使用截图:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/2018-07-13-194337_1440x900_scrot.png&quot; alt=&quot;warzone2100&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(keynav玩的好，游戏难不倒)&lt;/p&gt;
+</description>
+        <pubDate>Fri, 13 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/13/Throw-away-the-mouse/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/13/Throw-away-the-mouse/</guid>
+        
+        <category>keynav</category>
+        
+        <category>i3wm</category>
+        
+        <category>Debian</category>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>About this Jekyll theme</title>
+        <description>&lt;p&gt;Textlog is a minimalist, lefty-style Jekyll theme designed for documentation based blog.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Content-focused post layout&lt;/li&gt;
+  &lt;li&gt;Using system fonts like GitHub - no Google Fonts&lt;/li&gt;
+  &lt;li&gt;Supports article tagging&lt;/li&gt;
+  &lt;li&gt;White clean design&lt;/li&gt;
+  &lt;li&gt;Contains intro section on homepage&lt;/li&gt;
+  &lt;li&gt;Supports comment if enabled - using &lt;a href=&quot;https://disqus.com/&quot;&gt;Disqus comment&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Responsive and mobile-friendly&lt;/li&gt;
+  &lt;li&gt;Post can have specific author name displayed on post metadata - apply via yaml front matter&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/heiswayi/textlog&quot;&gt;Source code on GitHub&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 15 Jan 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/01/15/about-this-jekyll-theme/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/01/15/about-this-jekyll-theme/</guid>
+        
+        <category>Demo</category>
+        
+        <category>Jekyll</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

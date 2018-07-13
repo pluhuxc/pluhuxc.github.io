@@ -1,0 +1,19 @@
+# Site settings
+title: "luhux | blog"
+description: "simple user"
+baseurl: "" # required if used under gh-pages branch, else (under master branch) just leave empty/blank
+url: "https://pluhuxc.github.io/"
+author: "Lu hux"
+
+# Build settings
+kramdown:
+  input: GFM
+permalink: pretty
+
+# Third-party services
+# just leave empty to disable it
+google_analytics:
+disqus_shortname: 
+
+plugins:
+  - jekyll-sitemap
