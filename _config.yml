@@ -1,67 +1,20 @@
-# Site Settings
-encoding: UTF-8
-exclude: ["*.gem", "*.gemspec", "Gemfile", "Gemfile.lock", "node_modules", "Rakefile", "starter-kit", "vendor"]
-lang: en # Language code as defined in _data/i18n.yml. en, en-gb, en-us, zh, zh-cn, zh-tw etc.
-permalink: /blog/:year/:month/:day/:title/
+# Site settings
+title: "Blog"
+description: "Not much"
+baseurl: ""
+url: "http://pluhuxc.github.io"
 
-whitelist: [jekyll-feed, jekyll-redirect-from, jekyll-seo-tag, jekyll-sitemap]
-plugins:
-  - jekyll-feed
-  - jekyll-redirect-from
-  - jekyll-seo-tag
-  - jekyll-sitemap
-
+# Build settings
 markdown: kramdown
-kramdown:
-  auto_id_prefix: 'heading-'
-  smart_quotes: ["apos", "apos", "quot", "quot"]
-  toc_levels: 1..3
+permalink: pretty
+highlighter: pygments
+paginate: 3
 
-sass:
-  style: compressed
-
-# Site Data
-url: https://pluhuxc.github.io # the base hostname & protocol for your site, e.g. http://example.com
-baseurl: # the subpath of your site, e.g. /blog
-title: Blog
-description: "Simple blog"
-keywords: 'blog'
-author:
-  name: luhux
-  job_title:
-  location:
-  email: luhux@hotmail.com
-  social_links:
-    - name: facebook
-      url:
-    - name: github
-      url: https://github.com/luhux/
-    - name: 
-      url:
-    - name: linkedin
-      url:
-    - name: stackoverflow
-      url:
-    - name: twitter
-      url: 
-    - name: vk
-      url:
-home:
-  section1: <h1>Simple Blog</h1>
-  section2: <h2>A simple blog</h2>
-  section3: <div class="social-links"><a class="ico-github btn" href="https://github.com/pluhuxc/pluhuxc.github.io" title="View on GitHub"></a></div>
-blog:
-  cc_license: http://creativecommons.org/licenses/by-sa/4.0/ # A link to CC License of your choice.
-  cc_license_image: /assets/images/theme/cc-by-sa.png # An image of your CC License. 
-
-disqus:
-  shortname: # e.g. yizeng
-  public_key: # e.g. ULZ0b9TFefCUJHKQd4JCKv2v3u27YoG7YG8zXPewkWrT333Z0Se9YnxLzoV6VM8W
-google_analytics: # e.g. 'UA-42456515-5'
-addthis_public_id: # AddThis sharing plugin. See http://www.addthis.com/. E.g. ra-53329e27694534j5 
-
-paths:
-  home: /
-  blog: /blog/
-  categories: /blog/categories/
-  tags: /blog/tags/
+# Links
+links:
+  - title: "abt"
+    url: /about
+  - title: "git"
+    url: http://github.com/alixedi
+  - title: "rss"
+    url: /feed.xml
