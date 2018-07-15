@@ -23,7 +23,7 @@ Debian:
 Ctrl+;   进入keynav分割模式
 
 如图:
-[keynavfullscrenn](https://raw.githubusercontent.com/luhux/images/master/2018-07-13-194337_1440x900_keynavfullscreen.png)
+![keynavfullscrenn](https://raw.githubusercontent.com/luhux/images/master/2018-07-13-194337_1440x900_keynavfullscreen.png)
 
 分割模式内常用快捷键:
 
