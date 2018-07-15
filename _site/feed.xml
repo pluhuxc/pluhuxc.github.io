@@ -5,8 +5,8 @@
     <description>simple user</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 15 Jul 2018 17:02:45 +0800</pubDate>
-    <lastBuildDate>Sun, 15 Jul 2018 17:02:45 +0800</lastBuildDate>
+    <pubDate>Sun, 15 Jul 2018 17:11:16 +0800</pubDate>
+    <lastBuildDate>Sun, 15 Jul 2018 17:11:16 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
     
       <item>
@@ -160,8 +160,6 @@
 &lt;p&gt;使用文本编辑器打开~/.keynavrc ：&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;查找行 # daemonize 然后去掉注释# 以使keynav以守护进程后台运行&lt;/li&gt;
-  &lt;li&gt;查找行 1 click 1 改为 u warp,click 1,end 定义u为鼠标左键点击指定位置&lt;/li&gt;
-  &lt;li&gt;查找行 2 click 2 改为 i warp,click 2,end 定义i为鼠标中键点击指定位置&lt;/li&gt;
   &lt;li&gt;查找行 3 click 3 改为 o warp,click 3,end 定义o为鼠标右键点击指定位置&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -207,7 +205,7 @@ fcitx &amp;amp;
   &lt;li&gt;h,j,k,l 不同方向分割十字准星&lt;/li&gt;
   &lt;li&gt;H,J,K,L 平移十字准星&lt;/li&gt;
   &lt;li&gt;回车 鼠标左键单击十字准星瞄准的地方&lt;/li&gt;
-  &lt;li&gt;u,i,o 分别代表鼠标左，中，右键单击指定位置(非默认快捷键,上方用户配置)&lt;/li&gt;
+  &lt;li&gt;o 右键单击指定位置(非默认快捷键,上方用户配置)&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;启动fcitx:&lt;/p&gt;
