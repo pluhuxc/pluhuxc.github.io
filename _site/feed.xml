@@ -5,13 +5,115 @@
     <description>simple user</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 13 Jul 2018 19:55:46 +0800</pubDate>
-    <lastBuildDate>Fri, 13 Jul 2018 19:55:46 +0800</lastBuildDate>
+    <pubDate>Sun, 15 Jul 2018 17:02:45 +0800</pubDate>
+    <lastBuildDate>Sun, 15 Jul 2018 17:02:45 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
     
       <item>
+        <title>keynav</title>
+        <description>&lt;h1 id=&quot;keynav-用法&quot;&gt;keynav 用法&lt;/h1&gt;
+
+&lt;h2 id=&quot;1安装&quot;&gt;1.安装&lt;/h2&gt;
+&lt;p&gt;Debian:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt-get install keynav
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;2使用&quot;&gt;2.使用&lt;/h2&gt;
+&lt;p&gt;默认&lt;/p&gt;
+
+&lt;p&gt;启动:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ keynav &amp;amp;  # 启动keynav并挂在后台运行
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Ctrl+;   进入keynav分割模式&lt;/p&gt;
+
+&lt;p&gt;如图:
+&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/2018-07-13-194337_1440x900_keynavfullscreen.png&quot; alt=&quot;keynavfullscreen&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;分割模式内常用快捷键:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;快捷键&lt;/th&gt;
+      &lt;th&gt;功能&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;h,j,k,l&lt;/td&gt;
+      &lt;td&gt;向左,下,上,右分割红框&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;H,J,K,L&lt;/td&gt;
+      &lt;td&gt;向左,下,上,右移动红框&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;y,u,b,n&lt;/td&gt;
+      &lt;td&gt;左上,右上,左下,右下分割红框&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Y,U,B,N&lt;/td&gt;
+      &lt;td&gt;左上,右上,左下,右下移动红框&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Esc&lt;/td&gt;
+      &lt;td&gt;退出分割模式&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Space&lt;/td&gt;
+      &lt;td&gt;左键单击击红框中心位置&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;;&lt;/td&gt;
+      &lt;td&gt;将鼠标光标移动到红框中心位置&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;w&lt;/td&gt;
+      &lt;td&gt;将红框移动缩放到活动的窗口&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;c&lt;/td&gt;
+      &lt;td&gt;将红框移动缩放到鼠标所在位置并缩放为指定大小(默认200x200)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;a&lt;/td&gt;
+      &lt;td&gt;撤销操作&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;默认操作中没有鼠标右键右键单击
+所以手动添加:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp /usr/share/doc/keynav/keynavrc ~/.keynavrc  # 复制默认配置文件到home
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用文本编辑器打开并加入:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;o warp,click 3,end  # 绑定o键为: 鼠标右键单击红框中心位置
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;更多自定义请man keynav 并自定义~/.keynavrc配置文件&lt;/p&gt;
+</description>
+        <pubDate>Sun, 15 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/15/keynav-useage/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/15/keynav-useage/</guid>
+        
+        <category>keynav</category>
+        
+        <category>Debian</category>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
         <title>Throw away the mouse</title>
-        <description>&lt;h1 id=&quot;扔掉鼠标使用linux&quot;&gt;扔掉鼠标使用Linux&lt;/h1&gt;
+        <description>&lt;h1 id=&quot;扔掉鼠标&quot;&gt;扔掉鼠标&lt;/h1&gt;
 
 &lt;p&gt;environment:&lt;/p&gt;
 
@@ -21,9 +123,9 @@
 &lt;/ul&gt;
 
 &lt;p&gt;默认无GUI环境。&lt;/p&gt;
-&lt;h2 id=&quot;1安装x服务&quot;&gt;1.安装x服务&lt;/h2&gt;
+&lt;h2 id=&quot;1安装x服务以及中文字体&quot;&gt;1.安装x服务以及中文字体&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sudo apt install xserver-xorg xinit -y
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sudo apt install xserver-xorg xinit ttf-wqy-zenhei -y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;ul&gt;
