@@ -43,8 +43,6 @@ keynav官网: [keynav](https://www.semicomplete.com/projects/keynav/)
 	
 使用文本编辑器打开~/.keynavrc ：
 - 查找行 # daemonize 然后去掉注释# 以使keynav以守护进程后台运行
-- 查找行 1 click 1 改为 u warp,click 1,end 定义u为鼠标左键点击指定位置
-- 查找行 2 click 2 改为 i warp,click 2,end 定义i为鼠标中键点击指定位置
 - 查找行 3 click 3 改为 o warp,click 3,end 定义o为鼠标右键点击指定位置
 
 ## 4.安装终端xfce4-terminal
@@ -85,7 +83,7 @@ keynav基本用法:
 - h,j,k,l 不同方向分割十字准星
 - H,J,K,L 平移十字准星
 - 回车 鼠标左键单击十字准星瞄准的地方
-- u,i,o 分别代表鼠标左，中，右键单击指定位置(非默认快捷键,上方用户配置)
+- o 右键单击指定位置(非默认快捷键,上方用户配置)
 
 启动fcitx:
 
