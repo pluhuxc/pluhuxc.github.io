@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install the slackwarearm on android - luhux | blog</title>
+  <meta name="description" content="simple user">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2018/07/26/install-slackware-on-android/">
+  <link rel="alternate" type="application/rss+xml" title="luhux | blog" href="http://localhost:4000/feed.xml">
+</head>
+
+  <body>
+    <div class="page-content">
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Install the slackwarearm on android</h1>
+    <p class="post-meta">
+      <time datetime="2018-07-26T00:00:00+08:00" itemprop="datePublished">Jul 26, 2018</time>
+       &middot; <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">luhux</span></span>
+
+      
+  		
+
+  		
+  		
+
+  		&middot;	<span class="tags" itemprop="tags">
+  				
+  				
+  				
+  				<a href="http://localhost:4000/tagged#android">#android</a>
+  			<a href="http://localhost:4000/tagged#slackware">#slackware</a>
+  			<a href="http://localhost:4000/tagged#linux">#linux</a>
+  			<a href="http://localhost:4000/tagged#arm">#arm</a>
+  			</span>
+
+  	  
+
+    </p>
+  </header>
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="需要安卓的root权限">需要安卓的root权限</h3>
+
+<p>*为非必需</p>
+
+<ol>
+  <li>adb连接手机*</li>
+</ol>
+
+<p>打开安卓手机连接和adb客户端机器(安装有adb的机器)连接同一网络
+打开安卓手机的网络adb</p>
+
+<p><img src="https://raw.githubusercontent.com/luhux/images/master/Android_adb.png" alt="Android adb" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ adb connnect ip地址
+$ adb shell 
+</code></pre></div></div>
+
+<script src="https://asciinema.org/a/5S1rj4kDF3ljuf14OG8POQVex.js" id="asciicast-5S1rj4kDF3ljuf14OG8POQVex" async=""></script>
+
+<ol>
+  <li>下载rootfs</li>
+</ol>
+
+<h3 id="命令前缀表示命令执行环境">命令前缀表示命令执行环境:</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ 代表adb客户端机器
+
+android $ 代表安卓普通用户终端
+
+android # 代表安卓root用户终端
+
+bash # 代表slackware未初始化终端
+
+root@localhost # 代表chrootslackware终端
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android $ su  # 切换安卓root终端
+android # cd /data  # 切换到data分区
+android # mkdir slackware  # 创建安装目录
+android # wget http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/slack-current-miniroot_01Jul18.tar.xz  # 下载slackwrearmrootfs
+</code></pre></div></div>
+<script src="https://asciinema.org/a/S9IvNjAoi4BNhTBMzsXWl9iup.js" id="asciicast-S9IvNjAoi4BNhTBMzsXWl9iup" async=""></script>
+
+<ol>
+  <li>解包rootfs</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cd /data/slackware  # 切换到安装目录
+android # xz -d slack-*  # 解包rootfs
+android # tar xf slack-*  # 解包 rootfs
+</code></pre></div></div>
+<script src="https://asciinema.org/a/vD9JHEd9n4A4PZIj7p6l5lOFK.js" id="asciicast-vD9JHEd9n4A4PZIj7p6l5lOFK" async=""></script>
+
+<ol>
+  <li>配置
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cd /data/slackware/ 
+android # rm -rf /data/slackware/dev/*  # 删除无用文件
+android # cp /etc/hosts /data/slackware/etc/  # 复制安卓hosts文件
+android # cp /etc/resolv.conf /data/slackware/etc/  # 复制配置文件 
+android # mount -o bind /dev/ dev  # 挂载dev 到rootfs
+android # mount -o bind /dev/pts dev/pts # 挂载dev/pts 到rootfs
+android # mount -o bind /sys/ sys   # 挂载sys到rootfs
+android # mount -o bind /proc/ proc  # 挂载proc到rootfs
+android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
+</code></pre></div>    </div>
+    <script src="https://asciinema.org/a/vs0uy6nU6VXP7JR5BVYKLjIt6.js" id="asciicast-vs0uy6nU6VXP7JR5BVYKLjIt6" async=""></script>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
+android # chroot /data/slackware  # chroot 进入slackware
+bash # source /etc/profile  # 初始化bash
+root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
+root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
+root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
+root@localhost # groupmod -g 3004 aid_net_raw  # 改用户组guid
+root@localhost # usermod -G aid_inet root  # 将root用户添加至socket权限组
+root@localhost # usermod -G aid_net_raw root  # 将root用户添加至raw_socket权限组
+</code></pre></div>    </div>
+    <script src="https://asciinema.org/a/CkvhBa4ezzU1OKp8n03nZx1l7.js" id="asciicast-CkvhBa4ezzU1OKp8n03nZx1l7" async=""></script>
+  </li>
+</ol>
+
+<h2 id="更改root用户密码">更改root用户密码</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost # passwd
+</code></pre></div></div>
+<h2 id="添加新用户">添加新用户</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@localhost # adduser user # user换成用户名
+root@localhost # usermod -G aid_inet user # 使用户加入socket权限组
+root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限组
+</code></pre></div></div>
+<script src="https://asciinema.org/a/9NvByMZYme8ACc9b2bdBTRW1q.js" id="asciicast-9NvByMZYme8ACc9b2bdBTRW1q" async=""></script>
+
+<h2 id="如果你要使用需要套接字权限的应用程序">如果你要使用需要套接字权限的应用程序</h2>
+
+<p>你需要将运行用户添加至套接字权限组</p>
+
+<p>例如:</p>
+
+<p>xrdp:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>usermod -G aid_inet xrdp
+</code></pre></div></div>
+
+<p>mysql:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>usermod -G aid_inet mysql
+</code></pre></div></div>
+
+<ol>
+  <li>安装完成之后:</li>
+</ol>
+
+<p>创建启动脚本:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cd /data/slackware
+android # touch start.sh
+android # chmod 0755 start.sh
+android # echo '#!/system/bin/sh' &gt;&gt; start.sh 
+android # echo 'cd /data/slackware' &gt;&gt; start.sh
+android # echo 'mount -o bind /dev/ dev' &gt;&gt; start.sh
+android # echo 'mount -o bind /dev/pts dev/pts' &gt;&gt; start.sh
+android # echo 'mount -o bind /sys/ sys' &gt;&gt; start.sh 
+android # echo 'mount -o bind /proc/ proc' &gt;&gt; start.sh
+android # echo 'unset LD_PRELOAD' &gt;&gt; start.sh 
+android # echo 'chroot /data/slackware' &gt;&gt; start.sh 
+</code></pre></div></div>
+<script src="https://asciinema.org/a/XQ79dGlU24DuOut5o74xZbjLQ.js" id="asciicast-XQ79dGlU24DuOut5o74xZbjLQ" async=""></script>
+
+<h1 id="安装已完成">安装已完成</h1>
+
+<ol>
+  <li>使用slackware</li>
+</ol>
+
+<p>启动ssh:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cd /data/slackware
+android # sh start.sh #警告 必须使用前缀sh执行否则会导致变量全局导致安卓系统死机 
+bash # source /etc/profile
+root@localhost # /etc/rc.d/rc.sshd start
+</code></pre></div></div>
+
+<p>关闭系统并重启:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # reboot
+</code></pre></div></div>
+
+<h1 id="当然可以为它安装vnc或者xrdp">当然,可以为它安装vnc,或者xrdp.</h1>
+
+<h2 id="转载请注明">转载请注明</h2>
+
+  </div>
+  <hr>
+  
+    
+
+  
+</article>
+
+      <div class="copyright">
+        <p>&copy; 2018 <a href="http://localhost:4000/"><strong>luhux | blog</strong></a> ― Powered by <a href="https://jekyllrb.com/">Jekyll</a> and <a href="https://github.com/heiswayi/textlog">Textlog theme</a></p>
+		<h3>友情链接:</h3>
+		<a href="http://xnjz.me/">老彭博客</a>
+      </div>
+    </div>
+    
+  </body>
+</html>
