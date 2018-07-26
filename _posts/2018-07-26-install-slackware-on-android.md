@@ -146,3 +146,9 @@ android # echo 'chroot /data/slackware' >> start.sh
 # 当然,可以为它安装vnc,或者xrdp.
 
 ## 转载请注明
+
+## 作者:luhux
+
+## 邮箱: luhux@hotmail.com
+
+![running](https://raw.githubusercontent.com/luhux/images/master/slackwarearmonandroid.png)
