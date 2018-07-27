@@ -5,9 +5,131 @@
     <description>simple user</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 27 Jul 2018 21:15:32 +0800</pubDate>
-    <lastBuildDate>Fri, 27 Jul 2018 21:15:32 +0800</lastBuildDate>
+    <pubDate>Fri, 27 Jul 2018 22:41:17 +0800</pubDate>
+    <lastBuildDate>Fri, 27 Jul 2018 22:41:17 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>About this Jekyll theme</title>
+        <description>&lt;p&gt;arm无法运行wineqq&lt;/p&gt;
+
+&lt;p&gt;slackwarearm又装不了中文输入法去上smartqq&lt;/p&gt;
+
+&lt;p&gt;中文只是为了用emacs写博客和代码注释&lt;/p&gt;
+
+&lt;p&gt;所以用emacs&amp;amp;pyim输入法&amp;amp;mojoqq来实现上qq的功能&lt;/p&gt;
+
+&lt;p&gt;mojoqq：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/sjdy521/Mojo-Webqq&quot;&gt;Mojoqq&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;安装cpanm：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cpan -i App::cpanminus
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装mojoqq：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cpanm Mojo::Webqq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装mojoqqirc模块：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cpanm -v Mojo::IRC::Server::Chinese
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;创建启动脚本：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo '#!/usr/bin/env perl
+use Mojo::Webqq;
+my $client = Mojo::Webqq-&amp;gt;new();
+$client-&amp;gt;load(&quot;ShowMsg&quot;);
+$client-&amp;gt;load(&quot;IRCShell&quot;); #加载IRCShell插件
+$client-&amp;gt;run();' &amp;gt; ircqq.pl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;emacs:&lt;/p&gt;
+
+&lt;h3 id=&quot;使用melpa源进行安装&quot;&gt;使用melpa源进行安装&lt;/h3&gt;
+
+&lt;p&gt;安装pyim中文输入法:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x package-install
+pyim
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;配置：&lt;/p&gt;
+&lt;h4 id=&quot;我只使用最小化拼音输入&quot;&gt;我只使用最小化拼音输入&lt;/h4&gt;
+&lt;p&gt;打开emacsinit文件
+写入：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;;pyim
+(require 'pyim)
+(require 'pyim-basedict)
+(setq default-input-method &quot;pyim&quot;)
+(global-set-key (kbd &quot;C-\\&quot;) 'toggle-input-method)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;保存&lt;/p&gt;
+
+&lt;p&gt;使用ctrl＋\切换输入法状态&lt;/p&gt;
+
+&lt;p&gt;使用数字选择候选字&lt;/p&gt;
+
+&lt;p&gt;Ctrl + f,b,n,p 进行候选字翻页&lt;/p&gt;
+
+&lt;p&gt;enter输入原字符&lt;/p&gt;
+
+&lt;h2 id=&quot;emacsmojo-使用&quot;&gt;emacs&amp;amp;mojo 使用：&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ perl ircqq.pl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;等待登录二维码下载完毕&lt;/p&gt;
+
+&lt;p&gt;读取二维码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xv /tmp/mojo_webqq_qrcode_default.png
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;拿手机扫描二维码&lt;/p&gt;
+
+&lt;p&gt;打开emacs&lt;/p&gt;
+
+&lt;p&gt;打开erc&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x erc
+localhost
+6667
+yournickname
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;有新消息被接收时会在emacs里面新开一个缓存区&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacsqq.png&quot;&gt;emacsqq&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
+
+&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
+
+&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;
+</description>
+        <pubDate>Fri, 27 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/27/slackwarearm-use-emacsqq/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/27/slackwarearm-use-emacsqq/</guid>
+        
+        <category>Emacs</category>
+        
+        <category>irc</category>
+        
+        <category>qq</category>
+        
+        <category>slackware</category>
+        
+        <category>arm</category>
+        
+        
+      </item>
     
       <item>
         <title>Install the keynav on slackwarearm</title>
