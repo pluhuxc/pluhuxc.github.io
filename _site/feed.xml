@@ -5,9 +5,81 @@
     <description>simple user</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 26 Jul 2018 18:45:59 +0800</pubDate>
-    <lastBuildDate>Thu, 26 Jul 2018 18:45:59 +0800</lastBuildDate>
+    <pubDate>Fri, 27 Jul 2018 21:15:32 +0800</pubDate>
+    <lastBuildDate>Fri, 27 Jul 2018 21:15:32 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>Install the keynav on slackwarearm</title>
+        <description>&lt;p&gt;安装了slackwarearm
+发现包管理器里没有keynav&lt;/p&gt;
+
+&lt;p&gt;在github找到了一个deb转txz的工具:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/vborrego/deb2tgz.git&quot;&gt;deb2tgz&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# git clone https://github.com/vborrego/deb2tgz.git
+# cp deb2tgz/deb2tgz /usr/local/bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装好后在debian源中找到了keynav的armhf包&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://ftp.debian.org/debian/pool/main/k/keynav/&quot;&gt;keynav&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://ftp.debian.org/debian/pool/main/k/keynav/keynav_0.20110708.0-1_armhf.deb
+# deb2tgz keynav_0.20110708.0-1_armhf.deb
+# installpkg keynav_0.20110708.0-1_armhf.txz
+
+$ keynav
+keynav: error while loading shared libraries: libxdo.so.3: cannot open shared object file: No such file or directory
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;keynav依赖于libxdo库&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://ftp.debian.org/debian/pool/main/x/xdotool/&quot;&gt;libxdot&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://ftp.debian.org/debian/pool/main/x/xdotool/libxdo2_2.20100701.2961-3+deb7u3_armhf.deb
+# deb2tgz libxdo2_2.20100701.2961-3+deb7u3_armhf.deb
+# installpkg libxdo2_2.20100701.2961-3+deb7u3_armhf.txz
+
+$ keynav
+keynav: error while loading shared libraries: libxdo.so.3: cannot open shared object file: No such file or directory
+
+# find /usr/lib | grep libxdo.so.3
+/usr/lib/arm-linux-gnueabihf/libxdo.so.3
+# ln -s /usr/lib/arm-linux-gnueabihf/libxdo.so.3 /usr/lib/libxdo.so.3
+
+$ keynav
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用快捷键Ctrl + ;出现红十字框，安装成功&lt;/p&gt;
+
+&lt;p&gt;slackware安装deb包问题解决思路:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;解决依赖&lt;/li&gt;
+  &lt;li&gt;检查路径&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
+
+&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
+
+&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;
+</description>
+        <pubDate>Fri, 27 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/27/slackwarearm-install-keynav/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/27/slackwarearm-install-keynav/</guid>
+        
+        <category>key</category>
+        
+        <category>slackware</category>
+        
+        <category>linux</category>
+        
+        <category>arm</category>
+        
+        
+      </item>
     
       <item>
         <title>Install the slackwarearm on android</title>
@@ -159,6 +231,12 @@ root@localhost # /etc/rc.d/rc.sshd start
 &lt;h1 id=&quot;当然可以为它安装vnc或者xrdp&quot;&gt;当然,可以为它安装vnc,或者xrdp.&lt;/h1&gt;
 
 &lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
+
+&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
+
+&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/slackwarearmonandroid.png&quot; alt=&quot;running&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 26 Jul 2018 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2018/07/26/install-slackware-on-android/</link>

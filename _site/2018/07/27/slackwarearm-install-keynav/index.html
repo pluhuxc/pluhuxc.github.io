@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install the keynav on slackwarearm - luhux | blog</title>
+  <meta name="description" content="simple user">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2018/07/27/slackwarearm-install-keynav/">
+  <link rel="alternate" type="application/rss+xml" title="luhux | blog" href="http://localhost:4000/feed.xml">
+</head>
+
+  <body>
+    <div class="page-content">
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Install the keynav on slackwarearm</h1>
+    <p class="post-meta">
+      <time datetime="2018-07-27T00:00:00+08:00" itemprop="datePublished">Jul 27, 2018</time>
+       &middot; <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">luhux</span></span>
+
+      
+  		
+
+  		
+  		
+
+  		&middot;	<span class="tags" itemprop="tags">
+  				
+  				
+  				
+  				<a href="http://localhost:4000/tagged#key">#key</a>
+  			<a href="http://localhost:4000/tagged#slackware">#slackware</a>
+  			<a href="http://localhost:4000/tagged#linux">#linux</a>
+  			<a href="http://localhost:4000/tagged#arm">#arm</a>
+  			</span>
+
+  	  
+
+    </p>
+  </header>
+  <div class="post-content" itemprop="articleBody">
+    <p>安装了slackwarearm
+发现包管理器里没有keynav</p>
+
+<p>在github找到了一个deb转txz的工具:</p>
+
+<p><a href="https://github.com/vborrego/deb2tgz.git">deb2tgz</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># git clone https://github.com/vborrego/deb2tgz.git
+# cp deb2tgz/deb2tgz /usr/local/bin
+</code></pre></div></div>
+
+<p>安装好后在debian源中找到了keynav的armhf包</p>
+
+<p><a href="http://ftp.debian.org/debian/pool/main/k/keynav/">keynav</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wget http://ftp.debian.org/debian/pool/main/k/keynav/keynav_0.20110708.0-1_armhf.deb
+# deb2tgz keynav_0.20110708.0-1_armhf.deb
+# installpkg keynav_0.20110708.0-1_armhf.txz
+
+$ keynav
+keynav: error while loading shared libraries: libxdo.so.3: cannot open shared object file: No such file or directory
+</code></pre></div></div>
+
+<p>keynav依赖于libxdo库</p>
+
+<p><a href="http://ftp.debian.org/debian/pool/main/x/xdotool/">libxdot</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wget http://ftp.debian.org/debian/pool/main/x/xdotool/libxdo2_2.20100701.2961-3+deb7u3_armhf.deb
+# deb2tgz libxdo2_2.20100701.2961-3+deb7u3_armhf.deb
+# installpkg libxdo2_2.20100701.2961-3+deb7u3_armhf.txz
+
+$ keynav
+keynav: error while loading shared libraries: libxdo.so.3: cannot open shared object file: No such file or directory
+
+# find /usr/lib | grep libxdo.so.3
+/usr/lib/arm-linux-gnueabihf/libxdo.so.3
+# ln -s /usr/lib/arm-linux-gnueabihf/libxdo.so.3 /usr/lib/libxdo.so.3
+
+$ keynav
+</code></pre></div></div>
+
+<p>使用快捷键Ctrl + ;出现红十字框，安装成功</p>
+
+<p>slackware安装deb包问题解决思路:</p>
+<ol>
+  <li>解决依赖</li>
+  <li>检查路径</li>
+</ol>
+
+<h2 id="转载请注明">转载请注明</h2>
+
+<h2 id="作者luhux">作者:luhux</h2>
+
+<h2 id="邮箱-luhuxhotmailcom">邮箱: luhux@hotmail.com</h2>
+
+  </div>
+  <hr>
+  
+    
+
+  
+</article>
+
+      <div class="copyright">
+        <p>&copy; 2018 <a href="http://localhost:4000/"><strong>luhux | blog</strong></a> ― Powered by <a href="https://jekyllrb.com/">Jekyll</a> and <a href="https://github.com/heiswayi/textlog">Textlog theme</a></p>
+		<h3>友情链接:</h3>
+		<a href="http://xnjz.me/">老彭博客</a>
+      </div>
+    </div>
+    
+  </body>
+</html>
