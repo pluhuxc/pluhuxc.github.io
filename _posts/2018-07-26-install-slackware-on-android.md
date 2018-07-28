@@ -125,7 +125,7 @@ android # echo 'mount -o bind /dev/pts dev/pts' >> start.sh
 android # echo 'mount -o bind /sys/ sys' >> start.sh 
 android # echo 'mount -o bind /proc/ proc' >> start.sh
 android # echo 'unset LD_PRELOAD' >> start.sh 
-android # echo 'chroot /data/slackwarei /bin/bash' >> start.sh 
+android # echo 'chroot /data/slackware /bin/bash' >> start.sh 
 ```
 <script src="https://asciinema.org/a/XQ79dGlU24DuOut5o74xZbjLQ.js" id="asciicast-XQ79dGlU24DuOut5o74xZbjLQ" async></script>
 # 安装已完成
