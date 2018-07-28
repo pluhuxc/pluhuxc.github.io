@@ -71,8 +71,8 @@ android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
 <script src="https://asciinema.org/a/vs0uy6nU6VXP7JR5BVYKLjIt6.js" id="asciicast-vs0uy6nU6VXP7JR5BVYKLjIt6" async></script>
 ```
 android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-android # chroot /data/slackware  # chroot 进入slackware
-bash # source /etc/profile  # 初始化bash
+android # chroot /data/slackware /bin/bash  # chroot 进入slackware
+bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
 root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
 root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
 root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
