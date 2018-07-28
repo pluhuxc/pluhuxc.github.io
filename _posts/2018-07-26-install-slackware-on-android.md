@@ -27,26 +27,24 @@ comment: true
 ### 命令前缀表示命令执行环境:
 ```
 $ 代表adb客户端机器
-
 android $ 代表安卓普通用户终端
-
 android # 代表安卓root用户终端
-
 bash # 代表slackware未初始化终端
-
 root@localhost # 代表chrootslackware终端
 ```
+
 请使用slackwarearm源内最新rootfs链接替换
 
 [rootfs](http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/)
-这里以current为示例
 
 ```
 android $ su  # 切换安卓root终端
 android # cd /data  # 切换到data分区
 android # mkdir slackware  # 创建安装目录
+android # cd slackware 
 android # wget http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/slack-current-miniroot_01Jul18.tar.xz  # 下载slackwrearmrootfs
 ```
+
 <script src="https://asciinema.org/a/S9IvNjAoi4BNhTBMzsXWl9iup.js" id="asciicast-S9IvNjAoi4BNhTBMzsXWl9iup" async></script>
 
 3. 解包rootfs
