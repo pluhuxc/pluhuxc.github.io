@@ -36,6 +36,10 @@ bash # 代表slackware未初始化终端
 
 root@localhost # 代表chrootslackware终端
 ```
+请使用slackwarearm源内最新rootfs链接替换
+
+[rootfs](http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/)
+这里以current为示例
 
 ```
 android $ su  # 切换安卓root终端
