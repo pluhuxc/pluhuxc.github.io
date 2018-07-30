@@ -3,4 +3,5 @@ layout: page
 title: About
 ---
 
-Linux & Python & Emacs
+拒绝使用鼠标
+

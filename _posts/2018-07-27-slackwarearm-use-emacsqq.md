@@ -79,7 +79,7 @@ enter输入原字符
 
 读取二维码：
 
-	$ xv /tmp/mojo_webqq_qrcode_default.png
+	$ xv /tmp/mojo_webqq_qrcode_default.png  # xv图片查看器
 
 拿手机扫描二维码
 
