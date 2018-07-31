@@ -3,5 +3,4 @@ layout: page
 title: About
 ---
 
-拒绝使用鼠标
-
+本博客对eww浏览器友好

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>在slackwarearm上编译安装gucharmap - luhux | blog</title>
+  <meta name="description" content="simple user">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2018/07/30/compile-gucharmap/">
+  <link rel="alternate" type="application/rss+xml" title="luhux | blog" href="http://localhost:4000/feed.xml">
+</head>
+
+  <body>
+    <div class="page-content">
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">在slackwarearm上编译安装gucharmap</h1>
+    <p class="post-meta">
+      <time datetime="2018-07-30T00:00:00+08:00" itemprop="datePublished">Jul 30, 2018</time>
+       &middot; <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">luhux</span></span>
+
+      
+  		
+
+  		
+  		
+
+  		&middot;	<span class="tags" itemprop="tags">
+  				
+  				
+  				
+  				<a href="http://localhost:4000/tagged#arm">#arm</a>
+  			<a href="http://localhost:4000/tagged#linux">#linux</a>
+  			<a href="http://localhost:4000/tagged#slackware">#slackware</a>
+  			<a href="http://localhost:4000/tagged#src">#src</a>
+  			</span>
+
+  	  
+
+    </p>
+  </header>
+  <div class="post-content" itemprop="articleBody">
+    <p>下载gucharmap:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>build $ wget ftp.gnome.org/pub/GNOME/sources/gucharmap/10.0/gucharmap-10.0.4.tar.xz
+</code></pre></div></div>
+
+<p>解压：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>build $ tar xf gucharmap-10.0.1.tar.xz
+</code></pre></div></div>
+
+<p>configure:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gucharmap-10.0.4 $ ./configure
+</code></pre></div></div>
+
+<p>报错:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>checking for Unicode data... configure: error: You need to specify the path to the unicode data files with --with-unicode-data=PATH, or use --with-unicode-data=download to download the data files during the build process.
+</code></pre></div></div>
+
+<p>尝试:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gucharmap-10.0.4 $ ./configure --with-unicode-data=download
+</code></pre></div></div>
+
+<p>编译:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gucharmap-10.0.4 $ make 
+</code></pre></div></div>
+
+<p>报错:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ld: gucharmap-main.o: undefined reference to symbol 'dlsym@@GLIBC_2.4'
+/lib/libdl.so.2: error adding symbols: DSO missing from command line
+</code></pre></div></div>
+
+<p>尝试:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gucharmap-10.0.4 $ make clean
+gucharmap-10.0.4 $ ./configure --with-unicode-data=download LIBS='-ldl'
+gucharmap-10.0.4 $ make
+</code></pre></div></div>
+
+<p>成功</p>
+
+<p>安装:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gucharmap-10.0.4 $ sudo make install
+</code></pre></div></div>
+
+<p>最后：
+发现slackware包管理器里有这个包。
+(苦死)</p>
+
+  </div>
+  <hr>
+  
+    
+
+  
+</article>
+
+      <div class="copyright">
+        <p>&copy; 2018 <a href="http://localhost:4000/"><strong>luhux | blog</strong></a> ― Powered by <a href="https://jekyllrb.com/">Jekyll</a> and <a href="https://github.com/heiswayi/textlog">Textlog theme</a></p>
+		<h3>友情链接:</h3>
+		<a href="http://xnjz.me/">老彭博客</a>
+		<a href="http://blog.whrblog.online/">whr博客</a>
+      </div>
+    </div>
+    
+  </body>
+</html>

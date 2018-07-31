@@ -66,21 +66,23 @@ $ adb shell
 
 <h3 id="命令前缀表示命令执行环境">命令前缀表示命令执行环境:</h3>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ 代表adb客户端机器
-
 android $ 代表安卓普通用户终端
-
 android # 代表安卓root用户终端
-
 bash # 代表slackware未初始化终端
-
 root@localhost # 代表chrootslackware终端
 </code></pre></div></div>
+
+<p>请使用slackwarearm源内最新rootfs链接替换</p>
+
+<p><a href="http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/">rootfs</a></p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android $ su  # 切换安卓root终端
 android # cd /data  # 切换到data分区
 android # mkdir slackware  # 创建安装目录
+android # cd slackware 
 android # wget http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/slack-current-miniroot_01Jul18.tar.xz  # 下载slackwrearmrootfs
 </code></pre></div></div>
+
 <script src="https://asciinema.org/a/S9IvNjAoi4BNhTBMzsXWl9iup.js" id="asciicast-S9IvNjAoi4BNhTBMzsXWl9iup" async=""></script>
 
 <ol>
@@ -108,8 +110,8 @@ android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
     <script src="https://asciinema.org/a/vs0uy6nU6VXP7JR5BVYKLjIt6.js" id="asciicast-vs0uy6nU6VXP7JR5BVYKLjIt6" async=""></script>
 
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-android # chroot /data/slackware  # chroot 进入slackware
-bash # source /etc/profile  # 初始化bash
+android # chroot /data/slackware /bin/bash  # chroot 进入slackware
+bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
 root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
 root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
 root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
@@ -152,7 +154,9 @@ root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限�
   <li>安装完成之后:</li>
 </ol>
 
-<p>创建启动脚本:</p>
+<p>创建启动脚本:
+使用androidroot权限shell执行</p>
+
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cd /data/slackware
 android # touch start.sh
 android # chmod 0755 start.sh
@@ -163,7 +167,7 @@ android # echo 'mount -o bind /dev/pts dev/pts' &gt;&gt; start.sh
 android # echo 'mount -o bind /sys/ sys' &gt;&gt; start.sh 
 android # echo 'mount -o bind /proc/ proc' &gt;&gt; start.sh
 android # echo 'unset LD_PRELOAD' &gt;&gt; start.sh 
-android # echo 'chroot /data/slackware' &gt;&gt; start.sh 
+android # echo 'chroot /data/slackware /bin/bash' &gt;&gt; start.sh 
 </code></pre></div></div>
 <script src="https://asciinema.org/a/XQ79dGlU24DuOut5o74xZbjLQ.js" id="asciicast-XQ79dGlU24DuOut5o74xZbjLQ" async=""></script>
 
@@ -208,6 +212,7 @@ root@localhost # /etc/rc.d/rc.sshd start
         <p>&copy; 2018 <a href="http://localhost:4000/"><strong>luhux | blog</strong></a> ― Powered by <a href="https://jekyllrb.com/">Jekyll</a> and <a href="https://github.com/heiswayi/textlog">Textlog theme</a></p>
 		<h3>友情链接:</h3>
 		<a href="http://xnjz.me/">老彭博客</a>
+		<a href="http://blog.whrblog.online/">whr博客</a>
       </div>
     </div>
     

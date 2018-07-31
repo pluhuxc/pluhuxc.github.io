@@ -5,9 +5,232 @@
     <description>simple user</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 27 Jul 2018 22:43:33 +0800</pubDate>
-    <lastBuildDate>Fri, 27 Jul 2018 22:43:33 +0800</lastBuildDate>
+    <pubDate>Tue, 31 Jul 2018 21:11:53 +0800</pubDate>
+    <lastBuildDate>Tue, 31 Jul 2018 21:11:53 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>在树梅派上玩ons游戏</title>
+        <description>&lt;p&gt;已经编译好的onscripter:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://pan.baidu.com/s/1B2DlsQ0UVtL8Nh3gX8Knyw&quot;&gt;onscripter&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;源码:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://bitbucket.org/jh10001/onscripter-jh&quot;&gt;onscripter-jh&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;解压&lt;/p&gt;
+
+&lt;p&gt;执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./onscripter
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;根据报错补全运行库&lt;/p&gt;
+
+&lt;p&gt;无报错后拷贝主程序到游戏文件夹&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gamefold $ ./onscripter
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;onscripter也可以在tty运行&quot;&gt;onscripter也可以在tty运行&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/ONS_ON_linux.png&quot; alt=&quot;ons_on_armlinux&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 31 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/31/play-ons-on-raspberrypi/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/31/play-ons-on-raspberrypi/</guid>
+        
+        <category>arm</category>
+        
+        <category>ons</category>
+        
+        <category>raspberrypi</category>
+        
+        <category>linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>解决 slackwarearm 在树梅派上无法输出音频</title>
+        <description>&lt;p&gt;拿slackwarearm玩ONS时发现没有音频输出&lt;/p&gt;
+
+&lt;p&gt;修复:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo -i
+# cd /boot
+# nano config.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;找到:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# uncomment if audio is not working
+# dtparam=audio=on
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;将dtparam=audio=on注释取消&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dtparam=audio=on
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;重启&lt;/p&gt;
+
+&lt;p&gt;解决&lt;/p&gt;
+</description>
+        <pubDate>Tue, 31 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/31/fix-audio-on-slackwarearm/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/31/fix-audio-on-slackwarearm/</guid>
+        
+        <category>slackware</category>
+        
+        <category>arm</category>
+        
+        <category>linux</category>
+        
+        <category>raspberrypi</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Emacs使用有道翻译</title>
+        <description>&lt;p&gt;项目主页:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/xuchunyang/youdao-dictionary.el&quot;&gt;youdao-dictionary&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;安装:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x package-install
+youdao-dictionary
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;配置:&lt;/p&gt;
+
+&lt;p&gt;我的最简配置:&lt;/p&gt;
+
+&lt;p&gt;emacsinit文件添加:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;;youdao
+(setq url-automatic-caching t)
+(global-set-key (kbd &quot;C-c y&quot;) 'youdao-dictionary-search-at-point)
+(setq youdao-dictionary-search-history-file &quot;~/.emacs.d/.youdao&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用：&lt;/p&gt;
+
+&lt;p&gt;Ctrl + c y 翻译当前光标下的词&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 30 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/30/emacs-youdao/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/30/emacs-youdao/</guid>
+        
+        <category>emacs</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>编译安装lua</title>
+        <description>&lt;p&gt;下载:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ wget https://www.lua.org/ftp/lua-5.1.5.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;解压:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ tar xf lua-5.1.5.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;make:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lua-5.1.5 $ make linux
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lua-5.1.5 $ sudo make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 30 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/30/compile-lua5.1/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/30/compile-lua5.1/</guid>
+        
+        <category>lua</category>
+        
+        <category>linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>在slackwarearm上编译安装gucharmap</title>
+        <description>&lt;p&gt;下载gucharmap:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ wget ftp.gnome.org/pub/GNOME/sources/gucharmap/10.0/gucharmap-10.0.4.tar.xz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;解压：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ tar xf gucharmap-10.0.1.tar.xz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;configure:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ ./configure
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;报错:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;checking for Unicode data... configure: error: You need to specify the path to the unicode data files with --with-unicode-data=PATH, or use --with-unicode-data=download to download the data files during the build process.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;尝试:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ ./configure --with-unicode-data=download
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;编译:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ make 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;报错:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/bin/ld: gucharmap-main.o: undefined reference to symbol 'dlsym@@GLIBC_2.4'
+/lib/libdl.so.2: error adding symbols: DSO missing from command line
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;尝试:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ make clean
+gucharmap-10.0.4 $ ./configure --with-unicode-data=download LIBS='-ldl'
+gucharmap-10.0.4 $ make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;成功&lt;/p&gt;
+
+&lt;p&gt;安装:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ sudo make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;最后：
+发现slackware包管理器里有这个包。
+(苦死)&lt;/p&gt;
+</description>
+        <pubDate>Mon, 30 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/30/compile-gucharmap/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/30/compile-gucharmap/</guid>
+        
+        <category>arm</category>
+        
+        <category>linux</category>
+        
+        <category>slackware</category>
+        
+        <category>src</category>
+        
+        
+      </item>
     
       <item>
         <title>use the emacs qq</title>
@@ -89,7 +312,7 @@ pyim
 
 &lt;p&gt;读取二维码：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xv /tmp/mojo_webqq_qrcode_default.png
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xv /tmp/mojo_webqq_qrcode_default.png  # xv图片查看器
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;拿手机扫描二维码&lt;/p&gt;
@@ -230,21 +453,23 @@ $ adb shell
 
 &lt;h3 id=&quot;命令前缀表示命令执行环境&quot;&gt;命令前缀表示命令执行环境:&lt;/h3&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ 代表adb客户端机器
-
 android $ 代表安卓普通用户终端
-
 android # 代表安卓root用户终端
-
 bash # 代表slackware未初始化终端
-
 root@localhost # 代表chrootslackware终端
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;请使用slackwarearm源内最新rootfs链接替换&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/&quot;&gt;rootfs&lt;/a&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android $ su  # 切换安卓root终端
 android # cd /data  # 切换到data分区
 android # mkdir slackware  # 创建安装目录
+android # cd slackware 
 android # wget http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/slack-current-miniroot_01Jul18.tar.xz  # 下载slackwrearmrootfs
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 &lt;script src=&quot;https://asciinema.org/a/S9IvNjAoi4BNhTBMzsXWl9iup.js&quot; id=&quot;asciicast-S9IvNjAoi4BNhTBMzsXWl9iup&quot; async=&quot;&quot;&gt;&lt;/script&gt;
 
 &lt;ol&gt;
@@ -272,8 +497,8 @@ android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
     &lt;script src=&quot;https://asciinema.org/a/vs0uy6nU6VXP7JR5BVYKLjIt6.js&quot; id=&quot;asciicast-vs0uy6nU6VXP7JR5BVYKLjIt6&quot; async=&quot;&quot;&gt;&lt;/script&gt;
 
     &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-android # chroot /data/slackware  # chroot 进入slackware
-bash # source /etc/profile  # 初始化bash
+android # chroot /data/slackware /bin/bash  # chroot 进入slackware
+bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
 root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
 root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
 root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
@@ -316,7 +541,9 @@ root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限�
   &lt;li&gt;安装完成之后:&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;创建启动脚本:&lt;/p&gt;
+&lt;p&gt;创建启动脚本:
+使用androidroot权限shell执行&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/slackware
 android # touch start.sh
 android # chmod 0755 start.sh
@@ -327,7 +554,7 @@ android # echo 'mount -o bind /dev/pts dev/pts' &amp;gt;&amp;gt; start.sh
 android # echo 'mount -o bind /sys/ sys' &amp;gt;&amp;gt; start.sh 
 android # echo 'mount -o bind /proc/ proc' &amp;gt;&amp;gt; start.sh
 android # echo 'unset LD_PRELOAD' &amp;gt;&amp;gt; start.sh 
-android # echo 'chroot /data/slackware' &amp;gt;&amp;gt; start.sh 
+android # echo 'chroot /data/slackware /bin/bash' &amp;gt;&amp;gt; start.sh 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;script src=&quot;https://asciinema.org/a/XQ79dGlU24DuOut5o74xZbjLQ.js&quot; id=&quot;asciicast-XQ79dGlU24DuOut5o74xZbjLQ&quot; async=&quot;&quot;&gt;&lt;/script&gt;
 
@@ -630,34 +857,6 @@ $ keynav  # 启动keynav鼠标
         <category>Debian</category>
         
         <category>Linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>About this Jekyll theme</title>
-        <description>&lt;p&gt;Textlog is a minimalist, lefty-style Jekyll theme designed for documentation based blog.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Content-focused post layout&lt;/li&gt;
-  &lt;li&gt;Using system fonts like GitHub - no Google Fonts&lt;/li&gt;
-  &lt;li&gt;Supports article tagging&lt;/li&gt;
-  &lt;li&gt;White clean design&lt;/li&gt;
-  &lt;li&gt;Contains intro section on homepage&lt;/li&gt;
-  &lt;li&gt;Supports comment if enabled - using &lt;a href=&quot;https://disqus.com/&quot;&gt;Disqus comment&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Responsive and mobile-friendly&lt;/li&gt;
-  &lt;li&gt;Post can have specific author name displayed on post metadata - apply via yaml front matter&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/heiswayi/textlog&quot;&gt;Source code on GitHub&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sun, 15 Jan 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/01/15/about-this-jekyll-theme/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/01/15/about-this-jekyll-theme/</guid>
-        
-        <category>Demo</category>
-        
-        <category>Jekyll</category>
         
         
       </item>
