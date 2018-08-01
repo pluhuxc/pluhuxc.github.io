@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>扩大镜像及分区 - luhux | blog</title>
+  <meta name="description" content="simple user">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2018/08/01/resizediskimage/">
+  <link rel="alternate" type="application/rss+xml" title="luhux | blog" href="http://localhost:4000/feed.xml">
+</head>
+
+  <body>
+    <div class="page-content">
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">扩大镜像及分区</h1>
+    <p class="post-meta">
+      <time datetime="2018-08-01T00:00:00+08:00" itemprop="datePublished">Aug 01, 2018</time>
+       &middot; <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">luhux</span></span>
+
+      
+  		
+
+  		
+  		
+
+  		&middot;	<span class="tags" itemprop="tags">
+  				
+  				<a href="http://localhost:4000/tagged#diskimage">#diskimage</a>
+  			<a href="http://localhost:4000/tagged#linux">#linux</a>
+  			</span>
+
+  	  
+
+    </p>
+  </header>
+  <div class="post-content" itemprop="articleBody">
+    <p>扩容镜像:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ls -lh Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+-rw-r--r-- 1 root root 1.4G Nov 25  2017 Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+</code></pre></div></div>
+<p>镜像默认1.4G</p>
+
+<p>扩容128M: (请按需扩容)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># dd bs=1M count=128 if=/dev/zero of=128M.img  # 生成一个128M的空镜像 (count=256 创建256Mb)
+128+0 records in
+128+0 records out
+134217728 bytes (134 MB, 128 MiB) copied, 1.37621 s, 97.5 MB/s
+# cat 128M.img &gt;&gt; Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 为镜像追加128M空白空间
+</code></pre></div></div>
+<p>扩大分区:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># parted Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+GNU Parted 3.2
+Using /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) unit   # 切换单位
+Unit?  [compact]? MB    #  mb
+(parted) print       # 打印分区信息
+Model:  (file)
+Disk /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img: 1590MB  # 1590MB为扩容后的镜像大小
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags: 
+
+Number  Start   End     Size    Type     File system  Flags
+ 1      4.19MB  1455MB  1451MB  primary  ext4                # 分区 1455MB
+
+(parted) resizepart  # 扩大分区
+Partition number? 1          # 第一分区
+End?  [1455MB]? 1590                # 新分区大小不可超过镜像大小
+(parted) print                  # 查看是否成功
+Model:  (file)
+Disk /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img: 1590MB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags: 
+
+Number  Start   End     Size    Type     File system  Flags
+ 1      4.19MB  1590MB  1585MB  primary  ext4  # 1590M 成功
+
+</code></pre></div></div>
+<p>挂载调整分区大小</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载分区为块设备
+add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0 指向镜像分区的块设备
+# mkdir p1 # 创建挂载文件夹
+# mount /dev/block/254\:0 p1  # 将镜像挂载至p1文件夹
+# resize2fs /dev/block/254\:0  # 更新分区大小
+</code></pre></div></div>
+<p>卸载镜像</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sync  # 同步操作
+# umount p1  # 卸载分区
+# kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
+</code></pre></div></div>
+
+<p>扩容完成</p>
+
+  </div>
+  <hr>
+  
+    
+
+  
+</article>
+
+      <div class="copyright">
+        <p>&copy; 2018 <a href="http://localhost:4000/"><strong>luhux | blog</strong></a> ― Powered by <a href="https://jekyllrb.com/">Jekyll</a> and <a href="https://github.com/heiswayi/textlog">Textlog theme</a></p>
+		<h3>友情链接:</h3>
+		<a href="http://xnjz.me/">老彭博客</a>
+		<a href="http://blog.whrblog.online/">whr博客</a>
+      </div>
+    </div>
+    
+  </body>
+</html>

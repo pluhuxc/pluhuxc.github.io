@@ -5,9 +5,118 @@
     <description>simple user</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 31 Jul 2018 21:11:53 +0800</pubDate>
-    <lastBuildDate>Tue, 31 Jul 2018 21:11:53 +0800</lastBuildDate>
+    <pubDate>Wed, 01 Aug 2018 16:59:50 +0800</pubDate>
+    <lastBuildDate>Wed, 01 Aug 2018 16:59:50 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>扩大镜像及分区</title>
+        <description>&lt;p&gt;扩容镜像:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ls -lh Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+-rw-r--r-- 1 root root 1.4G Nov 25  2017 Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;镜像默认1.4G&lt;/p&gt;
+
+&lt;p&gt;扩容128M: (请按需扩容)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# dd bs=1M count=128 if=/dev/zero of=128M.img  # 生成一个128M的空镜像 (count=256 创建256Mb)
+128+0 records in
+128+0 records out
+134217728 bytes (134 MB, 128 MiB) copied, 1.37621 s, 97.5 MB/s
+# cat 128M.img &amp;gt;&amp;gt; Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 为镜像追加128M空白空间
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;扩大分区:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# parted Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+GNU Parted 3.2
+Using /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) unit   # 切换单位
+Unit?  [compact]? MB    #  mb
+(parted) print       # 打印分区信息
+Model:  (file)
+Disk /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img: 1590MB  # 1590MB为扩容后的镜像大小
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags: 
+
+Number  Start   End     Size    Type     File system  Flags
+ 1      4.19MB  1455MB  1451MB  primary  ext4                # 分区 1455MB
+
+(parted) resizepart  # 扩大分区
+Partition number? 1          # 第一分区
+End?  [1455MB]? 1590                # 新分区大小不可超过镜像大小
+(parted) print                  # 查看是否成功
+Model:  (file)
+Disk /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img: 1590MB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags: 
+
+Number  Start   End     Size    Type     File system  Flags
+ 1      4.19MB  1590MB  1585MB  primary  ext4  # 1590M 成功
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;挂载调整分区大小&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载分区为块设备
+add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0 指向镜像分区的块设备
+# mkdir p1 # 创建挂载文件夹
+# mount /dev/block/254\:0 p1  # 将镜像挂载至p1文件夹
+# resize2fs /dev/block/254\:0  # 更新分区大小
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;卸载镜像&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sync  # 同步操作
+# umount p1  # 卸载分区
+# kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;扩容完成&lt;/p&gt;
+</description>
+        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/08/01/resizediskimage/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/08/01/resizediskimage/</guid>
+        
+        <category>diskimage</category>
+        
+        <category>linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>挂载修改opilite安装镜像</title>
+        <description>&lt;p&gt;armbian:
+[armbian](http://dl.armbian.com/}&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载镜像内分区为块设备
+add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜像分区的块设备
+# mkdir p1 # 创建挂载文件夹
+# mount /dev/block/254\:0 p1  # 将镜像挂载至p1文件夹
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;镜像已挂载至p1文件夹下&lt;/p&gt;
+
+&lt;p&gt;你现在可以对镜像内的文件进行编辑（例如: 编辑网络配置文件,添加用户)&lt;/p&gt;
+
+&lt;p&gt;在一切操作完毕后:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sync  # 同步操作
+# umount p1  # 卸载分区
+# kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/08/01/mountdiskimage/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/08/01/mountdiskimage/</guid>
+        
+        <category>arm</category>
+        
+        <category>linux</category>
+        
+        <category>raspberrypi</category>
+        
+        
+      </item>
     
       <item>
         <title>在树梅派上玩ons游戏</title>
@@ -48,6 +157,59 @@
         <category>raspberrypi</category>
         
         <category>linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>配置一个mini桌面环境</title>
+        <description>&lt;h1 id=&quot;on-debian&quot;&gt;on debian&lt;/h1&gt;
+
+&lt;p&gt;安装x :&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install xinit xserver-xorg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装中文字体 :&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install ttf-wqy-zenhei
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装fluxbox :&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install fluxbox
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;编辑启动配置文件:&lt;/p&gt;
+
+&lt;p&gt;屏幕显示:&lt;/p&gt;
+
+&lt;p&gt;编辑~/.xinitrc&lt;/p&gt;
+
+&lt;p&gt;加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;exec fluxbox
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;vnc显示:&lt;/p&gt;
+
+&lt;p&gt;编辑~/.vnc/xstartup&lt;/p&gt;
+
+&lt;p&gt;加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fluxbox &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Tue, 31 Jul 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/07/31/install-a-minidesktopenv/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/31/install-a-minidesktopenv/</guid>
+        
+        <category>linux</category>
+        
+        <category>debian</category>
+        
+        <category>fluxbox</category>
         
         
       </item>
@@ -422,441 +584,6 @@ $ keynav
         <category>linux</category>
         
         <category>arm</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Install the slackwarearm on android</title>
-        <description>&lt;h3 id=&quot;需要安卓的root权限&quot;&gt;需要安卓的root权限&lt;/h3&gt;
-
-&lt;p&gt;*为非必需&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;adb连接手机*&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;打开安卓手机连接和adb客户端机器(安装有adb的机器)连接同一网络
-打开安卓手机的网络adb&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Android_adb.png&quot; alt=&quot;Android adb&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ adb connnect ip地址
-$ adb shell 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;script src=&quot;https://asciinema.org/a/5S1rj4kDF3ljuf14OG8POQVex.js&quot; id=&quot;asciicast-5S1rj4kDF3ljuf14OG8POQVex&quot; async=&quot;&quot;&gt;&lt;/script&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;下载rootfs&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;命令前缀表示命令执行环境&quot;&gt;命令前缀表示命令执行环境:&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ 代表adb客户端机器
-android $ 代表安卓普通用户终端
-android # 代表安卓root用户终端
-bash # 代表slackware未初始化终端
-root@localhost # 代表chrootslackware终端
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;请使用slackwarearm源内最新rootfs链接替换&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/&quot;&gt;rootfs&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android $ su  # 切换安卓root终端
-android # cd /data  # 切换到data分区
-android # mkdir slackware  # 创建安装目录
-android # cd slackware 
-android # wget http://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots/slack-current-miniroot_01Jul18.tar.xz  # 下载slackwrearmrootfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;script src=&quot;https://asciinema.org/a/S9IvNjAoi4BNhTBMzsXWl9iup.js&quot; id=&quot;asciicast-S9IvNjAoi4BNhTBMzsXWl9iup&quot; async=&quot;&quot;&gt;&lt;/script&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;解包rootfs&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/slackware  # 切换到安装目录
-android # xz -d slack-*  # 解包rootfs
-android # tar xf slack-*  # 解包 rootfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;script src=&quot;https://asciinema.org/a/vD9JHEd9n4A4PZIj7p6l5lOFK.js&quot; id=&quot;asciicast-vD9JHEd9n4A4PZIj7p6l5lOFK&quot; async=&quot;&quot;&gt;&lt;/script&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;配置
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/slackware/ 
-android # rm -rf /data/slackware/dev/*  # 删除无用文件
-android # cp /etc/hosts /data/slackware/etc/  # 复制安卓hosts文件
-android # cp /etc/resolv.conf /data/slackware/etc/  # 复制配置文件 
-android # mount -o bind /dev/ dev  # 挂载dev 到rootfs
-android # mount -o bind /dev/pts dev/pts # 挂载dev/pts 到rootfs
-android # mount -o bind /sys/ sys   # 挂载sys到rootfs
-android # mount -o bind /proc/ proc  # 挂载proc到rootfs
-android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;script src=&quot;https://asciinema.org/a/vs0uy6nU6VXP7JR5BVYKLjIt6.js&quot; id=&quot;asciicast-vs0uy6nU6VXP7JR5BVYKLjIt6&quot; async=&quot;&quot;&gt;&lt;/script&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-android # chroot /data/slackware /bin/bash  # chroot 进入slackware
-bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
-root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
-root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
-root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
-root@localhost # groupmod -g 3004 aid_net_raw  # 改用户组guid
-root@localhost # usermod -G aid_inet root  # 将root用户添加至socket权限组
-root@localhost # usermod -G aid_net_raw root  # 将root用户添加至raw_socket权限组
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;script src=&quot;https://asciinema.org/a/CkvhBa4ezzU1OKp8n03nZx1l7.js&quot; id=&quot;asciicast-CkvhBa4ezzU1OKp8n03nZx1l7&quot; async=&quot;&quot;&gt;&lt;/script&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;更改root用户密码&quot;&gt;更改root用户密码&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # passwd
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;添加新用户&quot;&gt;添加新用户&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # adduser user # user换成用户名
-root@localhost # usermod -G aid_inet user # 使用户加入socket权限组
-root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限组
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;script src=&quot;https://asciinema.org/a/9NvByMZYme8ACc9b2bdBTRW1q.js&quot; id=&quot;asciicast-9NvByMZYme8ACc9b2bdBTRW1q&quot; async=&quot;&quot;&gt;&lt;/script&gt;
-
-&lt;h2 id=&quot;如果你要使用需要套接字权限的应用程序&quot;&gt;如果你要使用需要套接字权限的应用程序&lt;/h2&gt;
-
-&lt;p&gt;你需要将运行用户添加至套接字权限组&lt;/p&gt;
-
-&lt;p&gt;例如:&lt;/p&gt;
-
-&lt;p&gt;xrdp:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet xrdp
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;mysql:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet mysql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;安装完成之后:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;创建启动脚本:
-使用androidroot权限shell执行&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/slackware
-android # touch start.sh
-android # chmod 0755 start.sh
-android # echo '#!/system/bin/sh' &amp;gt;&amp;gt; start.sh 
-android # echo 'cd /data/slackware' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /dev/ dev' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /dev/pts dev/pts' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /sys/ sys' &amp;gt;&amp;gt; start.sh 
-android # echo 'mount -o bind /proc/ proc' &amp;gt;&amp;gt; start.sh
-android # echo 'unset LD_PRELOAD' &amp;gt;&amp;gt; start.sh 
-android # echo 'chroot /data/slackware /bin/bash' &amp;gt;&amp;gt; start.sh 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;script src=&quot;https://asciinema.org/a/XQ79dGlU24DuOut5o74xZbjLQ.js&quot; id=&quot;asciicast-XQ79dGlU24DuOut5o74xZbjLQ&quot; async=&quot;&quot;&gt;&lt;/script&gt;
-
-&lt;h1 id=&quot;安装已完成&quot;&gt;安装已完成&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;使用slackware&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;启动ssh:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/slackware
-android # sh start.sh #警告 必须使用前缀sh执行否则会导致变量全局导致安卓系统死机 
-bash # source /etc/profile
-root@localhost # /etc/rc.d/rc.sshd start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;关闭系统并重启:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # reboot
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;当然可以为它安装vnc或者xrdp&quot;&gt;当然,可以为它安装vnc,或者xrdp.&lt;/h1&gt;
-
-&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
-
-&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
-
-&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/slackwarearmonandroid.png&quot; alt=&quot;running&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 26 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/26/install-slackware-on-android/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/26/install-slackware-on-android/</guid>
-        
-        <category>android</category>
-        
-        <category>slackware</category>
-        
-        <category>linux</category>
-        
-        <category>arm</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>keynav</title>
-        <description>&lt;h1 id=&quot;keynav-用法&quot;&gt;keynav 用法&lt;/h1&gt;
-
-&lt;h2 id=&quot;1安装&quot;&gt;1.安装&lt;/h2&gt;
-&lt;p&gt;Debian:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt-get install keynav
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2使用&quot;&gt;2.使用&lt;/h2&gt;
-&lt;p&gt;默认&lt;/p&gt;
-
-&lt;p&gt;启动:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ keynav &amp;amp;  # 启动keynav并挂在后台运行
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Ctrl+;   进入keynav分割模式&lt;/p&gt;
-
-&lt;p&gt;如图:
-&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/2018-07-13-194337_1440x900_keynavfullscreen.png&quot; alt=&quot;keynavfullscreen&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;分割模式内常用快捷键:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;快捷键&lt;/th&gt;
-      &lt;th&gt;功能&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;h,j,k,l&lt;/td&gt;
-      &lt;td&gt;向左,下,上,右分割红框&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;H,J,K,L&lt;/td&gt;
-      &lt;td&gt;向左,下,上,右移动红框&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;y,u,b,n&lt;/td&gt;
-      &lt;td&gt;左上,右上,左下,右下分割红框&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Y,U,B,N&lt;/td&gt;
-      &lt;td&gt;左上,右上,左下,右下移动红框&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Esc&lt;/td&gt;
-      &lt;td&gt;退出分割模式&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Space&lt;/td&gt;
-      &lt;td&gt;左键单击击红框中心位置&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;;&lt;/td&gt;
-      &lt;td&gt;将鼠标光标移动到红框中心位置&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;w&lt;/td&gt;
-      &lt;td&gt;将红框移动缩放到活动的窗口&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;c&lt;/td&gt;
-      &lt;td&gt;将红框移动缩放到鼠标所在位置并缩放为指定大小(默认200x200)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;a&lt;/td&gt;
-      &lt;td&gt;撤销操作&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;默认操作中没有鼠标右键右键单击
-所以手动添加:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp /usr/share/doc/keynav/keynavrc ~/.keynavrc  # 复制默认配置文件到home
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;使用文本编辑器打开并加入:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;o warp,click 3,end  # 绑定o键为: 鼠标右键单击红框中心位置
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;更多自定义请man keynav 并自定义~/.keynavrc配置文件&lt;/p&gt;
-</description>
-        <pubDate>Sun, 15 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/15/keynav-useage/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/15/keynav-useage/</guid>
-        
-        <category>keynav</category>
-        
-        <category>Debian</category>
-        
-        <category>Linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Throw away the mouse</title>
-        <description>&lt;h1 id=&quot;扔掉鼠标&quot;&gt;扔掉鼠标&lt;/h1&gt;
-
-&lt;p&gt;environment:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Debian 9 最小化安装版本&lt;/li&gt;
-  &lt;li&gt;Keyboard&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;默认无GUI环境。&lt;/p&gt;
-&lt;h2 id=&quot;1安装x服务以及中文字体&quot;&gt;1.安装x服务以及中文字体&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sudo apt install xserver-xorg xinit ttf-wqy-zenhei -y
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;xserver-xorg : X服务基础文件&lt;/li&gt;
-  &lt;li&gt;xinit : 提供startx命令&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;2安装窗口管理器i3wm&quot;&gt;2.安装窗口管理器i3wm&lt;/h2&gt;
-
-&lt;p&gt;i3wm官网: &lt;a href=&quot;https://i3wm.org/&quot;&gt;i3wm&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install i3-wm dwm -y
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;启动配置:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo 'exec i3' &amp;gt;&amp;gt; ~/.xinitrc  # 将启动命令写入.xinitrc以使用startx启动i3wm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;3安装鼠标代替keynav&quot;&gt;3.安装鼠标代替keynav&lt;/h2&gt;
-
-&lt;p&gt;keynav官网: &lt;a href=&quot;https://www.semicomplete.com/projects/keynav/&quot;&gt;keynav&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install keynav -y
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;配置:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp /usr/share/doc/keynav/keynavrc ~/.keynavrc  # 复制默认配置文件
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;使用文本编辑器打开~/.keynavrc ：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;查找行 # daemonize 然后去掉注释# 以使keynav以守护进程后台运行&lt;/li&gt;
-  &lt;li&gt;查找行 3 click 3 改为 o warp,click 3,end 定义o为鼠标右键点击指定位置&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;4安装终端xfce4-terminal&quot;&gt;4.安装终端xfce4-terminal&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install xfce4-terminal -y
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;5安装中文输入法fictx-googlepinyin&quot;&gt;5.安装中文输入法fictx-googlepinyin&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install fcitx-googlepinyin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;使用文本编辑器新建~/fcitxenv.sh&lt;/p&gt;
-
-&lt;p&gt;写入:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;GTK_IM_MODULE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;fcitx
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;XMODIFIERS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;@im&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;fictx
-fcitx &amp;amp;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;保存&lt;/p&gt;
-
-&lt;h2 id=&quot;6配置&quot;&gt;6.配置&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ startx  # 启动图形界面
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;自己选择配置mod按键为windows徽标键&lt;/p&gt;
-
-&lt;p&gt;打开终端: mod键+回车&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ keynav  # 启动keynav
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;keynav基本用法:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Ctrl + ;  启动keynav&lt;/li&gt;
-  &lt;li&gt;启动后可用快捷键:&lt;/li&gt;
-  &lt;li&gt;h,j,k,l 不同方向分割十字准星&lt;/li&gt;
-  &lt;li&gt;H,J,K,L 平移十字准星&lt;/li&gt;
-  &lt;li&gt;回车 鼠标左键单击十字准星瞄准的地方&lt;/li&gt;
-  &lt;li&gt;o 右键单击指定位置(非默认快捷键,上方用户配置)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;启动fcitx:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source fcitxenv.sh  # 设置变量并启动fcitx
-$ fcitx-configtool # 启动fcitx配置窗口
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;窗口左下角+按钮 &amp;gt; 取消Only show Current Language &amp;gt; 搜索框输入googlepinyin &amp;gt; 选择google拼音 &amp;gt; ok按钮 &amp;gt; 退出配置窗口&lt;/p&gt;
-
-&lt;h2 id=&quot;7使用&quot;&gt;7.使用&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# reboot  # 重启
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;登录终端&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ startx  # 启动图形界面
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;WIN键 + enter 打开终端&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source fcitxenv.sh  # 启动输入法
-$ keynav  # 启动keynav鼠标
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;i3使用:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;WIN + enter 启动终端&lt;/li&gt;
-  &lt;li&gt;WIN + d 启动打开应用菜单&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;WIN + shift + q 关闭当前窗口&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;WIN + 1~9 切换工作区&lt;/li&gt;
-  &lt;li&gt;WIN + shift + 1~9 移动当前窗口到某工作区&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;dmenu使用技巧：可以在选择框中输入程序启动命令前缀来快速定位&lt;/p&gt;
-
-&lt;p&gt;更多使用i3wm请参考i3wm官网&lt;/p&gt;
-
-&lt;p&gt;配上一张我的使用截图:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/2018-07-13-194337_1440x900_scrot.png&quot; alt=&quot;warzone2100&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;(keynav玩的好，游戏难不倒)&lt;/p&gt;
-</description>
-        <pubDate>Fri, 13 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/13/Throw-away-the-mouse/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/13/Throw-away-the-mouse/</guid>
-        
-        <category>keynav</category>
-        
-        <category>i3wm</category>
-        
-        <category>Debian</category>
-        
-        <category>Linux</category>
         
         
       </item>
