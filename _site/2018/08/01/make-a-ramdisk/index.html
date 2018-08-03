@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>挂载修改opilite安装镜像 - luhux | blog</title>
+  <title>在linux上创建一个ramdisk - luhux | blog</title>
   <meta name="description" content="simple user">
   <link rel="stylesheet" href="http://localhost:4000/css/main.css">
-  <link rel="canonical" href="http://localhost:4000/2018/08/01/mountdiskimage/">
+  <link rel="canonical" href="http://localhost:4000/2018/08/01/make-a-ramdisk/">
   <link rel="alternate" type="application/rss+xml" title="luhux | blog" href="http://localhost:4000/feed.xml">
 </head>
 
@@ -15,10 +15,10 @@
     <div class="page-content">
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">挂载修改opilite安装镜像</h1>
+    <h1 class="post-title" itemprop="name headline">在linux上创建一个ramdisk</h1>
     <p class="post-meta">
       <time datetime="2018-08-01T00:00:00+08:00" itemprop="datePublished">Aug 01, 2018</time>
-       &middot; <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Luhux</span></span>
+       &middot; <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">luhux</span></span>
 
       
   		
@@ -29,9 +29,9 @@
   		&middot;	<span class="tags" itemprop="tags">
   				
   				
-  				<a href="http://localhost:4000/tagged#arm">#arm</a>
+  				<a href="http://localhost:4000/tagged#ramdisk">#ramdisk</a>
+  			<a href="http://localhost:4000/tagged#tmpfs">#tmpfs</a>
   			<a href="http://localhost:4000/tagged#linux">#linux</a>
-  			<a href="http://localhost:4000/tagged#raspberrypi">#raspberrypi</a>
   			</span>
 
   	  
@@ -39,24 +39,11 @@
     </p>
   </header>
   <div class="post-content" itemprop="articleBody">
-    <p>armbian:
-<a href="http://dl.armbian.com/">armbian</a></p>
+    <p>建议内存盘大小别超过内存的百分之80</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载镜像内分区为块设备
-add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜像分区的块设备
-# mkdir p1 # 创建挂载文件夹
-# mount /dev/block/254\:0 p1  # 将镜像挂载至p1文件夹
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mkdir /ramdisk  # 创建挂载点
+# mount -t tmpfs tmpfs /ramdisk -o size=256M  # 创建一个256M的内存盘挂载到/ramdisk
 </code></pre></div></div>
-<p>镜像已挂载至p1文件夹下</p>
-
-<p>你现在可以对镜像内的文件进行编辑（例如: 编辑网络配置文件,添加用户)</p>
-
-<p>在一切操作完毕后:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sync  # 同步操作
-# umount p1  # 卸载分区
-# kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
-</code></pre></div></div>
-
 
   </div>
   <hr>

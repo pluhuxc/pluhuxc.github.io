@@ -5,9 +5,171 @@
     <description>simple user</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 01 Aug 2018 16:59:50 +0800</pubDate>
-    <lastBuildDate>Wed, 01 Aug 2018 16:59:50 +0800</lastBuildDate>
+    <pubDate>Fri, 03 Aug 2018 16:58:11 +0800</pubDate>
+    <lastBuildDate>Fri, 03 Aug 2018 16:58:11 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>使用cpufrequtils查看调整cpu频率及模式</title>
+        <description>&lt;p&gt;debian安装:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install cpufrequtils
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用:&lt;/p&gt;
+
+&lt;h3 id=&quot;cpufreq-info--查看当前cpu状态&quot;&gt;cpufreq-info  查看当前cpu状态&lt;/h3&gt;
+
+&lt;p&gt;参数:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;参数&lt;/th&gt;
+      &lt;th&gt;值&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-c&lt;/td&gt;
+      &lt;td&gt;CPU序号&lt;/td&gt;
+      &lt;td&gt;查看所指定cpu状态&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-f&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;查看cpu当前频率&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-l&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;查看cpu最高频率和最低频率&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-p&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;查看当前cpu模式&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-g&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;查看当前支持的CPU运行模式&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-m&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;带单位的输出&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;cpufreq-set-设置cpu模式及频率&quot;&gt;cpufreq-set 设置cpu模式及频率&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;参数&lt;/th&gt;
+      &lt;th&gt;值&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-c&lt;/td&gt;
+      &lt;td&gt;CPU序号&lt;/td&gt;
+      &lt;td&gt;设置修改指定cpu&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-d&lt;/td&gt;
+      &lt;td&gt;频率&lt;/td&gt;
+      &lt;td&gt;设置cpu最小运行频率&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-u&lt;/td&gt;
+      &lt;td&gt;频率&lt;/td&gt;
+      &lt;td&gt;设置cpu最大运行频率&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-g&lt;/td&gt;
+      &lt;td&gt;模式&lt;/td&gt;
+      &lt;td&gt;设置cpu模式&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;频率支持单位:&lt;/p&gt;
+
+&lt;p&gt;Hz kHz MHz GHz&lt;/p&gt;
+
+&lt;p&gt;常用CPU模式:
+| 模式 | 说明 |
+|powersave|以最低频率运行cpu|
+|ondemand|程序运行时切换cpu频率到最高,不使用时降低到最低|
+|performance|最高性能模式,以最高频率运行cpu|&lt;/p&gt;
+
+&lt;p&gt;设置后会马上生效&lt;/p&gt;
+
+&lt;p&gt;重启后会失效&lt;/p&gt;
+
+&lt;p&gt;可以自己编辑/etc下的开机启动脚本设置开机自动调整CPU&lt;/p&gt;
+</description>
+        <pubDate>Fri, 03 Aug 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/08/03/use-cpufrequtils/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/08/03/use-cpufrequtils/</guid>
+        
+        <category>linux</category>
+        
+        <category>cpufreq</category>
+        
+        <category>cpu</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>slackware设置locale</title>
+        <description>&lt;p&gt;系统全局设置:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /etc/profile.d/lang.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;更改:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=en_US.UTF-8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;|
+  V&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;局部用户设置:&lt;/p&gt;
+
+&lt;p&gt;gui:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi ~/.xinitrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;加入:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;terminal:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;加入&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Thu, 02 Aug 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/08/02/set-locale-slackware/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/08/02/set-locale-slackware/</guid>
+        
+        <category>slackware</category>
+        
+        <category>linux</category>
+        
+        <category>locale</category>
+        
+        
+      </item>
     
       <item>
         <title>扩大镜像及分区</title>
@@ -87,7 +249,7 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0 指向镜像�
       <item>
         <title>挂载修改opilite安装镜像</title>
         <description>&lt;p&gt;armbian:
-[armbian](http://dl.armbian.com/}&lt;/p&gt;
+&lt;a href=&quot;http://dl.armbian.com/&quot;&gt;armbian&lt;/a&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载镜像内分区为块设备
 add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜像分区的块设备
@@ -114,6 +276,71 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜�
         <category>linux</category>
         
         <category>raspberrypi</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>在linux上创建一个ramdisk</title>
+        <description>&lt;p&gt;建议内存盘大小别超过内存的百分之80&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# mkdir /ramdisk  # 创建挂载点
+# mount -t tmpfs tmpfs /ramdisk -o size=256M  # 创建一个256M的内存盘挂载到/ramdisk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/08/01/make-a-ramdisk/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/08/01/make-a-ramdisk/</guid>
+        
+        <category>ramdisk</category>
+        
+        <category>tmpfs</category>
+        
+        <category>linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>编译安装aircrack-ng</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://www.aircrack-ng.org/doku.php?id=downloads#linux_packages&quot;&gt;aircrack&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下载:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ wget http://download.aircrack-ng.org/aircrack-ng-1.3.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;墙了,换:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ git clone https://github.com/aircrack-ng/aircrack-ng
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;autogen.sh:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng $ ./autogen.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;make:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng $ make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;install:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng $ make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/08/01/compile-aircrack-ng/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/08/01/compile-aircrack-ng/</guid>
+        
+        <category>aircrack</category>
+        
+        <category>linux</category>
+        
+        <category>arm</category>
+        
+        <category>slackware</category>
         
         
       </item>
@@ -286,304 +513,6 @@ youdao-dictionary
         <guid isPermaLink="true">http://localhost:4000/2018/07/30/emacs-youdao/</guid>
         
         <category>emacs</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>编译安装lua</title>
-        <description>&lt;p&gt;下载:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ wget https://www.lua.org/ftp/lua-5.1.5.tar.gz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;解压:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ tar xf lua-5.1.5.tar.gz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;make:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lua-5.1.5 $ make linux
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;安装:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lua-5.1.5 $ sudo make install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Mon, 30 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/30/compile-lua5.1/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/30/compile-lua5.1/</guid>
-        
-        <category>lua</category>
-        
-        <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>在slackwarearm上编译安装gucharmap</title>
-        <description>&lt;p&gt;下载gucharmap:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ wget ftp.gnome.org/pub/GNOME/sources/gucharmap/10.0/gucharmap-10.0.4.tar.xz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;解压：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;build $ tar xf gucharmap-10.0.1.tar.xz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;configure:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ ./configure
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;报错:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;checking for Unicode data... configure: error: You need to specify the path to the unicode data files with --with-unicode-data=PATH, or use --with-unicode-data=download to download the data files during the build process.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;尝试:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ ./configure --with-unicode-data=download
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;编译:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ make 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;报错:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/bin/ld: gucharmap-main.o: undefined reference to symbol 'dlsym@@GLIBC_2.4'
-/lib/libdl.so.2: error adding symbols: DSO missing from command line
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;尝试:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ make clean
-gucharmap-10.0.4 $ ./configure --with-unicode-data=download LIBS='-ldl'
-gucharmap-10.0.4 $ make
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;成功&lt;/p&gt;
-
-&lt;p&gt;安装:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gucharmap-10.0.4 $ sudo make install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;最后：
-发现slackware包管理器里有这个包。
-(苦死)&lt;/p&gt;
-</description>
-        <pubDate>Mon, 30 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/30/compile-gucharmap/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/30/compile-gucharmap/</guid>
-        
-        <category>arm</category>
-        
-        <category>linux</category>
-        
-        <category>slackware</category>
-        
-        <category>src</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>use the emacs qq</title>
-        <description>&lt;p&gt;arm无法运行wineqq&lt;/p&gt;
-
-&lt;p&gt;slackwarearm又装不了中文输入法去上smartqq&lt;/p&gt;
-
-&lt;p&gt;中文只是为了用emacs写博客和代码注释&lt;/p&gt;
-
-&lt;p&gt;所以用emacs&amp;amp;pyim输入法&amp;amp;mojoqq来实现上qq的功能&lt;/p&gt;
-
-&lt;p&gt;mojoqq：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/sjdy521/Mojo-Webqq&quot;&gt;Mojoqq&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;安装cpanm：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cpan -i App::cpanminus
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;安装mojoqq：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cpanm Mojo::Webqq
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;安装mojoqqirc模块：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cpanm -v Mojo::IRC::Server::Chinese
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;创建启动脚本：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo '#!/usr/bin/env perl
-use Mojo::Webqq;
-my $client = Mojo::Webqq-&amp;gt;new();
-$client-&amp;gt;load(&quot;ShowMsg&quot;);
-$client-&amp;gt;load(&quot;IRCShell&quot;); #加载IRCShell插件
-$client-&amp;gt;run();' &amp;gt; ircqq.pl
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;emacs:&lt;/p&gt;
-
-&lt;h3 id=&quot;使用melpa源进行安装&quot;&gt;使用melpa源进行安装&lt;/h3&gt;
-
-&lt;p&gt;安装pyim中文输入法:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x package-install
-pyim
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;配置：&lt;/p&gt;
-&lt;h4 id=&quot;我只使用最小化拼音输入&quot;&gt;我只使用最小化拼音输入&lt;/h4&gt;
-&lt;p&gt;打开emacsinit文件
-写入：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;;pyim
-(require 'pyim)
-(require 'pyim-basedict)
-(setq default-input-method &quot;pyim&quot;)
-(global-set-key (kbd &quot;C-\\&quot;) 'toggle-input-method)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;保存&lt;/p&gt;
-
-&lt;p&gt;使用ctrl＋\切换输入法状态&lt;/p&gt;
-
-&lt;p&gt;使用数字选择候选字&lt;/p&gt;
-
-&lt;p&gt;Ctrl + f,b,n,p 进行候选字翻页&lt;/p&gt;
-
-&lt;p&gt;enter输入原字符&lt;/p&gt;
-
-&lt;h2 id=&quot;emacsmojo-使用&quot;&gt;emacs&amp;amp;mojo 使用：&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ perl ircqq.pl
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;等待登录二维码下载完毕&lt;/p&gt;
-
-&lt;p&gt;读取二维码：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xv /tmp/mojo_webqq_qrcode_default.png  # xv图片查看器
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;拿手机扫描二维码&lt;/p&gt;
-
-&lt;p&gt;打开emacs&lt;/p&gt;
-
-&lt;p&gt;打开erc&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x erc
-localhost
-6667
-yournickname
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;有新消息被接收时会在emacs里面新开一个缓存区&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacsqq.png&quot; alt=&quot;emacsqq&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
-
-&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
-
-&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;
-</description>
-        <pubDate>Fri, 27 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/27/slackwarearm-use-emacsqq/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/27/slackwarearm-use-emacsqq/</guid>
-        
-        <category>Emacs</category>
-        
-        <category>irc</category>
-        
-        <category>qq</category>
-        
-        <category>slackware</category>
-        
-        <category>arm</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Install the keynav on slackwarearm</title>
-        <description>&lt;p&gt;安装了slackwarearm
-发现包管理器里没有keynav&lt;/p&gt;
-
-&lt;p&gt;在github找到了一个deb转txz的工具:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/vborrego/deb2tgz.git&quot;&gt;deb2tgz&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# git clone https://github.com/vborrego/deb2tgz.git
-# cp deb2tgz/deb2tgz /usr/local/bin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;安装好后在debian源中找到了keynav的armhf包&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://ftp.debian.org/debian/pool/main/k/keynav/&quot;&gt;keynav&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://ftp.debian.org/debian/pool/main/k/keynav/keynav_0.20110708.0-1_armhf.deb
-# deb2tgz keynav_0.20110708.0-1_armhf.deb
-# installpkg keynav_0.20110708.0-1_armhf.txz
-
-$ keynav
-keynav: error while loading shared libraries: libxdo.so.3: cannot open shared object file: No such file or directory
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;keynav依赖于libxdo库&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://ftp.debian.org/debian/pool/main/x/xdotool/&quot;&gt;libxdot&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://ftp.debian.org/debian/pool/main/x/xdotool/libxdo2_2.20100701.2961-3+deb7u3_armhf.deb
-# deb2tgz libxdo2_2.20100701.2961-3+deb7u3_armhf.deb
-# installpkg libxdo2_2.20100701.2961-3+deb7u3_armhf.txz
-
-$ keynav
-keynav: error while loading shared libraries: libxdo.so.3: cannot open shared object file: No such file or directory
-
-# find /usr/lib | grep libxdo.so.3
-/usr/lib/arm-linux-gnueabihf/libxdo.so.3
-# ln -s /usr/lib/arm-linux-gnueabihf/libxdo.so.3 /usr/lib/libxdo.so.3
-
-$ keynav
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;使用快捷键Ctrl + ;出现红十字框，安装成功&lt;/p&gt;
-
-&lt;p&gt;slackware安装deb包问题解决思路:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;解决依赖&lt;/li&gt;
-  &lt;li&gt;检查路径&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
-
-&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
-
-&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;
-</description>
-        <pubDate>Fri, 27 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/27/slackwarearm-install-keynav/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/27/slackwarearm-install-keynav/</guid>
-        
-        <category>key</category>
-        
-        <category>slackware</category>
-        
-        <category>linux</category>
-        
-        <category>arm</category>
         
         
       </item>
