@@ -1,6 +1,6 @@
 ---
 layout: post
-title: keynav
+title: keynav使用
 tags: [keynav, Debian, Linux]
 author: luhux
 comment: true

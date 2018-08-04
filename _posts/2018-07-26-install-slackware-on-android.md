@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Install the slackwarearm on android
+title: 在安卓上安装Slackware Linux
 tags: [android, slackware, linux, arm]
 author: luhux
 comment: true

@@ -1,6 +1,9 @@
 ---
 layout: page
 title: About
+permalink: /about/
 ---
 
-本博客对eww浏览器友好
+LUHUX 
+
+email : <luhux@hotmail.com>

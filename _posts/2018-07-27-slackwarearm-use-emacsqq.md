@@ -1,6 +1,6 @@
 ---
 layout: post
-title: use the emacs qq
+title: 使用Emacs上QQ
 tags: [Emacs, irc, qq, slackware, arm]
 author: luhux
 comment: true

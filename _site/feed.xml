@@ -1,17 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>luhux | blog</title>
-    <description>simple user</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 03 Aug 2018 16:58:11 +0800</pubDate>
-    <lastBuildDate>Fri, 03 Aug 2018 16:58:11 +0800</lastBuildDate>
-    <generator>Jekyll v3.8.3</generator>
-    
-      <item>
-        <title>使用cpufrequtils查看调整cpu频率及模式</title>
-        <description>&lt;p&gt;debian安装:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-04T15:53:48+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX | BLOG</title><entry><title type="html">使用cpufrequtils查看调整cpu频率及模式</title><link href="http://localhost:4000/2018/08/03/use-cpufrequtils.html" rel="alternate" type="text/html" title="使用cpufrequtils查看调整cpu频率及模式" /><published>2018-08-03T00:00:00+08:00</published><updated>2018-08-03T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/03/use-cpufrequtils</id><content type="html" xml:base="http://localhost:4000/2018/08/03/use-cpufrequtils.html">&lt;p&gt;debian安装:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install cpufrequtils
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -102,34 +89,36 @@
 
 &lt;p&gt;Hz kHz MHz GHz&lt;/p&gt;
 
-&lt;p&gt;常用CPU模式:
-| 模式 | 说明 |
-|powersave|以最低频率运行cpu|
-|ondemand|程序运行时切换cpu频率到最高,不使用时降低到最低|
-|performance|最高性能模式,以最高频率运行cpu|&lt;/p&gt;
+&lt;p&gt;常用CPU模式:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;模式&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;powersave&lt;/td&gt;
+      &lt;td&gt;以最低频率运行cpu&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ondemand&lt;/td&gt;
+      &lt;td&gt;程序运行时切换cpu频率到最高,不使用时降低到最低&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;performance&lt;/td&gt;
+      &lt;td&gt;最高性能模式,以最高频率运行cpu&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;设置后会马上生效&lt;/p&gt;
 
 &lt;p&gt;重启后会失效&lt;/p&gt;
 
-&lt;p&gt;可以自己编辑/etc下的开机启动脚本设置开机自动调整CPU&lt;/p&gt;
-</description>
-        <pubDate>Fri, 03 Aug 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/08/03/use-cpufrequtils/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/08/03/use-cpufrequtils/</guid>
-        
-        <category>linux</category>
-        
-        <category>cpufreq</category>
-        
-        <category>cpu</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>slackware设置locale</title>
-        <description>&lt;p&gt;系统全局设置:&lt;/p&gt;
+&lt;p&gt;可以自己编辑/etc下的开机启动脚本设置开机自动调整CPU&lt;/p&gt;</content><author><name>luhux</name></author><category term="linux" /><category term="cpufreq" /><category term="cpu" /><summary type="html">debian安装:</summary></entry><entry><title type="html">slackware设置locale</title><link href="http://localhost:4000/2018/08/02/set-locale-slackware.html" rel="alternate" type="text/html" title="slackware设置locale" /><published>2018-08-02T00:00:00+08:00</published><updated>2018-08-02T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/02/set-locale-slackware</id><content type="html" xml:base="http://localhost:4000/2018/08/02/set-locale-slackware.html">&lt;p&gt;系统全局设置:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /etc/profile.d/lang.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -155,25 +144,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;加入&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Thu, 02 Aug 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/08/02/set-locale-slackware/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/08/02/set-locale-slackware/</guid>
-        
-        <category>slackware</category>
-        
-        <category>linux</category>
-        
-        <category>locale</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>扩大镜像及分区</title>
-        <description>&lt;p&gt;扩容镜像:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="slackware" /><category term="linux" /><category term="locale" /><summary type="html">系统全局设置:</summary></entry><entry><title type="html">扩大镜像及分区</title><link href="http://localhost:4000/2018/08/01/resizediskimage.html" rel="alternate" type="text/html" title="扩大镜像及分区" /><published>2018-08-01T00:00:00+08:00</published><updated>2018-08-01T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/01/resizediskimage</id><content type="html" xml:base="http://localhost:4000/2018/08/01/resizediskimage.html">&lt;p&gt;扩容镜像:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ls -lh Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
 -rw-r--r-- 1 root root 1.4G Nov 25  2017 Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
@@ -233,22 +204,7 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0 指向镜像�
 # kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;扩容完成&lt;/p&gt;
-</description>
-        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/08/01/resizediskimage/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/08/01/resizediskimage/</guid>
-        
-        <category>diskimage</category>
-        
-        <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>挂载修改opilite安装镜像</title>
-        <description>&lt;p&gt;armbian:
+&lt;p&gt;扩容完成&lt;/p&gt;</content><author><name>luhux</name></author><category term="diskimage" /><category term="linux" /><summary type="html">扩容镜像:</summary></entry><entry><title type="html">挂载修改opilite安装镜像</title><link href="http://localhost:4000/2018/08/01/mountdiskimage.html" rel="alternate" type="text/html" title="挂载修改opilite安装镜像" /><published>2018-08-01T00:00:00+08:00</published><updated>2018-08-01T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/01/mountdiskimage</id><content type="html" xml:base="http://localhost:4000/2018/08/01/mountdiskimage.html">&lt;p&gt;armbian:
 &lt;a href=&quot;http://dl.armbian.com/&quot;&gt;armbian&lt;/a&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载镜像内分区为块设备
@@ -264,46 +220,11 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜�
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sync  # 同步操作
 # umount p1  # 卸载分区
 # kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/08/01/mountdiskimage/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/08/01/mountdiskimage/</guid>
-        
-        <category>arm</category>
-        
-        <category>linux</category>
-        
-        <category>raspberrypi</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>在linux上创建一个ramdisk</title>
-        <description>&lt;p&gt;建议内存盘大小别超过内存的百分之80&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="raspberrypi" /><summary type="html">armbian: armbian</summary></entry><entry><title type="html">在linux上创建一个ramdisk</title><link href="http://localhost:4000/2018/08/01/make-a-ramdisk.html" rel="alternate" type="text/html" title="在linux上创建一个ramdisk" /><published>2018-08-01T00:00:00+08:00</published><updated>2018-08-01T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/01/make-a-ramdisk</id><content type="html" xml:base="http://localhost:4000/2018/08/01/make-a-ramdisk.html">&lt;p&gt;建议内存盘大小别超过内存的百分之80&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# mkdir /ramdisk  # 创建挂载点
 # mount -t tmpfs tmpfs /ramdisk -o size=256M  # 创建一个256M的内存盘挂载到/ramdisk
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/08/01/make-a-ramdisk/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/08/01/make-a-ramdisk/</guid>
-        
-        <category>ramdisk</category>
-        
-        <category>tmpfs</category>
-        
-        <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>编译安装aircrack-ng</title>
-        <description>&lt;p&gt;&lt;a href=&quot;http://www.aircrack-ng.org/doku.php?id=downloads#linux_packages&quot;&gt;aircrack&lt;/a&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="ramdisk" /><category term="tmpfs" /><category term="linux" /><summary type="html">建议内存盘大小别超过内存的百分之80</summary></entry><entry><title type="html">编译安装aircrack-ng</title><link href="http://localhost:4000/2018/08/01/compile-aircrack-ng.html" rel="alternate" type="text/html" title="编译安装aircrack-ng" /><published>2018-08-01T00:00:00+08:00</published><updated>2018-08-01T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/01/compile-aircrack-ng</id><content type="html" xml:base="http://localhost:4000/2018/08/01/compile-aircrack-ng.html">&lt;p&gt;&lt;a href=&quot;http://www.aircrack-ng.org/doku.php?id=downloads#linux_packages&quot;&gt;aircrack&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;下载:&lt;/p&gt;
 
@@ -328,26 +249,7 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜�
 &lt;p&gt;install:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng $ make install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Wed, 01 Aug 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/08/01/compile-aircrack-ng/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/08/01/compile-aircrack-ng/</guid>
-        
-        <category>aircrack</category>
-        
-        <category>linux</category>
-        
-        <category>arm</category>
-        
-        <category>slackware</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>在树梅派上玩ons游戏</title>
-        <description>&lt;p&gt;已经编译好的onscripter:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="aircrack" /><category term="linux" /><category term="arm" /><category term="slackware" /><summary type="html">aircrack</summary></entry><entry><title type="html">在树梅派上玩ons游戏</title><link href="http://localhost:4000/2018/07/31/play-ons-on-raspberrypi.html" rel="alternate" type="text/html" title="在树梅派上玩ons游戏" /><published>2018-07-31T00:00:00+08:00</published><updated>2018-07-31T00:00:00+08:00</updated><id>http://localhost:4000/2018/07/31/play-ons-on-raspberrypi</id><content type="html" xml:base="http://localhost:4000/2018/07/31/play-ons-on-raspberrypi.html">&lt;p&gt;已经编译好的onscripter:&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://pan.baidu.com/s/1B2DlsQ0UVtL8Nh3gX8Knyw&quot;&gt;onscripter&lt;/a&gt;&lt;/p&gt;
 
@@ -371,26 +273,7 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜�
 
 &lt;h2 id=&quot;onscripter也可以在tty运行&quot;&gt;onscripter也可以在tty运行&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/ONS_ON_linux.png&quot; alt=&quot;ons_on_armlinux&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 31 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/31/play-ons-on-raspberrypi/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/31/play-ons-on-raspberrypi/</guid>
-        
-        <category>arm</category>
-        
-        <category>ons</category>
-        
-        <category>raspberrypi</category>
-        
-        <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>配置一个mini桌面环境</title>
-        <description>&lt;h1 id=&quot;on-debian&quot;&gt;on debian&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/ONS_ON_linux.png&quot; alt=&quot;ons_on_armlinux&quot; /&gt;&lt;/p&gt;</content><author><name>luhux</name></author><category term="arm" /><category term="ons" /><category term="raspberrypi" /><category term="linux" /><summary type="html">已经编译好的onscripter:</summary></entry><entry><title type="html">配置一个mini桌面环境</title><link href="http://localhost:4000/2018/07/31/install-a-minidesktopenv.html" rel="alternate" type="text/html" title="配置一个mini桌面环境" /><published>2018-07-31T00:00:00+08:00</published><updated>2018-07-31T00:00:00+08:00</updated><id>http://localhost:4000/2018/07/31/install-a-minidesktopenv</id><content type="html" xml:base="http://localhost:4000/2018/07/31/install-a-minidesktopenv.html">&lt;h1 id=&quot;on-debian&quot;&gt;on debian&lt;/h1&gt;
 
 &lt;p&gt;安装x :&lt;/p&gt;
 
@@ -425,25 +308,7 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜�
 &lt;p&gt;加入&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fluxbox &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Tue, 31 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/31/install-a-minidesktopenv/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/31/install-a-minidesktopenv/</guid>
-        
-        <category>linux</category>
-        
-        <category>debian</category>
-        
-        <category>fluxbox</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>解决 slackwarearm 在树梅派上无法输出音频</title>
-        <description>&lt;p&gt;拿slackwarearm玩ONS时发现没有音频输出&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="linux" /><category term="debian" /><category term="fluxbox" /><summary type="html">on debian</summary></entry><entry><title type="html">解决 slackwarearm 在树梅派上无法输出音频</title><link href="http://localhost:4000/2018/07/31/fix-audio-on-slackwarearm.html" rel="alternate" type="text/html" title="解决 slackwarearm 在树梅派上无法输出音频" /><published>2018-07-31T00:00:00+08:00</published><updated>2018-07-31T00:00:00+08:00</updated><id>http://localhost:4000/2018/07/31/fix-audio-on-slackwarearm</id><content type="html" xml:base="http://localhost:4000/2018/07/31/fix-audio-on-slackwarearm.html">&lt;p&gt;拿slackwarearm玩ONS时发现没有音频输出&lt;/p&gt;
 
 &lt;p&gt;修复:&lt;/p&gt;
 
@@ -463,26 +328,7 @@ add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜�
 
 &lt;p&gt;重启&lt;/p&gt;
 
-&lt;p&gt;解决&lt;/p&gt;
-</description>
-        <pubDate>Tue, 31 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/31/fix-audio-on-slackwarearm/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/31/fix-audio-on-slackwarearm/</guid>
-        
-        <category>slackware</category>
-        
-        <category>arm</category>
-        
-        <category>linux</category>
-        
-        <category>raspberrypi</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Emacs使用有道翻译</title>
-        <description>&lt;p&gt;项目主页:&lt;/p&gt;
+&lt;p&gt;解决&lt;/p&gt;</content><author><name>Luhux</name></author><category term="slackware" /><category term="arm" /><category term="linux" /><category term="raspberrypi" /><summary type="html">拿slackwarearm玩ONS时发现没有音频输出</summary></entry><entry><title type="html">Emacs使用有道翻译</title><link href="http://localhost:4000/2018/07/30/emacs-youdao.html" rel="alternate" type="text/html" title="Emacs使用有道翻译" /><published>2018-07-30T00:00:00+08:00</published><updated>2018-07-30T00:00:00+08:00</updated><id>http://localhost:4000/2018/07/30/emacs-youdao</id><content type="html" xml:base="http://localhost:4000/2018/07/30/emacs-youdao.html">&lt;p&gt;项目主页:&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/xuchunyang/youdao-dictionary.el&quot;&gt;youdao-dictionary&lt;/a&gt;&lt;/p&gt;
 
@@ -505,17 +351,4 @@ youdao-dictionary
 
 &lt;p&gt;使用：&lt;/p&gt;
 
-&lt;p&gt;Ctrl + c y 翻译当前光标下的词&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 30 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/30/emacs-youdao/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/30/emacs-youdao/</guid>
-        
-        <category>emacs</category>
-        
-        
-      </item>
-    
-  </channel>
-</rss>
+&lt;p&gt;Ctrl + c y 翻译当前光标下的词&lt;/p&gt;</content><author><name>luhux</name></author><category term="emacs" /><summary type="html">项目主页:</summary></entry></feed>

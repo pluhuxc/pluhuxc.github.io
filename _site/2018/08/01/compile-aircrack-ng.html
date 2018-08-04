@@ -3,15 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>About | LUHUX BLOG</title>
+<title>编译安装aircrack-ng | LUHUX BLOG</title>
 <meta name="generator" content="Jekyll v3.8.3" />
-<meta property="og:title" content="About" />
+<meta property="og:title" content="编译安装aircrack-ng" />
+<meta name="author" content="luhux" />
 <meta property="og:locale" content="en_US" />
-<link rel="canonical" href="http://localhost:4000/about/" />
-<meta property="og:url" content="http://localhost:4000/about/" />
+<meta name="description" content="aircrack" />
+<meta property="og:description" content="aircrack" />
+<link rel="canonical" href="http://localhost:4000/2018/08/01/compile-aircrack-ng.html" />
+<meta property="og:url" content="http://localhost:4000/2018/08/01/compile-aircrack-ng.html" />
 <meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-01T00:00:00+08:00" />
 <script type="application/ld+json">
-{"@type":"WebSite","headline":"About","url":"http://localhost:4000/about/","name":"LUHUX BLOG","@context":"http://schema.org"}</script>
+{"@type":"BlogPosting","headline":"编译安装aircrack-ng","dateModified":"2018-08-01T00:00:00+08:00","datePublished":"2018-08-01T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/01/compile-aircrack-ng.html"},"url":"http://localhost:4000/2018/08/01/compile-aircrack-ng.html","author":{"@type":"Person","name":"luhux"},"description":"aircrack","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LUHUX | BLOG" /></head>
 <body><header class="site-header" role="banner">
@@ -31,19 +36,44 @@
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title">About</h1>
+    <h1 class="post-title p-name" itemprop="name headline">编译安装aircrack-ng</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-01T00:00:00+08:00" itemprop="datePublished">Aug 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">luhux</span></span></p>
   </header>
 
-  <div class="post-content">
-    <p>LUHUX</p>
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="http://www.aircrack-ng.org/doku.php?id=downloads#linux_packages">aircrack</a></p>
 
-<p>email : <a href="mailto:luhux@hotmail.com">luhux@hotmail.com</a></p>
+<p>下载:</p>
 
-  </div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>build $ wget http://download.aircrack-ng.org/aircrack-ng-1.3.tar.gz
+</code></pre></div></div>
 
+<p>墙了,换:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>build $ git clone https://github.com/aircrack-ng/aircrack-ng
+</code></pre></div></div>
+
+<p>autogen.sh:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aircrack-ng $ ./autogen.sh
+</code></pre></div></div>
+
+<p>make:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aircrack-ng $ make
+</code></pre></div></div>
+
+<p>install:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aircrack-ng $ make install
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/2018/08/01/compile-aircrack-ng.html" hidden></a>
 </article>
 
       </div>

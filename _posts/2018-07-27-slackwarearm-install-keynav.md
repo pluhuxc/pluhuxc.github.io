@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Install the keynav on slackwarearm
+title: 在slackware安装keynav
 tags: [key, slackware, linux, arm]
 author: luhux
 comment: true

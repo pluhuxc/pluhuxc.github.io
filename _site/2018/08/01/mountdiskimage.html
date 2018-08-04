@@ -3,15 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>About | LUHUX BLOG</title>
+<title>挂载修改opilite安装镜像 | LUHUX BLOG</title>
 <meta name="generator" content="Jekyll v3.8.3" />
-<meta property="og:title" content="About" />
+<meta property="og:title" content="挂载修改opilite安装镜像" />
+<meta name="author" content="Luhux" />
 <meta property="og:locale" content="en_US" />
-<link rel="canonical" href="http://localhost:4000/about/" />
-<meta property="og:url" content="http://localhost:4000/about/" />
+<meta name="description" content="armbian: armbian" />
+<meta property="og:description" content="armbian: armbian" />
+<link rel="canonical" href="http://localhost:4000/2018/08/01/mountdiskimage.html" />
+<meta property="og:url" content="http://localhost:4000/2018/08/01/mountdiskimage.html" />
 <meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-01T00:00:00+08:00" />
 <script type="application/ld+json">
-{"@type":"WebSite","headline":"About","url":"http://localhost:4000/about/","name":"LUHUX BLOG","@context":"http://schema.org"}</script>
+{"@type":"BlogPosting","headline":"挂载修改opilite安装镜像","dateModified":"2018-08-01T00:00:00+08:00","datePublished":"2018-08-01T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/01/mountdiskimage.html"},"url":"http://localhost:4000/2018/08/01/mountdiskimage.html","author":{"@type":"Person","name":"Luhux"},"description":"armbian: armbian","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LUHUX | BLOG" /></head>
 <body><header class="site-header" role="banner">
@@ -31,19 +36,36 @@
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title">About</h1>
+    <h1 class="post-title p-name" itemprop="name headline">挂载修改opilite安装镜像</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-01T00:00:00+08:00" itemprop="datePublished">Aug 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Luhux</span></span></p>
   </header>
 
-  <div class="post-content">
-    <p>LUHUX</p>
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>armbian:
+<a href="http://dl.armbian.com/">armbian</a></p>
 
-<p>email : <a href="mailto:luhux@hotmail.com">luhux@hotmail.com</a></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载镜像内分区为块设备
+add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜像分区的块设备
+# mkdir p1 # 创建挂载文件夹
+# mount /dev/block/254\:0 p1  # 将镜像挂载至p1文件夹
+</code></pre></div></div>
+<p>镜像已挂载至p1文件夹下</p>
 
-  </div>
+<p>你现在可以对镜像内的文件进行编辑（例如: 编辑网络配置文件,添加用户)</p>
 
+<p>在一切操作完毕后:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sync  # 同步操作
+# umount p1  # 卸载分区
+# kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/2018/08/01/mountdiskimage.html" hidden></a>
 </article>
 
       </div>

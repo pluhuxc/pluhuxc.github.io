@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Throw away the mouse
+title: 扔掉鼠标
 tags: [keynav, i3wm, Debian, Linux]
 author: luhux
 comment: true
