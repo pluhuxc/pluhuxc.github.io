@@ -46,6 +46,7 @@ M-x RET package-install RET exwm
 启用中文输入法(可选):
 
 >拼音输入用户推荐使用pyim
+
 >你也可以在~/.xinitrc中加入你的系统输入法启动变量和命令
 
 在 ~/.emacs 文件中加入:
@@ -95,6 +96,7 @@ $xfce4-termianl &
 启动firefox之后两次F11
 
 >如果不想使用鼠标,可以使用keynav辅助操作
+
 >内置pinyin输入法词库很差,可以使用pyim代替
 
 ![emacs-exwm](https://raw.githubusercontent.com/luhux/images/master/Emacs-exwm.png)
