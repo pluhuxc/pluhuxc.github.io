@@ -1,4 +1,183 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-07T17:59:26+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX | BLOG</title><entry><title type="html">搭建一个proot环境来交叉编译</title><link href="http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile.html" rel="alternate" type="text/html" title="搭建一个proot环境来交叉编译" /><published>2018-08-07T00:00:00+08:00</published><updated>2018-08-07T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile</id><content type="html" xml:base="http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-10T17:08:08+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX | BLOG</title><entry><title type="html">使用安卓手机玩orangepi</title><link href="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html" rel="alternate" type="text/html" title="使用安卓手机玩orangepi" /><published>2018-08-09T00:00:00+08:00</published><updated>2018-08-09T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad</id><content type="html" xml:base="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html">&lt;h1 id=&quot;建议认真读完整篇教程并动脑思考后再进行操作&quot;&gt;建议认真读完整篇教程并动脑思考后再进行操作&lt;/h1&gt;
+
+&lt;p&gt;硬件使用:
+香橙派lite
+DC供电线
+SD卡
+usb数据线
+安卓手机(root, 有内存卡插槽或otg和读卡器)&lt;/p&gt;
+
+&lt;p&gt;软件:
+juicessh (android)
+解压软件 (android)
+带有下载功能的浏览器&lt;/p&gt;
+
+&lt;p&gt;操作人要求:&lt;/p&gt;
+
+&lt;p&gt;有脑子&lt;/p&gt;
+
+&lt;p&gt;会打字&lt;/p&gt;
+
+&lt;p&gt;拥有可以理解LINUX的头脑&lt;/p&gt;
+
+&lt;p&gt;懂得Linux基础操作&lt;/p&gt;
+
+&lt;p&gt;懂得相对路径和绝对路径&lt;/p&gt;
+
+&lt;p&gt;会用Linux终端下任意一个及一个以上的编辑器&lt;/p&gt;
+
+&lt;p&gt;懂得apt remove&lt;/p&gt;
+
+&lt;p&gt;懂得dd 的用处以及误操作的后果&lt;/p&gt;
+
+&lt;p&gt;会百度&lt;/p&gt;
+
+&lt;h2 id=&quot;下载armbian镜像&quot;&gt;下载Armbian镜像:&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://dl.armbian.com/&quot;&gt;armbian&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下载完成后使用解压软件将下载的压缩包内的文件&lt;/p&gt;
+
+&lt;p&gt;解压压缩文件内的img文件&lt;/p&gt;
+
+&lt;p&gt;移动到/sdcard/&lt;/p&gt;
+
+&lt;p&gt;并更名为Armbian.img&lt;/p&gt;
+
+&lt;h2 id=&quot;if-手机有内存卡插槽&quot;&gt;if 手机有内存卡插槽:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机关机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;装入内存卡&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机开机&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;打开手机设置&lt;/p&gt;
+
+&lt;p&gt;检查是否挂载内存卡&lt;/p&gt;
+
+&lt;p&gt;如有挂载请卸载&lt;/p&gt;
+
+&lt;p&gt;打开juicessh并新建一个本地终端的连接:&lt;/p&gt;
+
+&lt;p&gt;充分了解dd的功能后再执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
+ # ls /dev/mmcblk1  #确认目标设备文件是否存在
+ # ls /sdcard/Armbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M * 1024 * 1024 = 4194304)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;/dev/block/mmcblk1 在emmc手机上至少是这样(emmc:mmcblk0 sd:mmcblk1)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;等待它写入完毕&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机关机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;取出内存卡&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机开机&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;内存卡装入orangepi&lt;/p&gt;
+
+&lt;h2 id=&quot;if-手机没内存卡插槽或者不想扣电池&quot;&gt;if 手机没内存卡插槽或者不想扣电池&lt;/h2&gt;
+
+&lt;p&gt;将sd卡插入读卡器&lt;/p&gt;
+
+&lt;p&gt;读卡器插入otg&lt;/p&gt;
+
+&lt;p&gt;otg插入手机&lt;/p&gt;
+
+&lt;p&gt;打开手机设置&lt;/p&gt;
+
+&lt;p&gt;检查是否挂载读卡器&lt;/p&gt;
+
+&lt;p&gt;如有挂载请卸载&lt;/p&gt;
+
+&lt;p&gt;打开juicessh并新建一个本地终端的连接:&lt;/p&gt;
+
+&lt;p&gt;充分了解dd的功能后再执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
+ # ls /dev/sda  #确认目标设备文件是否存在
+ # ls /sdcard/Armbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/sda  #写入镜像到sd卡
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M * 1024 * 1024 = 4194304)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;/dev/block/sda 在emmc手机上至少是这样(emmc:mmcblk0 otg:sda)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;等待它写入完毕&lt;/p&gt;
+
+&lt;p&gt;取出内存卡&lt;/p&gt;
+
+&lt;p&gt;内存卡装入orangepi&lt;/p&gt;
+
+&lt;h2 id=&quot;开机&quot;&gt;开机&lt;/h2&gt;
+
+&lt;p&gt;orangepi上电
+并等待开机&lt;/p&gt;
+
+&lt;h2 id=&quot;连接&quot;&gt;连接&lt;/h2&gt;
+
+&lt;p&gt;usb连接手机&lt;/p&gt;
+
+&lt;p&gt;打开手机设置并打开usb共享网络开关&lt;/p&gt;
+
+&lt;p&gt;打开juicessh&lt;/p&gt;
+
+&lt;p&gt;打开本地终端&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ su
+# arp -a  # 查看orangepi ip
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;一般为192.168.4x.xxx&lt;/p&gt;
+
+&lt;p&gt;记住IP&lt;/p&gt;
+
+&lt;p&gt;退出本地终端&lt;/p&gt;
+
+&lt;p&gt;新建ssh连接&lt;/p&gt;
+
+&lt;p&gt;IP: 刚才记下的ip
+端口: 22
+用户名: root
+密码: 1234&lt;/p&gt;
+
+&lt;p&gt;如果连接失败请检查连接,配置&lt;/p&gt;
+
+&lt;p&gt;连接后对orangepi进行操作&lt;/p&gt;
+
+&lt;p&gt;初始化完成后&lt;/p&gt;
+
+&lt;p&gt;请根据自行设置账户连接&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry><entry><title type="html">搭建一个proot环境来交叉编译</title><link href="http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile.html" rel="alternate" type="text/html" title="搭建一个proot环境来交叉编译" /><published>2018-08-07T00:00:00+08:00</published><updated>2018-08-07T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile</id><content type="html" xml:base="http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile.html">&lt;blockquote&gt;
   &lt;p&gt;你可以使用这个办法测试你的代码是否可以在arm平台运行编译&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -60,7 +239,297 @@ root@localhost #
 
 &lt;p&gt;编译完成后把编译完成的二进制库文件等拷贝到板子上就可以使用&lt;/p&gt;
 
-&lt;p&gt;提示却少共享库请自行补全,或者拷贝rootfs里面的&lt;/p&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="ubuntu" /><category term="qemu" /><category term="proot" /><summary type="html">你可以使用这个办法测试你的代码是否可以在arm平台运行编译</summary></entry><entry><title type="html">活在Emacs中exwm</title><link href="http://localhost:4000/2018/08/06/live-in-emacs.html" rel="alternate" type="text/html" title="活在Emacs中exwm" /><published>2018-08-06T00:00:00+08:00</published><updated>2018-08-06T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/06/live-in-emacs</id><content type="html" xml:base="http://localhost:4000/2018/08/06/live-in-emacs.html">&lt;ul&gt;
+&lt;p&gt;提示却少共享库请自行补全,或者拷贝rootfs里面的&lt;/p&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="ubuntu" /><category term="qemu" /><category term="proot" /><summary type="html">你可以使用这个办法测试你的代码是否可以在arm平台运行编译</summary></entry><entry><title type="html">在安卓上安装Ubuntu</title><link href="http://localhost:4000/2018/08/07/install-ubuntu-on-android.html" rel="alternate" type="text/html" title="在安卓上安装Ubuntu" /><published>2018-08-07T00:00:00+08:00</published><updated>2018-08-07T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/07/install-ubuntu-on-android</id><content type="html" xml:base="http://localhost:4000/2018/08/07/install-ubuntu-on-android.html">&lt;h3 id=&quot;需要安卓的root权限&quot;&gt;需要安卓的root权限&lt;/h3&gt;
+
+&lt;p&gt;*为非必需&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;adb连接手机*&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;打开安卓手机连接和adb客户端机器(安装有adb的机器)连接同一网络
+打开安卓手机的网络adb&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Android_adb.png&quot; alt=&quot;Android adb&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ adb connnect ip地址
+$ adb shell 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;下载rootfs&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;命令前缀表示命令执行环境&quot;&gt;命令前缀表示命令执行环境:&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ 代表adb客户端机器
+android $ 代表安卓普通用户终端
+android # 代表安卓root用户终端
+bash # 代表ubuntu未初始化终端
+root@localhost # 代表chrootubuntu终端
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;请使用ubuntu源内最新rootfs链接替换&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/&quot;&gt;rootfs&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android $ su  # 切换安卓root终端
+android # cd /data  # 切换到data分区
+android # mkdir ubuntu  # 创建安装目录
+android # cd ubuntu 
+android # wget http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/bionic/release/ubuntu-base-18.04.1-base-armhf.tar.gz  # 下载ubunturootfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;解包rootfs&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu  # 切换到安装目录
+android # xz -d ubuntu-base*  # 解包rootfs
+android # tar xf ubuntu-base*  # 解包 rootfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;配置
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu/ 
+android # rm -rf /data/ubuntu/dev/*  # 删除无用文件
+android # cp /etc/hosts /data/ubuntu/etc/  # 复制安卓hosts文件
+android # cp /etc/resolv.conf /data/ubuntu/etc/  # 复制配置文件 
+android # mount -o bind /dev/ dev  # 挂载dev 到rootfs
+android # mount -o bind /dev/pts dev/pts # 挂载dev/pts 到rootfs
+android # mount -o bind /sys/ sys   # 挂载sys到rootfs
+android # mount -o bind /proc/ proc  # 挂载proc到rootfs
+android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
+android # chroot /data/ubuntu /bin/bash  # chroot 进入ubuntu
+bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
+root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
+root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
+root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
+root@localhost # groupmod -g 3004 aid_net_raw  # 改用户组guid
+root@localhost # usermod -G aid_inet root  # 将root用户添加至socket权限组
+root@localhost # usermod -G aid_net_raw root  # 将root用户添加至raw_socket权限组
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;更改root用户密码&quot;&gt;更改root用户密码&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # passwd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;添加新用户&quot;&gt;添加新用户&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # adduser user # user换成用户名
+root@localhost # usermod -G aid_inet user # 使用户加入socket权限组
+root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限组
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;如果你要使用需要套接字权限的应用程序&quot;&gt;如果你要使用需要套接字权限的应用程序&lt;/h2&gt;
+
+&lt;p&gt;你需要将运行用户添加至套接字权限组&lt;/p&gt;
+
+&lt;p&gt;例如:&lt;/p&gt;
+
+&lt;p&gt;xrdp:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet xrdp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;mysql:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet mysql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装完成之后:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;创建启动脚本:
+使用androidroot权限shell执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu
+android # touch start.sh
+android # chmod 0755 start.sh
+android # echo '#!/system/bin/sh' &amp;gt;&amp;gt; start.sh 
+android # echo 'cd /data/ubuntu' &amp;gt;&amp;gt; start.sh
+android # echo 'mount -o bind /dev/ dev' &amp;gt;&amp;gt; start.sh
+android # echo 'mount -o bind /dev/pts dev/pts' &amp;gt;&amp;gt; start.sh
+android # echo 'mount -o bind /sys/ sys' &amp;gt;&amp;gt; start.sh 
+android # echo 'mount -o bind /proc/ proc' &amp;gt;&amp;gt; start.sh
+android # echo 'unset LD_PRELOAD' &amp;gt;&amp;gt; start.sh 
+android # echo 'chroot /data/ubuntu /bin/bash' &amp;gt;&amp;gt; start.sh 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;安装已完成&quot;&gt;安装已完成&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;使用ubuntu&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;启动ssh:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu
+android # sh start.sh #警告 必须使用前缀sh执行否则会导致变量全局导致安卓系统死机 
+bash # source /etc/profile
+root@localhost # /etc/rc.d/rc.sshd start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;关闭系统并重启:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;当然可以为它安装vnc或者xrdp&quot;&gt;当然,可以为它安装vnc,或者xrdp.&lt;/h1&gt;
+
+&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
+
+&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
+
+&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;</content><author><name>luhux</name></author><category term="android" /><category term="ubuntu" /><category term="linux" /><category term="arm" /><summary type="html">需要安卓的root权限</summary></entry><entry><title type="html">在安卓上安装archlinux</title><link href="http://localhost:4000/2018/08/07/install-archlinux-on-android.html" rel="alternate" type="text/html" title="在安卓上安装archlinux" /><published>2018-08-07T00:00:00+08:00</published><updated>2018-08-07T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/07/install-archlinux-on-android</id><content type="html" xml:base="http://localhost:4000/2018/08/07/install-archlinux-on-android.html">&lt;h3 id=&quot;需要安卓的root权限&quot;&gt;需要安卓的root权限&lt;/h3&gt;
+
+&lt;p&gt;*为非必需&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;adb连接手机*&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;打开安卓手机连接和adb客户端机器(安装有adb的机器)连接同一网络
+打开安卓手机的网络adb&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Android_adb.png&quot; alt=&quot;Android adb&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ adb connnect ip地址
+$ adb shell 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;下载rootfs&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;命令前缀表示命令执行环境&quot;&gt;命令前缀表示命令执行环境:&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ 代表adb客户端机器
+android $ 代表安卓普通用户终端
+android # 代表安卓root用户终端
+bash # 代表archlinux未初始化终端
+root@localhost # 代表chrootarchlinux终端
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;请使用archlinux源内最新rootfs链接替换&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/archlinuxarm/os/&quot;&gt;rootfs&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android $ su  # 切换安卓root终端
+android # cd /data  # 切换到data分区
+android # mkdir archlinux  # 创建安装目录
+android # cd archlinux 
+android # wget http://mirrors.ustc.edu.cn/archlinuxarm/os/ArchLinuxARM-armv7-latest.tar.gz  # 下载ubunturootfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;解包rootfs&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux  # 切换到安装目录
+android # xz -d ArchLinuxARM*  # 解包rootfs
+android # tar xf ArchLinuxARM*  # 解包 rootfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;配置
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux/ 
+android # rm -rf /data/archlinux/dev/*  # 删除无用文件
+android # cp /etc/hosts /data/archlinux/etc/  # 复制安卓hosts文件
+android # cp /etc/resolv.conf /data/archlinux/etc/  # 复制配置文件 
+android # mount -o bind /dev/ dev  # 挂载dev 到rootfs
+android # mount -o bind /dev/pts dev/pts # 挂载dev/pts 到rootfs
+android # mount -o bind /sys/ sys   # 挂载sys到rootfs
+android # mount -o bind /proc/ proc  # 挂载proc到rootfs
+android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
+android # chroot /data/archlinux /bin/bash  # chroot 进入archlinux
+bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
+root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
+root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
+root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
+root@localhost # groupmod -g 3004 aid_net_raw  # 改用户组guid
+root@localhost # usermod -G aid_inet root  # 将root用户添加至socket权限组
+root@localhost # usermod -G aid_net_raw root  # 将root用户添加至raw_socket权限组
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;更改root用户密码&quot;&gt;更改root用户密码&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # passwd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;添加新用户&quot;&gt;添加新用户&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # adduser user # user换成用户名
+root@localhost # usermod -G aid_inet user # 使用户加入socket权限组
+root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限组
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;如果你要使用需要套接字权限的应用程序&quot;&gt;如果你要使用需要套接字权限的应用程序&lt;/h2&gt;
+
+&lt;p&gt;你需要将运行用户添加至套接字权限组&lt;/p&gt;
+
+&lt;p&gt;例如:&lt;/p&gt;
+
+&lt;p&gt;xrdp:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet xrdp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;mysql:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet mysql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安装完成之后:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;创建启动脚本:
+使用androidroot权限shell执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux
+android # touch start.sh
+android # chmod 0755 start.sh
+android # echo '#!/system/bin/sh' &amp;gt;&amp;gt; start.sh 
+android # echo 'cd /data/archlinux' &amp;gt;&amp;gt; start.sh
+android # echo 'mount -o bind /dev/ dev' &amp;gt;&amp;gt; start.sh
+android # echo 'mount -o bind /dev/pts dev/pts' &amp;gt;&amp;gt; start.sh
+android # echo 'mount -o bind /sys/ sys' &amp;gt;&amp;gt; start.sh 
+android # echo 'mount -o bind /proc/ proc' &amp;gt;&amp;gt; start.sh
+android # echo 'unset LD_PRELOAD' &amp;gt;&amp;gt; start.sh 
+android # echo 'chroot /data/archlinux /bin/bash' &amp;gt;&amp;gt; start.sh 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;安装已完成&quot;&gt;安装已完成&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;使用archlinux&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;启动ssh:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux
+android # sh start.sh #警告 必须使用前缀sh执行否则会导致变量全局导致安卓系统死机 
+bash # source /etc/profile
+root@localhost # /etc/rc.d/rc.sshd start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;关闭系统并重启:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;当然可以为它安装vnc或者xrdp&quot;&gt;当然,可以为它安装vnc,或者xrdp.&lt;/h1&gt;
+
+&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
+
+&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
+
+&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;</content><author><name>luhux</name></author><category term="android" /><category term="archlinux" /><category term="linux" /><category term="arm" /><summary type="html">需要安卓的root权限</summary></entry><entry><title type="html">活在Emacs中exwm</title><link href="http://localhost:4000/2018/08/06/live-in-emacs.html" rel="alternate" type="text/html" title="活在Emacs中exwm" /><published>2018-08-06T00:00:00+08:00</published><updated>2018-08-06T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/06/live-in-emacs</id><content type="html" xml:base="http://localhost:4000/2018/08/06/live-in-emacs.html">&lt;ul&gt;
   &lt;li&gt;环境: LINUX&lt;/li&gt;
   &lt;li&gt;软件: emacs&lt;/li&gt;
 &lt;/ul&gt;
@@ -413,84 +882,4 @@ exwm
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;加入&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="slackware" /><category term="linux" /><category term="locale" /><summary type="html">系统全局设置:</summary></entry><entry><title type="html">扩大镜像及分区</title><link href="http://localhost:4000/2018/08/01/resizediskimage.html" rel="alternate" type="text/html" title="扩大镜像及分区" /><published>2018-08-01T00:00:00+08:00</published><updated>2018-08-01T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/01/resizediskimage</id><content type="html" xml:base="http://localhost:4000/2018/08/01/resizediskimage.html">&lt;p&gt;扩容镜像:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ls -lh Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
--rw-r--r-- 1 root root 1.4G Nov 25  2017 Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;镜像默认1.4G&lt;/p&gt;
-
-&lt;p&gt;扩容128M: (请按需扩容)&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# dd bs=1M count=128 if=/dev/zero of=128M.img  # 生成一个128M的空镜像 (count=256 创建256Mb)
-128+0 records in
-128+0 records out
-134217728 bytes (134 MB, 128 MiB) copied, 1.37621 s, 97.5 MB/s
-# cat 128M.img &amp;gt;&amp;gt; Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 为镜像追加128M空白空间
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;扩大分区:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# parted Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
-GNU Parted 3.2
-Using /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img
-Welcome to GNU Parted! Type 'help' to view a list of commands.
-(parted) unit   # 切换单位
-Unit?  [compact]? MB    #  mb
-(parted) print       # 打印分区信息
-Model:  (file)
-Disk /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img: 1590MB  # 1590MB为扩容后的镜像大小
-Sector size (logical/physical): 512B/512B
-Partition Table: msdos
-Disk Flags: 
-
-Number  Start   End     Size    Type     File system  Flags
- 1      4.19MB  1455MB  1451MB  primary  ext4                # 分区 1455MB
-
-(parted) resizepart  # 扩大分区
-Partition number? 1          # 第一分区
-End?  [1455MB]? 1590                # 新分区大小不可超过镜像大小
-(parted) print                  # 查看是否成功
-Model:  (file)
-Disk /usr/image/Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img: 1590MB
-Sector size (logical/physical): 512B/512B
-Partition Table: msdos
-Disk Flags: 
-
-Number  Start   End     Size    Type     File system  Flags
- 1      4.19MB  1590MB  1585MB  primary  ext4  # 1590M 成功
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;挂载调整分区大小&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载分区为块设备
-add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0 指向镜像分区的块设备
-# mkdir p1 # 创建挂载文件夹
-# mount /dev/block/254\:0 p1  # 将镜像挂载至p1文件夹
-# resize2fs /dev/block/254\:0  # 更新分区大小
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;卸载镜像&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sync  # 同步操作
-# umount p1  # 卸载分区
-# kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;扩容完成&lt;/p&gt;</content><author><name>luhux</name></author><category term="diskimage" /><category term="linux" /><summary type="html">扩容镜像:</summary></entry><entry><title type="html">挂载修改opilite安装镜像</title><link href="http://localhost:4000/2018/08/01/mountdiskimage.html" rel="alternate" type="text/html" title="挂载修改opilite安装镜像" /><published>2018-08-01T00:00:00+08:00</published><updated>2018-08-01T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/01/mountdiskimage</id><content type="html" xml:base="http://localhost:4000/2018/08/01/mountdiskimage.html">&lt;p&gt;armbian:
-&lt;a href=&quot;http://dl.armbian.com/&quot;&gt;armbian&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kpart -a -v Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img # 挂载镜像内分区为块设备
-add map loop0p1 (254:0): 0 3096576 linear /dev/loop 8192   # 245:0为指向镜像分区的块设备
-# mkdir p1 # 创建挂载文件夹
-# mount /dev/block/254\:0 p1  # 将镜像挂载至p1文件夹
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;镜像已挂载至p1文件夹下&lt;/p&gt;
-
-&lt;p&gt;你现在可以对镜像内的文件进行编辑（例如: 编辑网络配置文件,添加用户)&lt;/p&gt;
-
-&lt;p&gt;在一切操作完毕后:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sync  # 同步操作
-# umount p1  # 卸载分区
-# kpartx -d Armbian_5.35_Orangepilite_Ubuntu_xenial_default_3.4.113.img  # 卸载镜像
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="raspberrypi" /><summary type="html">armbian: armbian</summary></entry><entry><title type="html">在linux上创建一个ramdisk</title><link href="http://localhost:4000/2018/08/01/make-a-ramdisk.html" rel="alternate" type="text/html" title="在linux上创建一个ramdisk" /><published>2018-08-01T00:00:00+08:00</published><updated>2018-08-01T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/01/make-a-ramdisk</id><content type="html" xml:base="http://localhost:4000/2018/08/01/make-a-ramdisk.html">&lt;p&gt;建议内存盘大小别超过内存的百分之80&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# mkdir /ramdisk  # 创建挂载点
-# mount -t tmpfs tmpfs /ramdisk -o size=256M  # 创建一个256M的内存盘挂载到/ramdisk
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="ramdisk" /><category term="tmpfs" /><category term="linux" /><summary type="html">建议内存盘大小别超过内存的百分之80</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="slackware" /><category term="linux" /><category term="locale" /><summary type="html">系统全局设置:</summary></entry></feed>
