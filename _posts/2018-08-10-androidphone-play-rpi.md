@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 使用安卓手机玩orangepi
+title: 使用安卓手机玩raspberrypi
 tags: [android, linux, usb, dd, sdcard]
 author: Luhux
 comment: true
@@ -9,9 +9,9 @@ comment: true
 
 ### 硬件使用:
 
-香橙派
+rapsberrypi
 
-DC供电线
+microusb供电线
 
 SD卡
 
@@ -40,13 +40,17 @@ juicessh (android)
 
 懂得相对路径和绝对路径
 
+会用Linux终端下任意一个及一个以上的编辑器
+
+懂得外置内存卡和内置内存卡的区别
+
 懂得dd 的用处以及误操作的后果
 
 会百度
 
-## 下载Armbian镜像:
+## 下载raspbian镜像:
 
-[armbian](http://dl.armbian.com/)
+[raspbian](https://www.raspberrypi.org/downloads/raspbian/)
 
 
 下载完成后使用解压软件将下载的压缩包内的文件
@@ -55,7 +59,7 @@ juicessh (android)
 
 移动到/sdcard/
 
-并更名为Armbian.img
+并更名为raspbian.img
 
 ## if 手机有内存卡插槽:
 
@@ -76,8 +80,8 @@ juicessh (android)
 ```
  $ su
  # ls /dev/mmcblk1  #确认目标设备文件是否存在
- # ls /sdcard/Armbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
+ # ls /sdcard/raspbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
 ```
 
 * bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)
@@ -86,13 +90,17 @@ juicessh (android)
 
 等待它写入完毕
 
+* 重启手机
+
+* 使用文件管理器在sd卡根目录创建ssh空文件
+
 * 手机关机
 
 * 取出内存卡
 
 * 手机开机
 
-* 内存卡装入orangepi
+* 内存卡装入raspberrypi
 
 ## if 手机没内存卡插槽或者不想扣电池
 
@@ -115,8 +123,8 @@ juicessh (android)
 ```
  $ su
  # ls /dev/sda  #确认目标设备文件是否存在
- # ls /sdcard/Armbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/sda  #写入镜像到sd卡
+ # ls /sdcard/raspbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/sda  #写入镜像到sd卡
 ```
 
 > bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)
@@ -125,13 +133,19 @@ juicessh (android)
 
 * 等待它写入完毕
 
+* 重启手机
+
+* 使用文件管理器在sd卡根目录创建ssh空文件
+
+* 关闭手机
+
 * 取出内存卡
 
-* 内存卡装入orangepi
+* 内存卡装入raspberrypi
 
 ## 开机
 
-* orangepi上电
+* raspberrypi上电
 
 * 并等待开机
 
@@ -145,7 +159,7 @@ juicessh (android)
 
 ```
 $ su
-# busybox arp -a  # 查看orangepi ip
+# busybox arp -a  # 查看raspberrypi ip
 
 ```
 
@@ -161,14 +175,13 @@ IP: 刚才记下的ip
 
 端口: 22
 
-用户名: root
+用户名: pi
 
-密码: 1234
+密码: raspberry
+或: raspberrypi
 
 如果连接失败请检查连接,配置
 
-连接后对orangepi进行操作
+连接后对raspberrypi进行操作
 
-初始化完成后
 
-请根据自行设置账户连接
