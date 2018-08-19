@@ -9,28 +9,19 @@ comment: true
 * 环境: LINUX 
 * 软件: emacs
 
-为Emacs加入MELPA源:
 
-编辑 ~/.emacs 文件:
-
-加入:
-
-```
-;; melpa
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(package-initialize)
-```
-exwmwiki: 
+### exwmwiki: 
 
 [exwm](https://github.com/ch11ng/exwm/wiki)
 
-安装Emacs 窗口管理器 exwm:
+## 安装exwm
 
-M-x RET package-install RET exwm
+M-x RET package-install RET exwm RET
 
-启用exwm:
+## 启用exwm
+
+在emacsinit文件中添加:
+
 ```
 ;; Emacs is my windowsmanager 
 (require 'exwm)
@@ -40,63 +31,119 @@ M-x RET package-install RET exwm
 
 设置默认启动emacs作为窗口管理器:
 
-	$ cp ~/.emacs.d/elpa/exwm*/xinitrc ~/.xinitrc  # 复制Exwm启动配置文件为默认使用x启动配置文件
+	$ cp ~/.emacs.d/elpa/exwm*/xinitrc ~/.xinitrc  # 复制exwm启动配置文件为默认使用xinit启动配置文件
 
+## 配置
 
-启用中文输入法(可选):
+### 为emacs启用中文输入法(可选)
 
->拼音输入用户推荐使用pyim
+#### emacs内置输入法
 
->你也可以在~/.xinitrc中加入你的系统输入法启动变量和命令
+> 拼音输入用户推荐使用pyim
 
 在 ~/.emacs 文件中加入:
 
 ```
-;; Use Emacs build in chineseIME
-(setq default-input-method "chinese-cns-tsangchi")  # 仓颉输入法 切换chinese-py为拼音输入法
+;; buildin chineseIME
+(setq default-input-method "chinese-cns-tsangchi")  # 仓颉输入法chinese-py为拼音输入法
 (global-set-key (kbd "C-\\") 'toggle-input-method)  # 设置C-\切换输入法
 ```
-启动exwm:
+>内置pinyin输入法词库很差,可以使用pyim代替
 
-建议切换启动级别为init3
+>此输入法只能在emacs编辑区使用
 
-login登录tty
+#### 配置fcitx输入法
 
+在~/.xinitrc中加入
+
+> 加在启动Emacs的命令之前
+
+```
+#fcitx IME
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERs=@im=fcitx
+fcitx-autostart &
+```
+
+
+## 启动exwm:
+
+建议切换启动级别为init 3
+
+tty登录普通用户
+
+执行
 ```
 $ startx
 ```
-Emacs没有报错说明启动成功
 
-使用eshell来启动应用:
+启动图形界面并启动exwm
 
-M-x RET eshell RET
+## 使用:
 
-启动firefox
-```
-$ firefox &
-```
-关闭firefox
-关闭firefox的缓存区:
+s键为super键
 
-C-x k firefox RET
+启动应用:
 
-启动xfce4-terminal:
+使用s-&并输入启动的x应用的命令
 
-C-x b eshell RET
+##### 例如:
+
+启动xfce4-terminal
+
+s-&
 
 ```
-$xfce4-termianl &
+$ xfce4-termianl
 ```
 
->可以使用Emacs的缓存区管理方式来管理启动的应用
->可以分割窗口(像平铺wm那样使用)
+>可以使用Emacs的缓存区来管理启动的应用
+
+### 使用工作区
+
+s-N
+
+N为数字键,切换到指定工作区,如果工作区不存在,将会创建新的工作区
+
+s-w
+
+显示工作区列表并选择
+
+C-c C-m 
+
+将正在使用的应用移动到其他工作区
+
+### 快捷键冲突的解决
+
+默认应用启动于line-mode所以可以使用Emacs的快捷键对应用操作
+
+遇到快捷键冲突可使用fullscreen mode来解决
+
+C-c C-f
+
+进入fullscreenmode
+
+此时Emacs快截键在这个模式被禁用
+
+返回line-mode:
+
+s-r
+
+## 问题解决
 
 ### Firefox 显示不完全解决:
 
 启动firefox之后两次F11
 
->如果不想使用鼠标,可以使用keynav辅助操作
+### 切换 fcitx 输入法按键
 
->内置pinyin输入法词库很差,可以使用pyim代替
+切换到无Emacs键位绑定位置
+
+比如:
+
+Ctrl + '
+
 
 ![emacs-exwm](https://raw.githubusercontent.com/luhux/images/master/Emacs-exwm.png)

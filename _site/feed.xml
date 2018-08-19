@@ -1,20 +1,141 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-10T17:08:08+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX | BLOG</title><entry><title type="html">使用安卓手机玩orangepi</title><link href="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html" rel="alternate" type="text/html" title="使用安卓手机玩orangepi" /><published>2018-08-09T00:00:00+08:00</published><updated>2018-08-09T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad</id><content type="html" xml:base="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html">&lt;h1 id=&quot;建议认真读完整篇教程并动脑思考后再进行操作&quot;&gt;建议认真读完整篇教程并动脑思考后再进行操作&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-19T11:53:39+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">为Emacs配置clisp</title><link href="http://localhost:4000/2018/08/15/modern-common-lisp-on-linux.html" rel="alternate" type="text/html" title="为Emacs配置clisp" /><published>2018-08-15T00:00:00+08:00</published><updated>2018-08-15T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/15/modern-common-lisp-on-linux</id><content type="html" xml:base="http://localhost:4000/2018/08/15/modern-common-lisp-on-linux.html">&lt;p&gt;&lt;a href=&quot;http://www.jonathanfischer.net/modern-common-lisp-on-linux/&quot;&gt;modern-common-lisp-on-linux&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;硬件使用:
-香橙派lite
-DC供电线
-SD卡
-usb数据线
-安卓手机(root, 有内存卡插槽或otg和读卡器)&lt;/p&gt;
+&lt;h2 id=&quot;安装sbcl&quot;&gt;安装sbcl:&lt;/h2&gt;
 
-&lt;p&gt;软件:
-juicessh (android)
-解压软件 (android)
-带有下载功能的浏览器&lt;/p&gt;
+&lt;h3 id=&quot;包管理器安装&quot;&gt;包管理器安装:&lt;/h3&gt;
 
-&lt;p&gt;操作人要求:&lt;/p&gt;
+&lt;h4 id=&quot;debian&quot;&gt;Debian:&lt;/h4&gt;
 
-&lt;p&gt;有脑子&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install sbcl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;常规安装&quot;&gt;常规安装:&lt;/h3&gt;
+
+&lt;h4 id=&quot;下载&quot;&gt;下载:&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.sbcl.org/platform-table.html&quot;&gt;sbcl&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;安装&quot;&gt;安装:&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd Downloads/
+$ tar xf sbcl-*
+$ cd sbcl-*
+$ sudo sh install.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;验证安装&quot;&gt;验证安装:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sbcl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;安装quicklisp-和-slime&quot;&gt;安装quicklisp 和 slime:&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.quicklisp.org/beta/&quot;&gt;quicklisp&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;安装quicklisp&quot;&gt;安装quicklisp:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget https://beta.quicklisp.org/quicklisp.lisp
+$ sbcl --load quicklisp.lisp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;进入sbcl--提示符后&quot;&gt;进入sbcl * 提示符后:&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* (quicklisp-quickstart:install)
+* (ql:add-to-init-file)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;执行完毕后不要退出sbcl&lt;/p&gt;
+
+&lt;h3 id=&quot;安装slime&quot;&gt;安装slime:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* (ql:quickload &quot;quicklisp-slime-helper&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;配置emacs&quot;&gt;配置Emacs:&lt;/h2&gt;
+
+&lt;p&gt;在Emacsinit文件中加入:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(setq inferior-lisp-program &quot;sbcl&quot;)
+(load (expand-file-name &quot;~/quicklisp/slime-helper.el&quot;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;验证&quot;&gt;验证:&lt;/h1&gt;
+
+&lt;p&gt;在Emacs中:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x slime RET
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;等待出现slime提示符:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CL-USER&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;成功&lt;/p&gt;</content><author><name>Luhux</name></author><category term="Emacs" /><category term="linux" /><category term="sbcl" /><category term="clisp" /><summary type="html">modern-common-lisp-on-linux</summary></entry><entry><title type="html">Emacs加入MELPA源</title><link href="http://localhost:4000/2018/08/14/add-elpa.html" rel="alternate" type="text/html" title="Emacs加入MELPA源" /><published>2018-08-14T00:00:00+08:00</published><updated>2018-08-14T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/14/add-elpa</id><content type="html" xml:base="http://localhost:4000/2018/08/14/add-elpa.html">&lt;p&gt;为Emacs加入MELPA源&lt;/p&gt;
+
+&lt;p&gt;编辑 ~/.emacs 文件&lt;/p&gt;
+
+&lt;p&gt;加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; melpa
+(require 'package)
+(add-to-list 'package-archives '(&quot;melpa&quot; . &quot;https://melpa.org/packages/&quot;))
+(add-to-list 'package-archives '(&quot;melpa-stable&quot; . &quot;https://stable.melpa.org/packages/&quot;))
+(package-initialize)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;保存并重启Emacs&lt;/p&gt;</content><author><name>Luhux</name></author><category term="Emacs" /><summary type="html">为Emacs加入MELPA源</summary></entry><entry><title type="html">编译CC65</title><link href="http://localhost:4000/2018/08/11/complie-the-cc65.html" rel="alternate" type="text/html" title="编译CC65" /><published>2018-08-11T00:00:00+08:00</published><updated>2018-08-11T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/11/complie-the-cc65</id><content type="html" xml:base="http://localhost:4000/2018/08/11/complie-the-cc65.html">&lt;p&gt;&lt;a href=&quot;https://github.com/cc65/cc65/releases&quot;&gt;cc65&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;解压并进入:&lt;/p&gt;
+
+&lt;p&gt;make:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cc65-2.17 $ make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;make install:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cc65-2.17 $ mkdir ~/.local
+cc65-2.17 $ make install PREFIX=~/.local
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;把.local/bin 添加到PATH:
+编辑.bashrc
+加入:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export USER_BIN=~/.local/bin
+export PATH=$PATH:$USER_BIN:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source ~/.bashrc
+$ cc65
+no input file
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装成功&lt;/p&gt;</content><author><name>luhux</name></author><category term="linux" /><category term="nes" /><category term="cc65" /><category term="c" /><summary type="html">cc65</summary></entry><entry><title type="html">使用安卓手机玩raspberrypi</title><link href="http://localhost:4000/2018/08/10/androidphone-play-rpi.html" rel="alternate" type="text/html" title="使用安卓手机玩raspberrypi" /><published>2018-08-10T00:00:00+08:00</published><updated>2018-08-10T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/10/androidphone-play-rpi</id><content type="html" xml:base="http://localhost:4000/2018/08/10/androidphone-play-rpi.html">&lt;h1 id=&quot;建议认真读完整篇教程并动脑思考后再进行操作&quot;&gt;建议认真读完整篇教程并动脑思考后再进行操作&lt;/h1&gt;
+
+&lt;h3 id=&quot;硬件使用&quot;&gt;硬件使用:&lt;/h3&gt;
+
+&lt;p&gt;rapsberrypi&lt;/p&gt;
+
+&lt;p&gt;microusb供电线&lt;/p&gt;
+
+&lt;p&gt;SD卡&lt;/p&gt;
+
+&lt;p&gt;usb数据线&lt;/p&gt;
+
+&lt;p&gt;安卓手机(root, 有内存卡插槽或otg和读卡器)&lt;/p&gt;
+
+&lt;h3 id=&quot;软件&quot;&gt;软件:&lt;/h3&gt;
+
+&lt;p&gt;juicessh (android)&lt;/p&gt;
+
+&lt;p&gt;解压软件 (android)&lt;/p&gt;
+
+&lt;p&gt;带有下载功能的浏览器 (android)&lt;/p&gt;
+
+&lt;h3 id=&quot;操作人要求&quot;&gt;操作人要求:&lt;/h3&gt;
+
+&lt;h4 id=&quot;有脑子&quot;&gt;有脑子&lt;/h4&gt;
 
 &lt;p&gt;会打字&lt;/p&gt;
 
@@ -26,7 +147,232 @@ juicessh (android)
 
 &lt;p&gt;会用Linux终端下任意一个及一个以上的编辑器&lt;/p&gt;
 
-&lt;p&gt;懂得apt remove&lt;/p&gt;
+&lt;p&gt;懂得外置内存卡和内置内存卡的区别&lt;/p&gt;
+
+&lt;p&gt;懂得dd 的用处以及误操作的后果&lt;/p&gt;
+
+&lt;p&gt;会百度&lt;/p&gt;
+
+&lt;h2 id=&quot;下载raspbian镜像&quot;&gt;下载raspbian镜像:&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.raspberrypi.org/downloads/raspbian/&quot;&gt;raspbian&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下载完成后使用解压软件将下载的压缩包内的文件&lt;/p&gt;
+
+&lt;p&gt;解压压缩文件内的img文件&lt;/p&gt;
+
+&lt;p&gt;移动到/sdcard/&lt;/p&gt;
+
+&lt;p&gt;并更名为raspbian.img&lt;/p&gt;
+
+&lt;h2 id=&quot;if-手机有内存卡插槽&quot;&gt;if 手机有内存卡插槽:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机关机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;装入内存卡&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机开机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开手机设置&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查是否挂载内存卡,如有挂载请卸载&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
+ # ls /dev/mmcblk1  #确认目标设备文件是否存在
+ # ls /sdcard/raspbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;/dev/block/mmcblk1 在emmc手机上至少是这样(emmc:mmcblk0 sd:mmcblk1)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;等待它写入完毕&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;重启手机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用文件管理器在sd卡根目录创建ssh空文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机关机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;取出内存卡&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;手机开机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;内存卡装入raspberrypi&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;if-手机没内存卡插槽或者不想扣电池&quot;&gt;if 手机没内存卡插槽或者不想扣电池&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;将sd卡插入读卡器&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;读卡器插入otg&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;otg插入手机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开手机设置&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查是否挂载读卡器&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如有挂载请卸载&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
+ # ls /dev/sda  #确认目标设备文件是否存在
+ # ls /sdcard/raspbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/sda  #写入镜像到sd卡
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;/dev/block/sda 在emmc手机上至少是这样(emmc:mmcblk0 otg:sda)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;等待它写入完毕&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;重启手机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用文件管理器在sd卡根目录创建ssh空文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;关闭手机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;取出内存卡&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;内存卡装入raspberrypi&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;开机&quot;&gt;开机&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;raspberrypi上电&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;并等待开机&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;连接&quot;&gt;连接&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;usb连接手机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开手机设置并打开usb共享网络开关&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开juicessh,打开本地终端并执行:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ su
+# busybox arp -a  # 查看raspberrypi ip
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;一般为192.168.4x.xxx&lt;/p&gt;
+
+&lt;p&gt;记住IP&lt;/p&gt;
+
+&lt;p&gt;退出本地终端&lt;/p&gt;
+
+&lt;p&gt;新建ssh连接&lt;/p&gt;
+
+&lt;p&gt;IP: 刚才记下的ip&lt;/p&gt;
+
+&lt;p&gt;端口: 22&lt;/p&gt;
+
+&lt;p&gt;用户名: pi&lt;/p&gt;
+
+&lt;p&gt;密码: raspberry
+或: raspberrypi&lt;/p&gt;
+
+&lt;p&gt;如果连接失败请检查连接,配置&lt;/p&gt;
+
+&lt;p&gt;连接后对raspberrypi进行操作&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry><entry><title type="html">使用安卓手机玩orangepi</title><link href="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html" rel="alternate" type="text/html" title="使用安卓手机玩orangepi" /><published>2018-08-09T00:00:00+08:00</published><updated>2018-08-09T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad</id><content type="html" xml:base="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html">&lt;h1 id=&quot;建议认真读完整篇教程并动脑思考后再进行操作&quot;&gt;建议认真读完整篇教程并动脑思考后再进行操作&lt;/h1&gt;
+
+&lt;h3 id=&quot;硬件使用&quot;&gt;硬件使用:&lt;/h3&gt;
+
+&lt;p&gt;香橙派&lt;/p&gt;
+
+&lt;p&gt;DC供电线&lt;/p&gt;
+
+&lt;p&gt;SD卡&lt;/p&gt;
+
+&lt;p&gt;usb数据线&lt;/p&gt;
+
+&lt;p&gt;安卓手机(root, 有内存卡插槽或otg和读卡器)&lt;/p&gt;
+
+&lt;h3 id=&quot;软件&quot;&gt;软件:&lt;/h3&gt;
+
+&lt;p&gt;juicessh (android)&lt;/p&gt;
+
+&lt;p&gt;解压软件 (android)&lt;/p&gt;
+
+&lt;p&gt;带有下载功能的浏览器 (android)&lt;/p&gt;
+
+&lt;h3 id=&quot;操作人要求&quot;&gt;操作人要求:&lt;/h3&gt;
+
+&lt;h4 id=&quot;有脑子&quot;&gt;有脑子&lt;/h4&gt;
+
+&lt;p&gt;会打字&lt;/p&gt;
+
+&lt;p&gt;拥有可以理解LINUX的头脑&lt;/p&gt;
+
+&lt;p&gt;懂得Linux基础操作&lt;/p&gt;
+
+&lt;p&gt;懂得相对路径和绝对路径&lt;/p&gt;
 
 &lt;p&gt;懂得dd 的用处以及误操作的后果&lt;/p&gt;
 
@@ -56,17 +402,18 @@ juicessh (android)
   &lt;li&gt;
     &lt;p&gt;手机开机&lt;/p&gt;
   &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开手机设置&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查是否挂载内存卡,如有挂载请卸载&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;打开手机设置&lt;/p&gt;
-
-&lt;p&gt;检查是否挂载内存卡&lt;/p&gt;
-
-&lt;p&gt;如有挂载请卸载&lt;/p&gt;
-
-&lt;p&gt;打开juicessh并新建一个本地终端的连接:&lt;/p&gt;
-
-&lt;p&gt;充分了解dd的功能后再执行&lt;/p&gt;
+&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
  # ls /dev/mmcblk1  #确认目标设备文件是否存在
@@ -76,7 +423,7 @@ juicessh (android)
 
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M * 1024 * 1024 = 4194304)&lt;/p&gt;
+    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;/dev/block/mmcblk1 在emmc手机上至少是这样(emmc:mmcblk0 sd:mmcblk1)&lt;/p&gt;
@@ -95,27 +442,38 @@ juicessh (android)
   &lt;li&gt;
     &lt;p&gt;手机开机&lt;/p&gt;
   &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;内存卡装入orangepi&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;内存卡装入orangepi&lt;/p&gt;
 
 &lt;h2 id=&quot;if-手机没内存卡插槽或者不想扣电池&quot;&gt;if 手机没内存卡插槽或者不想扣电池&lt;/h2&gt;
 
-&lt;p&gt;将sd卡插入读卡器&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;将sd卡插入读卡器&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;读卡器插入otg&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;otg插入手机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开手机设置&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查是否挂载读卡器&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如有挂载请卸载&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;读卡器插入otg&lt;/p&gt;
-
-&lt;p&gt;otg插入手机&lt;/p&gt;
-
-&lt;p&gt;打开手机设置&lt;/p&gt;
-
-&lt;p&gt;检查是否挂载读卡器&lt;/p&gt;
-
-&lt;p&gt;如有挂载请卸载&lt;/p&gt;
-
-&lt;p&gt;打开juicessh并新建一个本地终端的连接:&lt;/p&gt;
-
-&lt;p&gt;充分了解dd的功能后再执行&lt;/p&gt;
+&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
  # ls /dev/sda  #确认目标设备文件是否存在
@@ -123,38 +481,53 @@ juicessh (android)
  # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/sda  #写入镜像到sd卡
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;blockquote&gt;
+  &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;/dev/block/sda 在emmc手机上至少是这样(emmc:mmcblk0 otg:sda)&lt;/p&gt;
+&lt;/blockquote&gt;
+
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M * 1024 * 1024 = 4194304)&lt;/p&gt;
+    &lt;p&gt;等待它写入完毕&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;/dev/block/sda 在emmc手机上至少是这样(emmc:mmcblk0 otg:sda)&lt;/p&gt;
+    &lt;p&gt;取出内存卡&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;内存卡装入orangepi&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;等待它写入完毕&lt;/p&gt;
-
-&lt;p&gt;取出内存卡&lt;/p&gt;
-
-&lt;p&gt;内存卡装入orangepi&lt;/p&gt;
-
 &lt;h2 id=&quot;开机&quot;&gt;开机&lt;/h2&gt;
 
-&lt;p&gt;orangepi上电
-并等待开机&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;orangepi上电&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;并等待开机&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;连接&quot;&gt;连接&lt;/h2&gt;
 
-&lt;p&gt;usb连接手机&lt;/p&gt;
-
-&lt;p&gt;打开手机设置并打开usb共享网络开关&lt;/p&gt;
-
-&lt;p&gt;打开juicessh&lt;/p&gt;
-
-&lt;p&gt;打开本地终端&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;usb连接手机&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开手机设置并打开usb共享网络开关&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开juicessh,打开本地终端并执行:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ su
-# arp -a  # 查看orangepi ip
+# busybox arp -a  # 查看orangepi ip
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -166,10 +539,13 @@ juicessh (android)
 
 &lt;p&gt;新建ssh连接&lt;/p&gt;
 
-&lt;p&gt;IP: 刚才记下的ip
-端口: 22
-用户名: root
-密码: 1234&lt;/p&gt;
+&lt;p&gt;IP: 刚才记下的ip&lt;/p&gt;
+
+&lt;p&gt;端口: 22&lt;/p&gt;
+
+&lt;p&gt;用户名: root&lt;/p&gt;
+
+&lt;p&gt;密码: 1234&lt;/p&gt;
 
 &lt;p&gt;如果连接失败请检查连接,配置&lt;/p&gt;
 
@@ -239,322 +615,23 @@ root@localhost #
 
 &lt;p&gt;编译完成后把编译完成的二进制库文件等拷贝到板子上就可以使用&lt;/p&gt;
 
-&lt;p&gt;提示却少共享库请自行补全,或者拷贝rootfs里面的&lt;/p&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="ubuntu" /><category term="qemu" /><category term="proot" /><summary type="html">你可以使用这个办法测试你的代码是否可以在arm平台运行编译</summary></entry><entry><title type="html">在安卓上安装Ubuntu</title><link href="http://localhost:4000/2018/08/07/install-ubuntu-on-android.html" rel="alternate" type="text/html" title="在安卓上安装Ubuntu" /><published>2018-08-07T00:00:00+08:00</published><updated>2018-08-07T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/07/install-ubuntu-on-android</id><content type="html" xml:base="http://localhost:4000/2018/08/07/install-ubuntu-on-android.html">&lt;h3 id=&quot;需要安卓的root权限&quot;&gt;需要安卓的root权限&lt;/h3&gt;
-
-&lt;p&gt;*为非必需&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;adb连接手机*&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;打开安卓手机连接和adb客户端机器(安装有adb的机器)连接同一网络
-打开安卓手机的网络adb&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Android_adb.png&quot; alt=&quot;Android adb&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ adb connnect ip地址
-$ adb shell 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;下载rootfs&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;命令前缀表示命令执行环境&quot;&gt;命令前缀表示命令执行环境:&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ 代表adb客户端机器
-android $ 代表安卓普通用户终端
-android # 代表安卓root用户终端
-bash # 代表ubuntu未初始化终端
-root@localhost # 代表chrootubuntu终端
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;请使用ubuntu源内最新rootfs链接替换&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/&quot;&gt;rootfs&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android $ su  # 切换安卓root终端
-android # cd /data  # 切换到data分区
-android # mkdir ubuntu  # 创建安装目录
-android # cd ubuntu 
-android # wget http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/bionic/release/ubuntu-base-18.04.1-base-armhf.tar.gz  # 下载ubunturootfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ol&gt;
-  &lt;li&gt;解包rootfs&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu  # 切换到安装目录
-android # xz -d ubuntu-base*  # 解包rootfs
-android # tar xf ubuntu-base*  # 解包 rootfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;配置
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu/ 
-android # rm -rf /data/ubuntu/dev/*  # 删除无用文件
-android # cp /etc/hosts /data/ubuntu/etc/  # 复制安卓hosts文件
-android # cp /etc/resolv.conf /data/ubuntu/etc/  # 复制配置文件 
-android # mount -o bind /dev/ dev  # 挂载dev 到rootfs
-android # mount -o bind /dev/pts dev/pts # 挂载dev/pts 到rootfs
-android # mount -o bind /sys/ sys   # 挂载sys到rootfs
-android # mount -o bind /proc/ proc  # 挂载proc到rootfs
-android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-android # chroot /data/ubuntu /bin/bash  # chroot 进入ubuntu
-bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
-root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
-root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
-root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
-root@localhost # groupmod -g 3004 aid_net_raw  # 改用户组guid
-root@localhost # usermod -G aid_inet root  # 将root用户添加至socket权限组
-root@localhost # usermod -G aid_net_raw root  # 将root用户添加至raw_socket权限组
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;更改root用户密码&quot;&gt;更改root用户密码&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # passwd
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;添加新用户&quot;&gt;添加新用户&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # adduser user # user换成用户名
-root@localhost # usermod -G aid_inet user # 使用户加入socket权限组
-root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限组
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;如果你要使用需要套接字权限的应用程序&quot;&gt;如果你要使用需要套接字权限的应用程序&lt;/h2&gt;
-
-&lt;p&gt;你需要将运行用户添加至套接字权限组&lt;/p&gt;
-
-&lt;p&gt;例如:&lt;/p&gt;
-
-&lt;p&gt;xrdp:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet xrdp
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;mysql:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet mysql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;安装完成之后:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;创建启动脚本:
-使用androidroot权限shell执行&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu
-android # touch start.sh
-android # chmod 0755 start.sh
-android # echo '#!/system/bin/sh' &amp;gt;&amp;gt; start.sh 
-android # echo 'cd /data/ubuntu' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /dev/ dev' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /dev/pts dev/pts' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /sys/ sys' &amp;gt;&amp;gt; start.sh 
-android # echo 'mount -o bind /proc/ proc' &amp;gt;&amp;gt; start.sh
-android # echo 'unset LD_PRELOAD' &amp;gt;&amp;gt; start.sh 
-android # echo 'chroot /data/ubuntu /bin/bash' &amp;gt;&amp;gt; start.sh 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;安装已完成&quot;&gt;安装已完成&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;使用ubuntu&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;启动ssh:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/ubuntu
-android # sh start.sh #警告 必须使用前缀sh执行否则会导致变量全局导致安卓系统死机 
-bash # source /etc/profile
-root@localhost # /etc/rc.d/rc.sshd start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;关闭系统并重启:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # reboot
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;当然可以为它安装vnc或者xrdp&quot;&gt;当然,可以为它安装vnc,或者xrdp.&lt;/h1&gt;
-
-&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
-
-&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
-
-&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;</content><author><name>luhux</name></author><category term="android" /><category term="ubuntu" /><category term="linux" /><category term="arm" /><summary type="html">需要安卓的root权限</summary></entry><entry><title type="html">在安卓上安装archlinux</title><link href="http://localhost:4000/2018/08/07/install-archlinux-on-android.html" rel="alternate" type="text/html" title="在安卓上安装archlinux" /><published>2018-08-07T00:00:00+08:00</published><updated>2018-08-07T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/07/install-archlinux-on-android</id><content type="html" xml:base="http://localhost:4000/2018/08/07/install-archlinux-on-android.html">&lt;h3 id=&quot;需要安卓的root权限&quot;&gt;需要安卓的root权限&lt;/h3&gt;
-
-&lt;p&gt;*为非必需&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;adb连接手机*&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;打开安卓手机连接和adb客户端机器(安装有adb的机器)连接同一网络
-打开安卓手机的网络adb&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Android_adb.png&quot; alt=&quot;Android adb&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ adb connnect ip地址
-$ adb shell 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;下载rootfs&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;命令前缀表示命令执行环境&quot;&gt;命令前缀表示命令执行环境:&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ 代表adb客户端机器
-android $ 代表安卓普通用户终端
-android # 代表安卓root用户终端
-bash # 代表archlinux未初始化终端
-root@localhost # 代表chrootarchlinux终端
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;请使用archlinux源内最新rootfs链接替换&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/archlinuxarm/os/&quot;&gt;rootfs&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android $ su  # 切换安卓root终端
-android # cd /data  # 切换到data分区
-android # mkdir archlinux  # 创建安装目录
-android # cd archlinux 
-android # wget http://mirrors.ustc.edu.cn/archlinuxarm/os/ArchLinuxARM-armv7-latest.tar.gz  # 下载ubunturootfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ol&gt;
-  &lt;li&gt;解包rootfs&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux  # 切换到安装目录
-android # xz -d ArchLinuxARM*  # 解包rootfs
-android # tar xf ArchLinuxARM*  # 解包 rootfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;配置
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux/ 
-android # rm -rf /data/archlinux/dev/*  # 删除无用文件
-android # cp /etc/hosts /data/archlinux/etc/  # 复制安卓hosts文件
-android # cp /etc/resolv.conf /data/archlinux/etc/  # 复制配置文件 
-android # mount -o bind /dev/ dev  # 挂载dev 到rootfs
-android # mount -o bind /dev/pts dev/pts # 挂载dev/pts 到rootfs
-android # mount -o bind /sys/ sys   # 挂载sys到rootfs
-android # mount -o bind /proc/ proc  # 挂载proc到rootfs
-android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # unset LD_PRELOAD  # 取消当前终端 LD_PRELOAD 变量
-android # chroot /data/archlinux /bin/bash  # chroot 进入archlinux
-bash # source /etc/profile  # 初始化bash 会报cat命令错误(正常)
-root@localhost # useradd -s /bin/false -u 3003 -M aid_inet  # 添加aid_inet权限组
-root@localhost # useradd -s /bin/fasle -u 3004 -M aid_net_raw  # 添加aid_net_raw权限组
-root@localhost # groupmod -g 3003 aid_inet  # 改用户组guid
-root@localhost # groupmod -g 3004 aid_net_raw  # 改用户组guid
-root@localhost # usermod -G aid_inet root  # 将root用户添加至socket权限组
-root@localhost # usermod -G aid_net_raw root  # 将root用户添加至raw_socket权限组
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;更改root用户密码&quot;&gt;更改root用户密码&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # passwd
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;添加新用户&quot;&gt;添加新用户&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # adduser user # user换成用户名
-root@localhost # usermod -G aid_inet user # 使用户加入socket权限组
-root@localhost # usermod -G aid_net_raw user  # 使用户加入socket_raw权限组
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;如果你要使用需要套接字权限的应用程序&quot;&gt;如果你要使用需要套接字权限的应用程序&lt;/h2&gt;
-
-&lt;p&gt;你需要将运行用户添加至套接字权限组&lt;/p&gt;
-
-&lt;p&gt;例如:&lt;/p&gt;
-
-&lt;p&gt;xrdp:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet xrdp
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;mysql:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;usermod -G aid_inet mysql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;安装完成之后:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;创建启动脚本:
-使用androidroot权限shell执行&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux
-android # touch start.sh
-android # chmod 0755 start.sh
-android # echo '#!/system/bin/sh' &amp;gt;&amp;gt; start.sh 
-android # echo 'cd /data/archlinux' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /dev/ dev' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /dev/pts dev/pts' &amp;gt;&amp;gt; start.sh
-android # echo 'mount -o bind /sys/ sys' &amp;gt;&amp;gt; start.sh 
-android # echo 'mount -o bind /proc/ proc' &amp;gt;&amp;gt; start.sh
-android # echo 'unset LD_PRELOAD' &amp;gt;&amp;gt; start.sh 
-android # echo 'chroot /data/archlinux /bin/bash' &amp;gt;&amp;gt; start.sh 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;安装已完成&quot;&gt;安装已完成&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;使用archlinux&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;启动ssh:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/archlinux
-android # sh start.sh #警告 必须使用前缀sh执行否则会导致变量全局导致安卓系统死机 
-bash # source /etc/profile
-root@localhost # /etc/rc.d/rc.sshd start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;关闭系统并重启:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # reboot
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;当然可以为它安装vnc或者xrdp&quot;&gt;当然,可以为它安装vnc,或者xrdp.&lt;/h1&gt;
-
-&lt;h2 id=&quot;转载请注明&quot;&gt;转载请注明&lt;/h2&gt;
-
-&lt;h2 id=&quot;作者luhux&quot;&gt;作者:luhux&lt;/h2&gt;
-
-&lt;h2 id=&quot;邮箱-luhuxhotmailcom&quot;&gt;邮箱: luhux@hotmail.com&lt;/h2&gt;</content><author><name>luhux</name></author><category term="android" /><category term="archlinux" /><category term="linux" /><category term="arm" /><summary type="html">需要安卓的root权限</summary></entry><entry><title type="html">活在Emacs中exwm</title><link href="http://localhost:4000/2018/08/06/live-in-emacs.html" rel="alternate" type="text/html" title="活在Emacs中exwm" /><published>2018-08-06T00:00:00+08:00</published><updated>2018-08-06T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/06/live-in-emacs</id><content type="html" xml:base="http://localhost:4000/2018/08/06/live-in-emacs.html">&lt;ul&gt;
+&lt;p&gt;提示却少共享库请自行补全,或者拷贝rootfs里面的&lt;/p&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="ubuntu" /><category term="qemu" /><category term="proot" /><summary type="html">你可以使用这个办法测试你的代码是否可以在arm平台运行编译</summary></entry><entry><title type="html">活在Emacs中exwm</title><link href="http://localhost:4000/2018/08/06/live-in-emacs.html" rel="alternate" type="text/html" title="活在Emacs中exwm" /><published>2018-08-06T00:00:00+08:00</published><updated>2018-08-06T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/06/live-in-emacs</id><content type="html" xml:base="http://localhost:4000/2018/08/06/live-in-emacs.html">&lt;ul&gt;
   &lt;li&gt;环境: LINUX&lt;/li&gt;
   &lt;li&gt;软件: emacs&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;为Emacs加入MELPA源:&lt;/p&gt;
-
-&lt;p&gt;编辑 ~/.emacs 文件:&lt;/p&gt;
-
-&lt;p&gt;加入:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; melpa
-(require 'package)
-(add-to-list 'package-archives '(&quot;melpa&quot; . &quot;https://melpa.org/packages/&quot;))
-(add-to-list 'package-archives '(&quot;melpa-stable&quot; . &quot;https://stable.melpa.org/packages/&quot;))
-(package-initialize)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;exwmwiki:&lt;/p&gt;
+&lt;h3 id=&quot;exwmwiki&quot;&gt;exwmwiki:&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/ch11ng/exwm/wiki&quot;&gt;exwm&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;安装Emacs 窗口管理器 exwm:&lt;/p&gt;
+&lt;h2 id=&quot;安装exwm&quot;&gt;安装exwm&lt;/h2&gt;
 
-&lt;p&gt;M-x RET package-install RET exwm&lt;/p&gt;
+&lt;p&gt;M-x RET package-install RET exwm RET&lt;/p&gt;
 
-&lt;p&gt;启用exwm:&lt;/p&gt;
+&lt;h2 id=&quot;启用exwm&quot;&gt;启用exwm&lt;/h2&gt;
+
+&lt;p&gt;在emacsinit文件中添加:&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; Emacs is my windowsmanager 
 (require 'exwm)
 (require 'exwm-config)
@@ -563,70 +640,125 @@ root@localhost # /etc/rc.d/rc.sshd start
 
 &lt;p&gt;设置默认启动emacs作为窗口管理器:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp ~/.emacs.d/elpa/exwm*/xinitrc ~/.xinitrc  # 复制Exwm启动配置文件为默认使用x启动配置文件
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp ~/.emacs.d/elpa/exwm*/xinitrc ~/.xinitrc  # 复制exwm启动配置文件为默认使用xinit启动配置文件
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;启用中文输入法(可选):&lt;/p&gt;
+&lt;h2 id=&quot;配置&quot;&gt;配置&lt;/h2&gt;
+
+&lt;h3 id=&quot;为emacs启用中文输入法可选&quot;&gt;为emacs启用中文输入法(可选)&lt;/h3&gt;
+
+&lt;h4 id=&quot;emacs内置输入法&quot;&gt;emacs内置输入法&lt;/h4&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;拼音输入用户推荐使用pyim&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;你也可以在~/.xinitrc中加入你的系统输入法启动变量和命令&lt;/p&gt;
-&lt;/blockquote&gt;
-
 &lt;p&gt;在 ~/.emacs 文件中加入:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; Use Emacs build in chineseIME
-(setq default-input-method &quot;chinese-cns-tsangchi&quot;)  # 仓颉输入法 切换chinese-py为拼音输入法
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; buildin chineseIME
+(setq default-input-method &quot;chinese-cns-tsangchi&quot;)  # 仓颉输入法chinese-py为拼音输入法
 (global-set-key (kbd &quot;C-\\&quot;) 'toggle-input-method)  # 设置C-\切换输入法
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;启动exwm:&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;内置pinyin输入法词库很差,可以使用pyim代替&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;建议切换启动级别为init3&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;此输入法只能在emacs编辑区使用&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;login登录tty&lt;/p&gt;
+&lt;h4 id=&quot;配置fcitx输入法&quot;&gt;配置fcitx输入法&lt;/h4&gt;
 
+&lt;p&gt;在~/.xinitrc中加入&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;加在启动Emacs的命令之前&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#fcitx IME
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERs=@im=fcitx
+fcitx-autostart &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;启动exwm&quot;&gt;启动exwm:&lt;/h2&gt;
+
+&lt;p&gt;建议切换启动级别为init 3&lt;/p&gt;
+
+&lt;p&gt;tty登录普通用户&lt;/p&gt;
+
+&lt;p&gt;执行&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ startx
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Emacs没有报错说明启动成功&lt;/p&gt;
 
-&lt;p&gt;使用eshell来启动应用:&lt;/p&gt;
+&lt;p&gt;启动图形界面并启动exwm&lt;/p&gt;
 
-&lt;p&gt;M-x RET eshell RET&lt;/p&gt;
+&lt;h2 id=&quot;使用&quot;&gt;使用:&lt;/h2&gt;
 
-&lt;p&gt;启动firefox&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ firefox &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;关闭firefox
-关闭firefox的缓存区:&lt;/p&gt;
+&lt;p&gt;s键为super键&lt;/p&gt;
 
-&lt;p&gt;C-x k firefox RET&lt;/p&gt;
+&lt;p&gt;启动应用:&lt;/p&gt;
 
-&lt;p&gt;启动xfce4-terminal:&lt;/p&gt;
+&lt;p&gt;使用s-&amp;amp;并输入启动的x应用的命令&lt;/p&gt;
 
-&lt;p&gt;C-x b eshell RET&lt;/p&gt;
+&lt;h5 id=&quot;例如&quot;&gt;例如:&lt;/h5&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$xfce4-termianl &amp;amp;
+&lt;p&gt;启动xfce4-terminal&lt;/p&gt;
+
+&lt;p&gt;s-&amp;amp;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xfce4-termianl
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;可以使用Emacs的缓存区管理方式来管理启动的应用
-可以分割窗口(像平铺wm那样使用)&lt;/p&gt;
+  &lt;p&gt;可以使用Emacs的缓存区来管理启动的应用&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;h3 id=&quot;使用工作区&quot;&gt;使用工作区&lt;/h3&gt;
+
+&lt;p&gt;s-N&lt;/p&gt;
+
+&lt;p&gt;N为数字键,切换到指定工作区,如果工作区不存在,将会创建新的工作区&lt;/p&gt;
+
+&lt;p&gt;s-w&lt;/p&gt;
+
+&lt;p&gt;显示工作区列表并选择&lt;/p&gt;
+
+&lt;p&gt;C-c C-m&lt;/p&gt;
+
+&lt;p&gt;将正在使用的应用移动到其他工作区&lt;/p&gt;
+
+&lt;h3 id=&quot;快捷键冲突的解决&quot;&gt;快捷键冲突的解决&lt;/h3&gt;
+
+&lt;p&gt;默认应用启动于line-mode所以可以使用Emacs的快捷键对应用操作&lt;/p&gt;
+
+&lt;p&gt;遇到快捷键冲突可使用fullscreen mode来解决&lt;/p&gt;
+
+&lt;p&gt;C-c C-f&lt;/p&gt;
+
+&lt;p&gt;进入fullscreenmode&lt;/p&gt;
+
+&lt;p&gt;此时Emacs快截键在这个模式被禁用&lt;/p&gt;
+
+&lt;p&gt;返回line-mode:&lt;/p&gt;
+
+&lt;p&gt;s-r&lt;/p&gt;
+
+&lt;h2 id=&quot;问题解决&quot;&gt;问题解决&lt;/h2&gt;
 
 &lt;h3 id=&quot;firefox-显示不完全解决&quot;&gt;Firefox 显示不完全解决:&lt;/h3&gt;
 
 &lt;p&gt;启动firefox之后两次F11&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;如果不想使用鼠标,可以使用keynav辅助操作&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;h3 id=&quot;切换-fcitx-输入法按键&quot;&gt;切换 fcitx 输入法按键&lt;/h3&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;内置pinyin输入法词库很差,可以使用pyim代替&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;切换到无Emacs键位绑定位置&lt;/p&gt;
+
+&lt;p&gt;比如:&lt;/p&gt;
+
+&lt;p&gt;Ctrl + ‘&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacs-exwm.png&quot; alt=&quot;emacs-exwm&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="emacs" /><category term="linux" /><category term="keynav" /><summary type="html">环境: LINUX 软件: emacs</summary></entry><entry><title type="html">改变系统启动级别</title><link href="http://localhost:4000/2018/08/06/change-the-init.html" rel="alternate" type="text/html" title="改变系统启动级别" /><published>2018-08-06T00:00:00+08:00</published><updated>2018-08-06T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/06/change-the-init</id><content type="html" xml:base="http://localhost:4000/2018/08/06/change-the-init.html">&lt;p&gt;编辑/etc/inittab文件&lt;/p&gt;
 
@@ -736,150 +868,4 @@ exwm
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xfce4-terminal &amp;amp;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/exwm.png&quot; alt=&quot;exwm&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="emacs" /><category term="exwm" /><category term="keyborad" /><summary type="html">exwm</summary></entry><entry><title type="html">使用cpufrequtils查看调整cpu频率及模式</title><link href="http://localhost:4000/2018/08/03/use-cpufrequtils.html" rel="alternate" type="text/html" title="使用cpufrequtils查看调整cpu频率及模式" /><published>2018-08-03T00:00:00+08:00</published><updated>2018-08-03T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/03/use-cpufrequtils</id><content type="html" xml:base="http://localhost:4000/2018/08/03/use-cpufrequtils.html">&lt;p&gt;debian安装:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install cpufrequtils
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;使用:&lt;/p&gt;
-
-&lt;h3 id=&quot;cpufreq-info--查看当前cpu状态&quot;&gt;cpufreq-info  查看当前cpu状态&lt;/h3&gt;
-
-&lt;p&gt;参数:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;参数&lt;/th&gt;
-      &lt;th&gt;值&lt;/th&gt;
-      &lt;th&gt;说明&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-c&lt;/td&gt;
-      &lt;td&gt;CPU序号&lt;/td&gt;
-      &lt;td&gt;查看所指定cpu状态&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-f&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;查看cpu当前频率&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-l&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;查看cpu最高频率和最低频率&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-p&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;查看当前cpu模式&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-g&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;查看当前支持的CPU运行模式&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-m&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;带单位的输出&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;cpufreq-set-设置cpu模式及频率&quot;&gt;cpufreq-set 设置cpu模式及频率&lt;/h3&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;参数&lt;/th&gt;
-      &lt;th&gt;值&lt;/th&gt;
-      &lt;th&gt;说明&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-c&lt;/td&gt;
-      &lt;td&gt;CPU序号&lt;/td&gt;
-      &lt;td&gt;设置修改指定cpu&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-d&lt;/td&gt;
-      &lt;td&gt;频率&lt;/td&gt;
-      &lt;td&gt;设置cpu最小运行频率&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-u&lt;/td&gt;
-      &lt;td&gt;频率&lt;/td&gt;
-      &lt;td&gt;设置cpu最大运行频率&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-g&lt;/td&gt;
-      &lt;td&gt;模式&lt;/td&gt;
-      &lt;td&gt;设置cpu模式&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;频率支持单位:&lt;/p&gt;
-
-&lt;p&gt;Hz kHz MHz GHz&lt;/p&gt;
-
-&lt;p&gt;常用CPU模式:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;模式&lt;/th&gt;
-      &lt;th&gt;说明&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;powersave&lt;/td&gt;
-      &lt;td&gt;以最低频率运行cpu&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ondemand&lt;/td&gt;
-      &lt;td&gt;程序运行时切换cpu频率到最高,不使用时降低到最低&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;performance&lt;/td&gt;
-      &lt;td&gt;最高性能模式,以最高频率运行cpu&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;设置后会马上生效&lt;/p&gt;
-
-&lt;p&gt;重启后会失效&lt;/p&gt;
-
-&lt;p&gt;可以自己编辑/etc下的开机启动脚本设置开机自动调整CPU&lt;/p&gt;</content><author><name>luhux</name></author><category term="linux" /><category term="cpufreq" /><category term="cpu" /><summary type="html">debian安装:</summary></entry><entry><title type="html">slackware设置locale</title><link href="http://localhost:4000/2018/08/02/set-locale-slackware.html" rel="alternate" type="text/html" title="slackware设置locale" /><published>2018-08-02T00:00:00+08:00</published><updated>2018-08-02T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/02/set-locale-slackware</id><content type="html" xml:base="http://localhost:4000/2018/08/02/set-locale-slackware.html">&lt;p&gt;系统全局设置:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /etc/profile.d/lang.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;更改:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=en_US.UTF-8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;|
-  V&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;局部用户设置:&lt;/p&gt;
-
-&lt;p&gt;gui:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi ~/.xinitrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;加入:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;terminal:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi ~/.bashrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;加入&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LANG=zh_CN.utf8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>luhux</name></author><category term="slackware" /><category term="linux" /><category term="locale" /><summary type="html">系统全局设置:</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/exwm.png&quot; alt=&quot;exwm&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="emacs" /><category term="exwm" /><category term="keyborad" /><summary type="html">exwm</summary></entry></feed>

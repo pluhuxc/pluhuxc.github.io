@@ -3,20 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>使用安卓手机玩orangepi | LUHUX BLOG</title>
+<title>使用安卓手机玩raspberrypi | LUHUX BLOG</title>
 <meta name="generator" content="Jekyll v3.8.3" />
-<meta property="og:title" content="使用安卓手机玩orangepi" />
+<meta property="og:title" content="使用安卓手机玩raspberrypi" />
 <meta name="author" content="Luhux" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="建议认真读完整篇教程并动脑思考后再进行操作" />
 <meta property="og:description" content="建议认真读完整篇教程并动脑思考后再进行操作" />
-<link rel="canonical" href="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html" />
-<meta property="og:url" content="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html" />
+<link rel="canonical" href="http://localhost:4000/2018/08/10/androidphone-play-rpi.html" />
+<meta property="og:url" content="http://localhost:4000/2018/08/10/androidphone-play-rpi.html" />
 <meta property="og:site_name" content="LUHUX BLOG" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-08-09T00:00:00+08:00" />
+<meta property="article:published_time" content="2018-08-10T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"建议认真读完整篇教程并动脑思考后再进行操作","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html","headline":"使用安卓手机玩orangepi","dateModified":"2018-08-09T00:00:00+08:00","datePublished":"2018-08-09T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html"},"@context":"http://schema.org"}</script>
+{"description":"建议认真读完整篇教程并动脑思考后再进行操作","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"http://localhost:4000/2018/08/10/androidphone-play-rpi.html","headline":"使用安卓手机玩raspberrypi","dateModified":"2018-08-10T00:00:00+08:00","datePublished":"2018-08-10T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/10/androidphone-play-rpi.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LUHUX BLOG" /></head>
 <body><header class="site-header" role="banner">
@@ -39,9 +39,9 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">使用安卓手机玩orangepi</h1>
+    <h1 class="post-title p-name" itemprop="name headline">使用安卓手机玩raspberrypi</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2018-08-09T00:00:00+08:00" itemprop="datePublished">Aug 9, 2018
+      <time class="dt-published" datetime="2018-08-10T00:00:00+08:00" itemprop="datePublished">Aug 10, 2018
       </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Luhux</span></span></p>
   </header>
 
@@ -50,9 +50,9 @@
 
 <h3 id="硬件使用">硬件使用:</h3>
 
-<p>香橙派</p>
+<p>rapsberrypi</p>
 
-<p>DC供电线</p>
+<p>microusb供电线</p>
 
 <p>SD卡</p>
 
@@ -80,13 +80,17 @@
 
 <p>懂得相对路径和绝对路径</p>
 
+<p>会用Linux终端下任意一个及一个以上的编辑器</p>
+
+<p>懂得外置内存卡和内置内存卡的区别</p>
+
 <p>懂得dd 的用处以及误操作的后果</p>
 
 <p>会百度</p>
 
-<h2 id="下载armbian镜像">下载Armbian镜像:</h2>
+<h2 id="下载raspbian镜像">下载raspbian镜像:</h2>
 
-<p><a href="http://dl.armbian.com/">armbian</a></p>
+<p><a href="https://www.raspberrypi.org/downloads/raspbian/">raspbian</a></p>
 
 <p>下载完成后使用解压软件将下载的压缩包内的文件</p>
 
@@ -94,7 +98,7 @@
 
 <p>移动到/sdcard/</p>
 
-<p>并更名为Armbian.img</p>
+<p>并更名为raspbian.img</p>
 
 <h2 id="if-手机有内存卡插槽">if 手机有内存卡插槽:</h2>
 
@@ -123,8 +127,8 @@
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ su
  # ls /dev/mmcblk1  #确认目标设备文件是否存在
- # ls /sdcard/Armbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
+ # ls /sdcard/raspbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
 </code></pre></div></div>
 
 <ul>
@@ -140,6 +144,12 @@
 
 <ul>
   <li>
+    <p>重启手机</p>
+  </li>
+  <li>
+    <p>使用文件管理器在sd卡根目录创建ssh空文件</p>
+  </li>
+  <li>
     <p>手机关机</p>
   </li>
   <li>
@@ -149,7 +159,7 @@
     <p>手机开机</p>
   </li>
   <li>
-    <p>内存卡装入orangepi</p>
+    <p>内存卡装入raspberrypi</p>
   </li>
 </ul>
 
@@ -183,8 +193,8 @@
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ su
  # ls /dev/sda  #确认目标设备文件是否存在
- # ls /sdcard/Armbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/sda  #写入镜像到sd卡
+ # ls /sdcard/raspbian.img  #确认镜像文件是否存在
+ # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/sda  #写入镜像到sd卡
 </code></pre></div></div>
 
 <blockquote>
@@ -200,10 +210,19 @@
     <p>等待它写入完毕</p>
   </li>
   <li>
+    <p>重启手机</p>
+  </li>
+  <li>
+    <p>使用文件管理器在sd卡根目录创建ssh空文件</p>
+  </li>
+  <li>
+    <p>关闭手机</p>
+  </li>
+  <li>
     <p>取出内存卡</p>
   </li>
   <li>
-    <p>内存卡装入orangepi</p>
+    <p>内存卡装入raspberrypi</p>
   </li>
 </ul>
 
@@ -211,7 +230,7 @@
 
 <ul>
   <li>
-    <p>orangepi上电</p>
+    <p>raspberrypi上电</p>
   </li>
   <li>
     <p>并等待开机</p>
@@ -233,7 +252,7 @@
 </ul>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ su
-# busybox arp -a  # 查看orangepi ip
+# busybox arp -a  # 查看raspberrypi ip
 
 </code></pre></div></div>
 
@@ -249,19 +268,17 @@
 
 <p>端口: 22</p>
 
-<p>用户名: root</p>
+<p>用户名: pi</p>
 
-<p>密码: 1234</p>
+<p>密码: raspberry
+或: raspberrypi</p>
 
 <p>如果连接失败请检查连接,配置</p>
 
-<p>连接后对orangepi进行操作</p>
+<p>连接后对raspberrypi进行操作</p>
 
-<p>初始化完成后</p>
 
-<p>请根据自行设置账户连接</p>
-
-  </div><a class="u-url" href="/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html" hidden></a>
+  </div><a class="u-url" href="/2018/08/10/androidphone-play-rpi.html" hidden></a>
 </article>
 
       </div>

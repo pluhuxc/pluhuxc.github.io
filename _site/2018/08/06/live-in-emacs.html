@@ -16,12 +16,12 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-08-06T00:00:00+08:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","headline":"活在Emacs中exwm","dateModified":"2018-08-06T00:00:00+08:00","datePublished":"2018-08-06T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/06/live-in-emacs.html"},"url":"http://localhost:4000/2018/08/06/live-in-emacs.html","author":{"@type":"Person","name":"Luhux"},"description":"环境: LINUX 软件: emacs","@context":"http://schema.org"}</script>
+{"description":"环境: LINUX 软件: emacs","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"http://localhost:4000/2018/08/06/live-in-emacs.html","headline":"活在Emacs中exwm","dateModified":"2018-08-06T00:00:00+08:00","datePublished":"2018-08-06T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/06/live-in-emacs.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LUHUX | BLOG" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LUHUX BLOG" /></head>
 <body><header class="site-header" role="banner">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX | BLOG</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX BLOG</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -51,27 +51,18 @@
   <li>软件: emacs</li>
 </ul>
 
-<p>为Emacs加入MELPA源:</p>
-
-<p>编辑 ~/.emacs 文件:</p>
-
-<p>加入:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; melpa
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(package-initialize)
-</code></pre></div></div>
-<p>exwmwiki:</p>
+<h3 id="exwmwiki">exwmwiki:</h3>
 
 <p><a href="https://github.com/ch11ng/exwm/wiki">exwm</a></p>
 
-<p>安装Emacs 窗口管理器 exwm:</p>
+<h2 id="安装exwm">安装exwm</h2>
 
-<p>M-x RET package-install RET exwm</p>
+<p>M-x RET package-install RET exwm RET</p>
 
-<p>启用exwm:</p>
+<h2 id="启用exwm">启用exwm</h2>
+
+<p>在emacsinit文件中添加:</p>
+
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; Emacs is my windowsmanager 
 (require 'exwm)
 (require 'exwm-config)
@@ -80,70 +71,125 @@
 
 <p>设置默认启动emacs作为窗口管理器:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp ~/.emacs.d/elpa/exwm*/xinitrc ~/.xinitrc  # 复制Exwm启动配置文件为默认使用x启动配置文件
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp ~/.emacs.d/elpa/exwm*/xinitrc ~/.xinitrc  # 复制exwm启动配置文件为默认使用xinit启动配置文件
 </code></pre></div></div>
 
-<p>启用中文输入法(可选):</p>
+<h2 id="配置">配置</h2>
+
+<h3 id="为emacs启用中文输入法可选">为emacs启用中文输入法(可选)</h3>
+
+<h4 id="emacs内置输入法">emacs内置输入法</h4>
 
 <blockquote>
   <p>拼音输入用户推荐使用pyim</p>
 </blockquote>
 
-<blockquote>
-  <p>你也可以在~/.xinitrc中加入你的系统输入法启动变量和命令</p>
-</blockquote>
-
 <p>在 ~/.emacs 文件中加入:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; Use Emacs build in chineseIME
-(setq default-input-method "chinese-cns-tsangchi")  # 仓颉输入法 切换chinese-py为拼音输入法
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; buildin chineseIME
+(setq default-input-method "chinese-cns-tsangchi")  # 仓颉输入法chinese-py为拼音输入法
 (global-set-key (kbd "C-\\") 'toggle-input-method)  # 设置C-\切换输入法
 </code></pre></div></div>
-<p>启动exwm:</p>
+<blockquote>
+  <p>内置pinyin输入法词库很差,可以使用pyim代替</p>
+</blockquote>
 
-<p>建议切换启动级别为init3</p>
+<blockquote>
+  <p>此输入法只能在emacs编辑区使用</p>
+</blockquote>
 
-<p>login登录tty</p>
+<h4 id="配置fcitx输入法">配置fcitx输入法</h4>
 
+<p>在~/.xinitrc中加入</p>
+
+<blockquote>
+  <p>加在启动Emacs的命令之前</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#fcitx IME
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERs=@im=fcitx
+fcitx-autostart &amp;
+</code></pre></div></div>
+
+<h2 id="启动exwm">启动exwm:</h2>
+
+<p>建议切换启动级别为init 3</p>
+
+<p>tty登录普通用户</p>
+
+<p>执行</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ startx
 </code></pre></div></div>
-<p>Emacs没有报错说明启动成功</p>
 
-<p>使用eshell来启动应用:</p>
+<p>启动图形界面并启动exwm</p>
 
-<p>M-x RET eshell RET</p>
+<h2 id="使用">使用:</h2>
 
-<p>启动firefox</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ firefox &amp;
-</code></pre></div></div>
-<p>关闭firefox
-关闭firefox的缓存区:</p>
+<p>s键为super键</p>
 
-<p>C-x k firefox RET</p>
+<p>启动应用:</p>
 
-<p>启动xfce4-terminal:</p>
+<p>使用s-&amp;并输入启动的x应用的命令</p>
 
-<p>C-x b eshell RET</p>
+<h5 id="例如">例如:</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$xfce4-termianl &amp;
+<p>启动xfce4-terminal</p>
+
+<p>s-&amp;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ xfce4-termianl
 </code></pre></div></div>
 
 <blockquote>
-  <p>可以使用Emacs的缓存区管理方式来管理启动的应用
-可以分割窗口(像平铺wm那样使用)</p>
+  <p>可以使用Emacs的缓存区来管理启动的应用</p>
 </blockquote>
+
+<h3 id="使用工作区">使用工作区</h3>
+
+<p>s-N</p>
+
+<p>N为数字键,切换到指定工作区,如果工作区不存在,将会创建新的工作区</p>
+
+<p>s-w</p>
+
+<p>显示工作区列表并选择</p>
+
+<p>C-c C-m</p>
+
+<p>将正在使用的应用移动到其他工作区</p>
+
+<h3 id="快捷键冲突的解决">快捷键冲突的解决</h3>
+
+<p>默认应用启动于line-mode所以可以使用Emacs的快捷键对应用操作</p>
+
+<p>遇到快捷键冲突可使用fullscreen mode来解决</p>
+
+<p>C-c C-f</p>
+
+<p>进入fullscreenmode</p>
+
+<p>此时Emacs快截键在这个模式被禁用</p>
+
+<p>返回line-mode:</p>
+
+<p>s-r</p>
+
+<h2 id="问题解决">问题解决</h2>
 
 <h3 id="firefox-显示不完全解决">Firefox 显示不完全解决:</h3>
 
 <p>启动firefox之后两次F11</p>
 
-<blockquote>
-  <p>如果不想使用鼠标,可以使用keynav辅助操作</p>
-</blockquote>
+<h3 id="切换-fcitx-输入法按键">切换 fcitx 输入法按键</h3>
 
-<blockquote>
-  <p>内置pinyin输入法词库很差,可以使用pyim代替</p>
-</blockquote>
+<p>切换到无Emacs键位绑定位置</p>
+
+<p>比如:</p>
+
+<p>Ctrl + ‘</p>
 
 <p><img src="https://raw.githubusercontent.com/luhux/images/master/Emacs-exwm.png" alt="emacs-exwm" /></p>
 
@@ -156,12 +202,12 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">LUHUX | BLOG</h2>
+    <h2 class="footer-heading">LUHUX BLOG</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">LUHUX | BLOG</li><li><a class="u-email" href="mailto:luhux@hotmail.com">luhux@hotmail.com</a></li></ul>
+          <li class="p-name">LUHUX BLOG</li><li><a class="u-email" href="mailto:luhux@hotmail.com">luhux@hotmail.com</a></li></ul>
       </div>
 
       <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/luhux"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">luhux</span></a></li></ul>
