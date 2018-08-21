@@ -1,4 +1,211 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-19T11:53:39+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">为Emacs配置clisp</title><link href="http://localhost:4000/2018/08/15/modern-common-lisp-on-linux.html" rel="alternate" type="text/html" title="为Emacs配置clisp" /><published>2018-08-15T00:00:00+08:00</published><updated>2018-08-15T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/15/modern-common-lisp-on-linux</id><content type="html" xml:base="http://localhost:4000/2018/08/15/modern-common-lisp-on-linux.html">&lt;p&gt;&lt;a href=&quot;http://www.jonathanfischer.net/modern-common-lisp-on-linux/&quot;&gt;modern-common-lisp-on-linux&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-21T10:56:11+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">使用wpa_supplicant手动配置连接wifi</title><link href="http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi.html" rel="alternate" type="text/html" title="使用wpa_supplicant手动配置连接wifi" /><published>2018-08-19T00:00:00+08:00</published><updated>2018-08-19T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi</id><content type="html" xml:base="http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi.html">&lt;p&gt;使用前请卸载掉NetowrkManager,wicd等网络管理工具&lt;/p&gt;
+
+&lt;h2 id=&quot;wpa配置生成器创建框架&quot;&gt;wpa配置生成器创建框架&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wpa_passphrase &quot;&amp;lt;wifi_ssid&amp;gt;&quot; &quot;&amp;lt;password&amp;gt;&quot; &amp;gt;&amp;gt; /etc/wpa_supplicant.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&amp;lt;wifi_ssid&amp;gt;为wifi名&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&amp;lt;password&amp;gt; 为密码&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&amp;gt;&amp;gt; /etc/wpa_supplicant.conf 为将输出追加至/etc/wpa_supplicant.conf&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;例如:
+wifi名: Tenda_80211&lt;/p&gt;
+
+&lt;p&gt;密码: I love linux&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wpa_passphase &quot;Tenda_80211&quot; &quot;I love linux&quot; &amp;gt;&amp;gt; /etc/wpa_suppliant.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;修改配置&quot;&gt;修改配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nano /etc/wpa_supplicant.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;找到以下行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;network={
+	ssid=&quot;wifi_ssid&quot;
+	#psk=&quot;密吗&quot;
+	psk=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;例子:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;network={
+	ssid=&quot;Tenda_80211&quot;  # wifi名
+	#psk=&quot;I love linux&quot;  # 密码
+	psk=01d37dde39f4cdca60863afeb133f5f6b892ca45dd9c190586bea58141260274  # 加密后的密码
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;ssid=”” 为要连接的ssid&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;psk=”” 为wifi密码 可选加密后也可明文&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;如果不想泄漏wifi密码则&quot;&gt;如果不想泄漏wifi密码则:&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;删除明文密码行&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对配置文件设置 0600 权限&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;连接隐藏ssid的wfi&quot;&gt;*连接隐藏ssid的wfi&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;network={
+	ssid=&quot;Tenda_80211&quot;
+	#psk=&quot;I love linux&quot;
+	psk=01d37dde39f4cdca60863afeb133f5f6b892ca45dd9c190586bea58141260274
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;加入:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	scan_ssid=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;就像这样:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;network={
+	ssid=&quot;Tenda_80211&quot;
+	scan_ssid=1
+	#psk=&quot;I love linux&quot;
+	psk=01d37dde39f4cdca60863afeb133f5f6b892ca45dd9c190586bea58141260274
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;修改完成后保存&quot;&gt;修改完成后保存&lt;/h1&gt;
+
+&lt;h2 id=&quot;测试连接配置&quot;&gt;测试连接配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ifconfig wlan0 up
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;开启网卡&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wpa_supplicant -D nl80211 -i wlan0 -c /etc/wpa_supplicant.conf &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;-D 指定网卡驱动可为: nl80211 wext&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;-i 指定网卡&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;-c 指定配置文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&amp;amp; 挂起在后台&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;dhcp&quot;&gt;dhcp:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# dhclient
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;dhcp获取ip地址&lt;/p&gt;
+
+&lt;h3 id=&quot;如果静态ip请&quot;&gt;如果静态ip请:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ifconfig wlan0 192.168.1.119 netmask 255.255.255.0
+# route add default gw 192.168.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;自行更改:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;192.168.1.119 为要设置的静态ip&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;255.255.255.0 为要设置的子网掩码&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;192.168.1.1 为要设置的网关&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;无法上网请自行更改dns&lt;/p&gt;
+
+&lt;h2 id=&quot;如果无法连接&quot;&gt;如果无法连接:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;kill 掉 wpa_supplicant 和 dhclient 的进程 以重新测试&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查网卡名&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查配置文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;-D更换驱动&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;测试完成后&quot;&gt;测试完成后:&lt;/h2&gt;
+
+&lt;p&gt;加入开机脚本:&lt;/p&gt;
+
+&lt;p&gt;rc.local:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# touch /etc/rc.local
+# chmod +x /etc/rc.local
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果脚本为空:&lt;/p&gt;
+
+&lt;p&gt;加入:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;写入开机连接命令&quot;&gt;写入开机连接命令&lt;/h3&gt;
+
+&lt;p&gt;在exit 0之前写&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig wlan0 up
+wpa_supplicant -B -D nl80211 -i wlan0 -c /etc/wpa_supplicant.conf
+dhclient 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-B 参数为后台Daemon运行&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;命令请自行更改为测试通过的命令&lt;/p&gt;
+
+&lt;p&gt;重启:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ifconfig 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;查看ip&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ping www.baidu.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;查看是否可以联网&lt;/p&gt;</content><author><name>luhux</name></author><category term="wpa_supplicant" /><category term="wifi" /><category term="network" /><category term="linux" /><summary type="html">使用前请卸载掉NetowrkManager,wicd等网络管理工具</summary></entry><entry><title type="html">为Emacs配置clisp</title><link href="http://localhost:4000/2018/08/15/modern-common-lisp-on-linux.html" rel="alternate" type="text/html" title="为Emacs配置clisp" /><published>2018-08-15T00:00:00+08:00</published><updated>2018-08-15T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/15/modern-common-lisp-on-linux</id><content type="html" xml:base="http://localhost:4000/2018/08/15/modern-common-lisp-on-linux.html">&lt;p&gt;&lt;a href=&quot;http://www.jonathanfischer.net/modern-common-lisp-on-linux/&quot;&gt;modern-common-lisp-on-linux&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;安装sbcl&quot;&gt;安装sbcl:&lt;/h2&gt;
 
@@ -831,41 +1038,4 @@ id:4:initdefault:
 
 &lt;p&gt;这输入法真快&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacs-buildin-im.png&quot; alt=&quot;EmacsBuildinchineseim&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="emacs" /><category term="im" /><category term="chinese" /><summary type="html">在Emacs 中发现了内建中文输入法</summary></entry><entry><title type="html">使用exwm窗口管理器</title><link href="http://localhost:4000/2018/08/04/use-exwm.html" rel="alternate" type="text/html" title="使用exwm窗口管理器" /><published>2018-08-04T00:00:00+08:00</published><updated>2018-08-04T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/04/use-exwm</id><content type="html" xml:base="http://localhost:4000/2018/08/04/use-exwm.html">&lt;p&gt;&lt;a href=&quot;https://github.com/ch11ng/exwm/wiki&quot;&gt;exwm&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;安装:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ emacs 
-M-x 
-package-install
-exwm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;在emacsinit文件加入：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(require 'exwm)
-(require 'exwm-config)
-(exwm-config-default)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;复制启动文件:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp ./emacs.d/elpa/exwm*/xinitrc ~/.xinitrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;启动:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ startx
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;启动eshell以执行以下命令:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x eshell
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;在exwm中打开浏览器:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ firefox &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;打开终端&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xfce4-terminal &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/exwm.png&quot; alt=&quot;exwm&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="emacs" /><category term="exwm" /><category term="keyborad" /><summary type="html">exwm</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacs-buildin-im.png&quot; alt=&quot;EmacsBuildinchineseim&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="emacs" /><category term="im" /><category term="chinese" /><summary type="html">在Emacs 中发现了内建中文输入法</summary></entry></feed>
