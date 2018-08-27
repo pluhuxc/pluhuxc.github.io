@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-21T10:56:11+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">使用wpa_supplicant手动配置连接wifi</title><link href="http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi.html" rel="alternate" type="text/html" title="使用wpa_supplicant手动配置连接wifi" /><published>2018-08-19T00:00:00+08:00</published><updated>2018-08-19T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi</id><content type="html" xml:base="http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi.html">&lt;p&gt;使用前请卸载掉NetowrkManager,wicd等网络管理工具&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-27T11:07:10+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">为EXWM添加lxpanel</title><link href="http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm.html" rel="alternate" type="text/html" title="为EXWM添加lxpanel" /><published>2018-08-21T00:00:00+08:00</published><updated>2018-08-21T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm</id><content type="html" xml:base="http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm.html">&lt;p&gt;只有emacs的窗口管理方式效轳很低&lt;/p&gt;
+
+&lt;h2 id=&quot;安装lxpanel&quot;&gt;安装lxpanel&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install lxpanel -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;添加自启&quot;&gt;添加自启&lt;/h2&gt;
+
+&lt;p&gt;在~/.xinitrc中的启动emacs命令前添加:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# lxpanel
+lxpanel &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/exwm-and-lxpanel.png&quot; alt=&quot;exwm-and-lxpanel&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="lxde" /><category term="exwm" /><category term="linux" /><category term="emacs" /><summary type="html">只有emacs的窗口管理方式效轳很低</summary></entry><entry><title type="html">Emacs调拼输入法</title><link href="http://localhost:4000/2018/08/20/tiaopin.html" rel="alternate" type="text/html" title="Emacs调拼输入法" /><published>2018-08-20T00:00:00+08:00</published><updated>2018-08-20T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/20/tiaopin</id><content type="html" xml:base="http://localhost:4000/2018/08/20/tiaopin.html">&lt;p&gt;chinese-tonepy&lt;/p&gt;
+
+&lt;p&gt;切换:&lt;/p&gt;
+
+&lt;p&gt;C-x RET C-\ chinese-tonepy RET&lt;/p&gt;
+
+&lt;p&gt;使用:&lt;/p&gt;
+
+&lt;p&gt;在切换到中文输入后:
+先打出拼音,再敲1-5的声调&lt;/p&gt;
+
+&lt;p&gt;比如:&lt;/p&gt;
+
+&lt;p&gt;呵&lt;/p&gt;
+
+&lt;p&gt;先打出he
+因为是1声所以打1
+接下来选侯选字&lt;/p&gt;</content><author><name>Luhux</name></author><category term="Emacs" /><category term="pinyin" /><category term="chineseIME" /><summary type="html">chinese-tonepy</summary></entry><entry><title type="html">使用wpa_supplicant手动配置连接wifi</title><link href="http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi.html" rel="alternate" type="text/html" title="使用wpa_supplicant手动配置连接wifi" /><published>2018-08-19T00:00:00+08:00</published><updated>2018-08-19T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi</id><content type="html" xml:base="http://localhost:4000/2018/08/19/use-wpa_supplicant-connect-wifi.html">&lt;p&gt;使用前请卸载掉NetowrkManager,wicd等网络管理工具&lt;/p&gt;
 
 &lt;h2 id=&quot;wpa配置生成器创建框架&quot;&gt;wpa配置生成器创建框架&lt;/h2&gt;
 
@@ -967,75 +998,4 @@ fcitx-autostart &amp;amp;
 
 &lt;p&gt;Ctrl + ‘&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacs-exwm.png&quot; alt=&quot;emacs-exwm&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="emacs" /><category term="linux" /><category term="keynav" /><summary type="html">环境: LINUX 软件: emacs</summary></entry><entry><title type="html">改变系统启动级别</title><link href="http://localhost:4000/2018/08/06/change-the-init.html" rel="alternate" type="text/html" title="改变系统启动级别" /><published>2018-08-06T00:00:00+08:00</published><updated>2018-08-06T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/06/change-the-init</id><content type="html" xml:base="http://localhost:4000/2018/08/06/change-the-init.html">&lt;p&gt;编辑/etc/inittab文件&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Default runlevel. (Do not set to 0 or 6)
-id:3:initdefault:
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;id:num:initdefault:中的num表示默认运行级别&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;修改开机默认模式请修改num为以下数字:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;num&lt;/th&gt;
-      &lt;th&gt;描述&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;单用户模式&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;2&lt;/td&gt;
-      &lt;td&gt;未设定模式,与3模式相同&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;多用户名令行模式, 默认不开机自启图形请选择&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;4&lt;/td&gt;
-      &lt;td&gt;登录管理器模式,默认开机自启图形请选择&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;5&lt;/td&gt;
-      &lt;td&gt;空模式,与3模式相同&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;例如:&lt;/p&gt;
-
-&lt;p&gt;开机自动进入TTY:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Default runlevel. (Do not set to 0 or 6)
-id:3:initdefault:
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;开机自动进入登录管理器:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Default runlevel. (Do not set to 0 or 6)
-id:4:initdefault:
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;修改保存&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="inittab" /><category term="gui" /><category term="tty" /><category term="termianl" /><summary type="html">编辑/etc/inittab文件</summary></entry><entry><title type="html">Emacs使用内置中文输入法</title><link href="http://localhost:4000/2018/08/05/emacs-buildin-chinese-im.html" rel="alternate" type="text/html" title="Emacs使用内置中文输入法" /><published>2018-08-05T00:00:00+08:00</published><updated>2018-08-05T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/05/emacs-buildin-chinese-im</id><content type="html" xml:base="http://localhost:4000/2018/08/05/emacs-buildin-chinese-im.html">&lt;p&gt;在Emacs 中发现了内建中文输入法&lt;/p&gt;
-
-&lt;p&gt;比pyim流畅很多.&lt;/p&gt;
-
-&lt;p&gt;启用:
-在emacsinit文件加入:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(setq default-input-method &quot;chinese-py&quot;)
-;; chinese-py为拼音输入法
-(global-set-key (kbd &quot;C-\\&quot;) 'toggle-input-method)
-;; C - \ 切换至中文输入模式
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;这输入法真快&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacs-buildin-im.png&quot; alt=&quot;EmacsBuildinchineseim&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="emacs" /><category term="im" /><category term="chinese" /><summary type="html">在Emacs 中发现了内建中文输入法</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacs-exwm.png&quot; alt=&quot;emacs-exwm&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="emacs" /><category term="linux" /><category term="keynav" /><summary type="html">环境: LINUX 软件: emacs</summary></entry></feed>
