@@ -1,4 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-27T11:07:10+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">为EXWM添加lxpanel</title><link href="http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm.html" rel="alternate" type="text/html" title="为EXWM添加lxpanel" /><published>2018-08-21T00:00:00+08:00</published><updated>2018-08-21T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm</id><content type="html" xml:base="http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm.html">&lt;p&gt;只有emacs的窗口管理方式效轳很低&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-03T09:08:15+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">debian系Linux的gpg密钥问题解决</title><link href="http://localhost:4000/2018/09/03/gpg-debian.html" rel="alternate" type="text/html" title="debian系Linux的gpg密钥问题解决" /><published>2018-09-03T00:00:00+08:00</published><updated>2018-09-03T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/03/gpg-debian</id><content type="html" xml:base="http://localhost:4000/2018/09/03/gpg-debian.html">&lt;p&gt;apt update 提示gpg错误的解决方法&lt;/p&gt;
+
+&lt;p&gt;下载新gpg并更新：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/debian/pool/main/d/debian-archive-keyring/&quot;&gt;debian&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;找到并下载最新的密钥安装包&lt;/p&gt;
+
+&lt;p&gt;下载。&lt;/p&gt;
+
+&lt;p&gt;使用dpkg -i 文件名 安装安装包&lt;/p&gt;
+
+&lt;p&gt;解决&lt;/p&gt;
+
+&lt;p&gt;如果为ubuntu就去ubuntu源里面下载安装：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/ubuntu-ports/pool/main/u/ubuntu-keyring/&quot;&gt;ubuntu&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;其他发行:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/kali/pool/main/k/kali-archive-keyring/&quot;&gt;kali&lt;/a&gt;
+&lt;a href=&quot;http://mirrors.ustc.edu.cn/parrot/pool/main/p/parrot-archive-keyring/&quot;&gt;parrot&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;如果你想使用其他基于debian的发行的源安装工具你可以添加源后添加密钥使用他们&lt;/p&gt;
+
+&lt;p&gt;如果你为arm请不要使用不匹配当前发行的debian发行源进行 apt upgrade 请安装工具后禁用源&lt;/p&gt;
+
+&lt;p&gt;参考:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://parrotsec-cn.org/t/debian-parrot/578&quot;&gt;debian变异成parrotsec&lt;/a&gt;&lt;/p&gt;</content><author><name>luhux</name></author><category term="Linux" /><category term="debian" /><category term="parrot" /><category term="ubuntu" /><category term="kali" /><summary type="html">apt update 提示gpg错误的解决方法</summary></entry><entry><title type="html">为EXWM添加lxpanel</title><link href="http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm.html" rel="alternate" type="text/html" title="为EXWM添加lxpanel" /><published>2018-08-21T00:00:00+08:00</published><updated>2018-08-21T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm</id><content type="html" xml:base="http://localhost:4000/2018/08/21/lxpanel-lxapp-exwm.html">&lt;p&gt;只有emacs的窗口管理方式效轳很低&lt;/p&gt;
 
 &lt;h2 id=&quot;安装lxpanel&quot;&gt;安装lxpanel&lt;/h2&gt;
 
@@ -853,149 +882,4 @@ root@localhost #
 
 &lt;p&gt;编译完成后把编译完成的二进制库文件等拷贝到板子上就可以使用&lt;/p&gt;
 
-&lt;p&gt;提示却少共享库请自行补全,或者拷贝rootfs里面的&lt;/p&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="ubuntu" /><category term="qemu" /><category term="proot" /><summary type="html">你可以使用这个办法测试你的代码是否可以在arm平台运行编译</summary></entry><entry><title type="html">活在Emacs中exwm</title><link href="http://localhost:4000/2018/08/06/live-in-emacs.html" rel="alternate" type="text/html" title="活在Emacs中exwm" /><published>2018-08-06T00:00:00+08:00</published><updated>2018-08-06T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/06/live-in-emacs</id><content type="html" xml:base="http://localhost:4000/2018/08/06/live-in-emacs.html">&lt;ul&gt;
-  &lt;li&gt;环境: LINUX&lt;/li&gt;
-  &lt;li&gt;软件: emacs&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;exwmwiki&quot;&gt;exwmwiki:&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/ch11ng/exwm/wiki&quot;&gt;exwm&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;安装exwm&quot;&gt;安装exwm&lt;/h2&gt;
-
-&lt;p&gt;M-x RET package-install RET exwm RET&lt;/p&gt;
-
-&lt;h2 id=&quot;启用exwm&quot;&gt;启用exwm&lt;/h2&gt;
-
-&lt;p&gt;在emacsinit文件中添加:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; Emacs is my windowsmanager 
-(require 'exwm)
-(require 'exwm-config)
-(exwm-config-default)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;设置默认启动emacs作为窗口管理器:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp ~/.emacs.d/elpa/exwm*/xinitrc ~/.xinitrc  # 复制exwm启动配置文件为默认使用xinit启动配置文件
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;配置&quot;&gt;配置&lt;/h2&gt;
-
-&lt;h3 id=&quot;为emacs启用中文输入法可选&quot;&gt;为emacs启用中文输入法(可选)&lt;/h3&gt;
-
-&lt;h4 id=&quot;emacs内置输入法&quot;&gt;emacs内置输入法&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;拼音输入用户推荐使用pyim&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;在 ~/.emacs 文件中加入:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; buildin chineseIME
-(setq default-input-method &quot;chinese-cns-tsangchi&quot;)  # 仓颉输入法chinese-py为拼音输入法
-(global-set-key (kbd &quot;C-\\&quot;) 'toggle-input-method)  # 设置C-\切换输入法
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;内置pinyin输入法词库很差,可以使用pyim代替&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;此输入法只能在emacs编辑区使用&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;配置fcitx输入法&quot;&gt;配置fcitx输入法&lt;/h4&gt;
-
-&lt;p&gt;在~/.xinitrc中加入&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;加在启动Emacs的命令之前&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#fcitx IME
-
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERs=@im=fcitx
-fcitx-autostart &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;启动exwm&quot;&gt;启动exwm:&lt;/h2&gt;
-
-&lt;p&gt;建议切换启动级别为init 3&lt;/p&gt;
-
-&lt;p&gt;tty登录普通用户&lt;/p&gt;
-
-&lt;p&gt;执行&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ startx
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;启动图形界面并启动exwm&lt;/p&gt;
-
-&lt;h2 id=&quot;使用&quot;&gt;使用:&lt;/h2&gt;
-
-&lt;p&gt;s键为super键&lt;/p&gt;
-
-&lt;p&gt;启动应用:&lt;/p&gt;
-
-&lt;p&gt;使用s-&amp;amp;并输入启动的x应用的命令&lt;/p&gt;
-
-&lt;h5 id=&quot;例如&quot;&gt;例如:&lt;/h5&gt;
-
-&lt;p&gt;启动xfce4-terminal&lt;/p&gt;
-
-&lt;p&gt;s-&amp;amp;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ xfce4-termianl
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;可以使用Emacs的缓存区来管理启动的应用&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;使用工作区&quot;&gt;使用工作区&lt;/h3&gt;
-
-&lt;p&gt;s-N&lt;/p&gt;
-
-&lt;p&gt;N为数字键,切换到指定工作区,如果工作区不存在,将会创建新的工作区&lt;/p&gt;
-
-&lt;p&gt;s-w&lt;/p&gt;
-
-&lt;p&gt;显示工作区列表并选择&lt;/p&gt;
-
-&lt;p&gt;C-c C-m&lt;/p&gt;
-
-&lt;p&gt;将正在使用的应用移动到其他工作区&lt;/p&gt;
-
-&lt;h3 id=&quot;快捷键冲突的解决&quot;&gt;快捷键冲突的解决&lt;/h3&gt;
-
-&lt;p&gt;默认应用启动于line-mode所以可以使用Emacs的快捷键对应用操作&lt;/p&gt;
-
-&lt;p&gt;遇到快捷键冲突可使用fullscreen mode来解决&lt;/p&gt;
-
-&lt;p&gt;C-c C-f&lt;/p&gt;
-
-&lt;p&gt;进入fullscreenmode&lt;/p&gt;
-
-&lt;p&gt;此时Emacs快截键在这个模式被禁用&lt;/p&gt;
-
-&lt;p&gt;返回line-mode:&lt;/p&gt;
-
-&lt;p&gt;s-r&lt;/p&gt;
-
-&lt;h2 id=&quot;问题解决&quot;&gt;问题解决&lt;/h2&gt;
-
-&lt;h3 id=&quot;firefox-显示不完全解决&quot;&gt;Firefox 显示不完全解决:&lt;/h3&gt;
-
-&lt;p&gt;启动firefox之后两次F11&lt;/p&gt;
-
-&lt;h3 id=&quot;切换-fcitx-输入法按键&quot;&gt;切换 fcitx 输入法按键&lt;/h3&gt;
-
-&lt;p&gt;切换到无Emacs键位绑定位置&lt;/p&gt;
-
-&lt;p&gt;比如:&lt;/p&gt;
-
-&lt;p&gt;Ctrl + ‘&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Emacs-exwm.png&quot; alt=&quot;emacs-exwm&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="emacs" /><category term="linux" /><category term="keynav" /><summary type="html">环境: LINUX 软件: emacs</summary></entry></feed>
+&lt;p&gt;提示却少共享库请自行补全,或者拷贝rootfs里面的&lt;/p&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="ubuntu" /><category term="qemu" /><category term="proot" /><summary type="html">你可以使用这个办法测试你的代码是否可以在arm平台运行编译</summary></entry></feed>
