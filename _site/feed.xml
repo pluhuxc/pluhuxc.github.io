@@ -1,4 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-03T09:08:15+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">debian系Linux的gpg密钥问题解决</title><link href="http://localhost:4000/2018/09/03/gpg-debian.html" rel="alternate" type="text/html" title="debian系Linux的gpg密钥问题解决" /><published>2018-09-03T00:00:00+08:00</published><updated>2018-09-03T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/03/gpg-debian</id><content type="html" xml:base="http://localhost:4000/2018/09/03/gpg-debian.html">&lt;p&gt;apt update 提示gpg错误的解决方法&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-10T13:57:24+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">使用ssh x11转发连接linux图形</title><link href="http://localhost:4000/2018/09/10/use-ssh-x11-forward.html" rel="alternate" type="text/html" title="使用ssh x11转发连接linux图形" /><published>2018-09-10T00:00:00+08:00</published><updated>2018-09-10T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/10/use-ssh-x11-forward</id><content type="html" xml:base="http://localhost:4000/2018/09/10/use-ssh-x11-forward.html">&lt;p&gt;ssh服务器： Ubuntu bionic armv7l 无图形&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;shell标识: user@Ubuntu&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;ssh客户端:  Debian strech armv7l 已经开启图形&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;shell标识: user@Debian&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;连接到ssh服务器上&quot;&gt;连接到ssh服务器上：&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Debian@debian $ ssh ubuntu@192.168.1.100
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;修改ssh配置文件&quot;&gt;修改ssh配置文件:&lt;/h2&gt;
+
+&lt;p&gt;打开配置文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@Ubuntu # vim /etc/ssh/sshd_config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;找到下面内容所在行并修改为:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AllowTcpForwarding yes
+X11Forwarding yes
+X11DisplayOffset 10
+X11UseLocalhost no
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;重启ssh服务&quot;&gt;重启ssh服务&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@Ubuntu # service ssh restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;安装xauth&quot;&gt;安装xauth&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@ubuntu # apt install xauth
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;如果x程序中有中文请安装中文字体&quot;&gt;如果x程序中有中文请安装中文字体&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@Ubuntu # apt install ttf-wqy-zenhei
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;客户端配置&quot;&gt;客户端配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@Debian # vim /etc/ssh/ssh_config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;找到下列行并修改为默认为下列行:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;   ForwardX11 yes
+   ForwardX11Trusted yes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;初始化xauth&quot;&gt;初始化xauth&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;debian@Debian $ ssh -X ubuntu@192.168.1.100
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;登录进去后执行exit退出&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;debian@Debian $ ssh -X ubuntu@192.168.1.100
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;登录进去后执行exit退出&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;执行两次是为了创建默认的xauth需要的配置文件&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;以后的使用&quot;&gt;以后的使用&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;debian@Debian $ xhost +  # 允许任意访问x服务的连接
+debian@Debian $ ssh -X ubuntu@192.168.100
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;登录后:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ubuntu@Ubuntu $ firefox   #通过ssh转发到debian机的x服务开启firefox浏览器
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;x服务非常耗费网络，至少我上下行10m/s 没有很流畅使用firefox浏览网页&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;ssh断开 ，x服务也会跟着断开&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="ssh" /><category term="x11" /><category term="network" /><category term="display" /><summary type="html">ssh服务器： Ubuntu bionic armv7l 无图形</summary></entry><entry><title type="html">debian系Linux的gpg密钥问题解决</title><link href="http://localhost:4000/2018/09/03/gpg-debian.html" rel="alternate" type="text/html" title="debian系Linux的gpg密钥问题解决" /><published>2018-09-03T00:00:00+08:00</published><updated>2018-09-03T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/03/gpg-debian</id><content type="html" xml:base="http://localhost:4000/2018/09/03/gpg-debian.html">&lt;p&gt;apt update 提示gpg错误的解决方法&lt;/p&gt;
 
 &lt;p&gt;下载新gpg并更新：&lt;/p&gt;
 
@@ -820,66 +910,4 @@ no input file
 
 &lt;p&gt;初始化完成后&lt;/p&gt;
 
-&lt;p&gt;请根据自行设置账户连接&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry><entry><title type="html">搭建一个proot环境来交叉编译</title><link href="http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile.html" rel="alternate" type="text/html" title="搭建一个proot环境来交叉编译" /><published>2018-08-07T00:00:00+08:00</published><updated>2018-08-07T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile</id><content type="html" xml:base="http://localhost:4000/2018/08/07/make-a-proot-to-crosscompile.html">&lt;blockquote&gt;
-  &lt;p&gt;你可以使用这个办法测试你的代码是否可以在arm平台运行编译&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;它并不模拟全部硬件&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;这是一个很懒的办法&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;这个办法编译有点慢,使用qemu模拟&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;驱动建议别使用此方法编译&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;使用:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;proot&lt;/li&gt;
-  &lt;li&gt;qemu-user-static&lt;/li&gt;
-  &lt;li&gt;ubunturootfs&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;proot,qemu-user-static自行在包管理器中安装&lt;/p&gt;
-
-&lt;p&gt;Ubunturootfs:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/&quot;&gt;ubunturootfs&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;自行选择架构版本&lt;/p&gt;
-
-&lt;p&gt;我要为香橙派lite (armv7)编译ons所以选择了armhf的rootfs&lt;/p&gt;
-
-&lt;p&gt;下载,解压至rootfs文件夹&lt;/p&gt;
-
-&lt;p&gt;配置网络:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rootfs $ cp /etc/hosts ./etc/
-rootfs $ cp /etc/resolv.conf ./etc/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;使用proot和qemu切换进rootfs:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rootfs $ proot -r ./ -q /usr/bin/qemu-static-arm  #-q参数根据rootfs架构选择
-# bash 
-root@localhost # 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;apt update:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@localhost # apt update
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;自行安装所需工具链&lt;/p&gt;
-
-&lt;p&gt;编译完成后把编译完成的二进制库文件等拷贝到板子上就可以使用&lt;/p&gt;
-
-&lt;p&gt;提示却少共享库请自行补全,或者拷贝rootfs里面的&lt;/p&gt;</content><author><name>Luhux</name></author><category term="arm" /><category term="linux" /><category term="ubuntu" /><category term="qemu" /><category term="proot" /><summary type="html">你可以使用这个办法测试你的代码是否可以在arm平台运行编译</summary></entry></feed>
+&lt;p&gt;请根据自行设置账户连接&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry></feed>
