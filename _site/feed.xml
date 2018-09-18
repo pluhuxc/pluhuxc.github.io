@@ -1,4 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-18T19:36:20+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">使用emacs玩nethack</title><link href="http://localhost:4000/2018/09/18/play-nethack-on-emacs.html" rel="alternate" type="text/html" title="使用emacs玩nethack" /><published>2018-09-18T00:00:00+08:00</published><updated>2018-09-18T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/18/play-nethack-on-emacs</id><content type="html" xml:base="http://localhost:4000/2018/09/18/play-nethack-on-emacs.html">&lt;p&gt;使用emacs玩nethack可以使用emacs的翻译插件来辅助游戏&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-18T20:45:26+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">linux搭建ss服务器</title><link href="http://localhost:4000/2018/09/18/ssr.html" rel="alternate" type="text/html" title="linux搭建ss服务器" /><published>2018-09-18T00:00:00+08:00</published><updated>2018-09-18T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/18/ssr</id><content type="html" xml:base="http://localhost:4000/2018/09/18/ssr.html">&lt;h2 id=&quot;安装pip&quot;&gt;安装pip:&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install python-pip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;安装ss&quot;&gt;安装ss:&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo pip install shadowsocks
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;启动脚本&quot;&gt;启动脚本:&lt;/h2&gt;
+
+&lt;p&gt;创建一个名为ssstart.sh的脚本&lt;/p&gt;
+
+&lt;p&gt;并给予可执行权限&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ touch ssstart.sh
+$ chmod +x ssstart.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+ssserver &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 要监听的IP地址 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 要监听的端口 &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; 连接用的密码 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 加密方式 &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; 连接超时时间 &amp;amp;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;选项 | 参数 | 参数说明
+—-|—–|——-
+ -s | 要监听的ip地址 | 默认为0.0.0.0 即为所有网卡的IP地址创建监听的端口
+ -p | 要监听的端口 | 默认为8388 可修改为其他端口
+ -k | 密码 | 指定连接本ss服务器需要的密码 
+ -m | 加密方式 | 默认为aes-256-cfb
+ -t | 毫秒 | 指定连接最大超时时间&lt;/p&gt;
+
+&lt;p&gt;例如:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssserver -s 0.0.0.0 -p 8808 -k 12345678 -m aes-256-cfb -t 600 &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;启动&quot;&gt;启动:&lt;/h1&gt;
+
+&lt;p&gt;以root权限执行脚本就可以启动ss&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# bash ssstart.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;关闭&quot;&gt;关闭:&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ps aux | grep ssserver # 自行找到ssserver的pid
+# kill ssserver的pid
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;启动出错的解决方法&quot;&gt;启动出错的解决方法:&lt;/h1&gt;
+
+&lt;h2 id=&quot;如果出现类似错误&quot;&gt;如果出现类似错误:&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;File “/usr/local/lib/python2.7/dist-packages/shadowsocks/crypto/openssl.py”, line 52, in load_openssl 
+libcrypto.EVP_CIPHER_CTX_cleanup.argtypes = (c_void_p,) 
+File “/usr/lib/python2.7/ctypes/init.py”, line 375, in getattr 
+func = self.getitem(name) 
+File “/usr/lib/python2.7/ctypes/init.py”, line 380, in getitem 
+func = self._FuncPtr((name_or_ordinal, self)) 
+AttributeError: /usr/lib/x86_64-Linux-gnu/libcrypto.so.1.1: undefined symbol: EVP_CIPHER_CTX_cleanup
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;原因:&lt;/p&gt;
+
+&lt;p&gt;安装了较新的openssl1.10&lt;/p&gt;
+
+&lt;p&gt;解决:&lt;/p&gt;
+
+&lt;p&gt;使用文本编辑器打开 /usr/local/lib/python2.7/site-packages/shadowsocks/crypto/openssl.py&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vim /usr/local/lib/python2.7/site-packages/shadowsocks/crypto/openssl.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;搜索找到以下行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    libcrypto.EVP_CIPHER_CTX_cleanup.argtypes = (c_void_p,)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;            libcrypto.EVP_CIPHER_CTX_cleanup(self._ctx)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;并分别修改为:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;将cleanup替换为reset&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    libcrypto.EVP_CIPHER_CTX_reset.argtypes = (c_void_p,)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;            libcrypto.EVP_CIPHER_CTX_reset(self._ctx)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;启动,成功.&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="python" /><category term="pip" /><category term="ss" /><summary type="html">安装pip:</summary></entry><entry><title type="html">使用emacs玩nethack</title><link href="http://localhost:4000/2018/09/18/play-nethack-on-emacs.html" rel="alternate" type="text/html" title="使用emacs玩nethack" /><published>2018-09-18T00:00:00+08:00</published><updated>2018-09-18T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/18/play-nethack-on-emacs</id><content type="html" xml:base="http://localhost:4000/2018/09/18/play-nethack-on-emacs.html">&lt;p&gt;使用emacs玩nethack可以使用emacs的翻译插件来辅助游戏&lt;/p&gt;
 
 &lt;p&gt;也可以方便的复制粘贴状态消息&lt;/p&gt;
 
@@ -500,233 +593,4 @@ $ cc65
 no input file
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;安装成功&lt;/p&gt;</content><author><name>luhux</name></author><category term="linux" /><category term="nes" /><category term="cc65" /><category term="c" /><summary type="html">cc65</summary></entry><entry><title type="html">使用安卓手机玩raspberrypi</title><link href="http://localhost:4000/2018/08/10/androidphone-play-rpi.html" rel="alternate" type="text/html" title="使用安卓手机玩raspberrypi" /><published>2018-08-10T00:00:00+08:00</published><updated>2018-08-10T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/10/androidphone-play-rpi</id><content type="html" xml:base="http://localhost:4000/2018/08/10/androidphone-play-rpi.html">&lt;h1 id=&quot;建议认真读完整篇教程并动脑思考后再进行操作&quot;&gt;建议认真读完整篇教程并动脑思考后再进行操作&lt;/h1&gt;
-
-&lt;h3 id=&quot;硬件使用&quot;&gt;硬件使用:&lt;/h3&gt;
-
-&lt;p&gt;rapsberrypi&lt;/p&gt;
-
-&lt;p&gt;microusb供电线&lt;/p&gt;
-
-&lt;p&gt;SD卡&lt;/p&gt;
-
-&lt;p&gt;usb数据线&lt;/p&gt;
-
-&lt;p&gt;安卓手机(root, 有内存卡插槽或otg和读卡器)&lt;/p&gt;
-
-&lt;h3 id=&quot;软件&quot;&gt;软件:&lt;/h3&gt;
-
-&lt;p&gt;juicessh (android)&lt;/p&gt;
-
-&lt;p&gt;解压软件 (android)&lt;/p&gt;
-
-&lt;p&gt;带有下载功能的浏览器 (android)&lt;/p&gt;
-
-&lt;h3 id=&quot;操作人要求&quot;&gt;操作人要求:&lt;/h3&gt;
-
-&lt;h4 id=&quot;有脑子&quot;&gt;有脑子&lt;/h4&gt;
-
-&lt;p&gt;会打字&lt;/p&gt;
-
-&lt;p&gt;拥有可以理解LINUX的头脑&lt;/p&gt;
-
-&lt;p&gt;懂得Linux基础操作&lt;/p&gt;
-
-&lt;p&gt;懂得相对路径和绝对路径&lt;/p&gt;
-
-&lt;p&gt;会用Linux终端下任意一个及一个以上的编辑器&lt;/p&gt;
-
-&lt;p&gt;懂得外置内存卡和内置内存卡的区别&lt;/p&gt;
-
-&lt;p&gt;懂得dd 的用处以及误操作的后果&lt;/p&gt;
-
-&lt;p&gt;会百度&lt;/p&gt;
-
-&lt;h2 id=&quot;下载raspbian镜像&quot;&gt;下载raspbian镜像:&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.raspberrypi.org/downloads/raspbian/&quot;&gt;raspbian&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;下载完成后使用解压软件将下载的压缩包内的文件&lt;/p&gt;
-
-&lt;p&gt;解压压缩文件内的img文件&lt;/p&gt;
-
-&lt;p&gt;移动到/sdcard/&lt;/p&gt;
-
-&lt;p&gt;并更名为raspbian.img&lt;/p&gt;
-
-&lt;h2 id=&quot;if-手机有内存卡插槽&quot;&gt;if 手机有内存卡插槽:&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机关机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;装入内存卡&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机开机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开手机设置&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;检查是否挂载内存卡,如有挂载请卸载&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
- # ls /dev/mmcblk1  #确认目标设备文件是否存在
- # ls /sdcard/raspbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;/dev/block/mmcblk1 在emmc手机上至少是这样(emmc:mmcblk0 sd:mmcblk1)&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;等待它写入完毕&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;重启手机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;使用文件管理器在sd卡根目录创建ssh空文件&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机关机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;取出内存卡&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机开机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;内存卡装入raspberrypi&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;if-手机没内存卡插槽或者不想扣电池&quot;&gt;if 手机没内存卡插槽或者不想扣电池&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;将sd卡插入读卡器&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;读卡器插入otg&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;otg插入手机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开手机设置&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;检查是否挂载读卡器&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;如有挂载请卸载&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
- # ls /dev/sda  #确认目标设备文件是否存在
- # ls /sdcard/raspbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/raspbian.img of=/dev/block/sda  #写入镜像到sd卡
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;/dev/block/sda 在emmc手机上至少是这样(emmc:mmcblk0 otg:sda)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;等待它写入完毕&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;重启手机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;使用文件管理器在sd卡根目录创建ssh空文件&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;关闭手机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;取出内存卡&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;内存卡装入raspberrypi&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;开机&quot;&gt;开机&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;raspberrypi上电&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;并等待开机&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;连接&quot;&gt;连接&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;usb连接手机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开手机设置并打开usb共享网络开关&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开juicessh,打开本地终端并执行:&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ su
-# busybox arp -a  # 查看raspberrypi ip
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;一般为192.168.4x.xxx&lt;/p&gt;
-
-&lt;p&gt;记住IP&lt;/p&gt;
-
-&lt;p&gt;退出本地终端&lt;/p&gt;
-
-&lt;p&gt;新建ssh连接&lt;/p&gt;
-
-&lt;p&gt;IP: 刚才记下的ip&lt;/p&gt;
-
-&lt;p&gt;端口: 22&lt;/p&gt;
-
-&lt;p&gt;用户名: pi&lt;/p&gt;
-
-&lt;p&gt;密码: raspberry
-或: raspberrypi&lt;/p&gt;
-
-&lt;p&gt;如果连接失败请检查连接,配置&lt;/p&gt;
-
-&lt;p&gt;连接后对raspberrypi进行操作&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry></feed>
+&lt;p&gt;安装成功&lt;/p&gt;</content><author><name>luhux</name></author><category term="linux" /><category term="nes" /><category term="cc65" /><category term="c" /><summary type="html">cc65</summary></entry></feed>
