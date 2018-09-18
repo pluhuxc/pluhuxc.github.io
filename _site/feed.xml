@@ -1,4 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-10T13:57:24+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">使用ssh x11转发连接linux图形</title><link href="http://localhost:4000/2018/09/10/use-ssh-x11-forward.html" rel="alternate" type="text/html" title="使用ssh x11转发连接linux图形" /><published>2018-09-10T00:00:00+08:00</published><updated>2018-09-10T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/10/use-ssh-x11-forward</id><content type="html" xml:base="http://localhost:4000/2018/09/10/use-ssh-x11-forward.html">&lt;p&gt;ssh服务器： Ubuntu bionic armv7l 无图形&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-18T19:36:20+08:00</updated><id>http://localhost:4000/</id><title type="html">LUHUX BLOG</title><entry><title type="html">使用emacs玩nethack</title><link href="http://localhost:4000/2018/09/18/play-nethack-on-emacs.html" rel="alternate" type="text/html" title="使用emacs玩nethack" /><published>2018-09-18T00:00:00+08:00</published><updated>2018-09-18T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/18/play-nethack-on-emacs</id><content type="html" xml:base="http://localhost:4000/2018/09/18/play-nethack-on-emacs.html">&lt;p&gt;使用emacs玩nethack可以使用emacs的翻译插件来辅助游戏&lt;/p&gt;
+
+&lt;p&gt;也可以方便的复制粘贴状态消息&lt;/p&gt;
+
+&lt;p&gt;emacs提供一个更易于游戏的界面&lt;/p&gt;
+
+&lt;p&gt;安装emacs:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install emacs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装nethack:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install nethack-console
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装nethack emacs插件:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install nethack-el nethack-lisp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;打开emacs:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ emacs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用M-x(Alt+x)快捷键&lt;/p&gt;
+
+&lt;p&gt;输入 nethack 回车 就可以启动nethack&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/Nethack_On_emacs.png&quot; alt=&quot;nethackonemacs&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="nethack" /><category term="emacs" /><summary type="html">使用emacs玩nethack可以使用emacs的翻译插件来辅助游戏</summary></entry><entry><title type="html">使用ssh x11转发连接linux图形</title><link href="http://localhost:4000/2018/09/10/use-ssh-x11-forward.html" rel="alternate" type="text/html" title="使用ssh x11转发连接linux图形" /><published>2018-09-10T00:00:00+08:00</published><updated>2018-09-10T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/10/use-ssh-x11-forward</id><content type="html" xml:base="http://localhost:4000/2018/09/10/use-ssh-x11-forward.html">&lt;p&gt;ssh服务器： Ubuntu bionic armv7l 无图形&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;shell标识: user@Ubuntu&lt;/p&gt;
@@ -88,7 +118,9 @@ debian@Debian $ ssh -X ubuntu@192.168.100
 
 &lt;blockquote&gt;
   &lt;p&gt;ssh断开 ，x服务也会跟着断开&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="ssh" /><category term="x11" /><category term="network" /><category term="display" /><summary type="html">ssh服务器： Ubuntu bionic armv7l 无图形</summary></entry><entry><title type="html">debian系Linux的gpg密钥问题解决</title><link href="http://localhost:4000/2018/09/03/gpg-debian.html" rel="alternate" type="text/html" title="debian系Linux的gpg密钥问题解决" /><published>2018-09-03T00:00:00+08:00</published><updated>2018-09-03T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/03/gpg-debian</id><content type="html" xml:base="http://localhost:4000/2018/09/03/gpg-debian.html">&lt;p&gt;apt update 提示gpg错误的解决方法&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/luhux/images/master/ssh-x11-chromium.png&quot; alt=&quot;ssh-x11&quot; /&gt;&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="ssh" /><category term="x11" /><category term="network" /><category term="display" /><summary type="html">ssh服务器： Ubuntu bionic armv7l 无图形</summary></entry><entry><title type="html">debian系Linux的gpg密钥问题解决</title><link href="http://localhost:4000/2018/09/03/gpg-debian.html" rel="alternate" type="text/html" title="debian系Linux的gpg密钥问题解决" /><published>2018-09-03T00:00:00+08:00</published><updated>2018-09-03T00:00:00+08:00</updated><id>http://localhost:4000/2018/09/03/gpg-debian</id><content type="html" xml:base="http://localhost:4000/2018/09/03/gpg-debian.html">&lt;p&gt;apt update 提示gpg错误的解决方法&lt;/p&gt;
 
 &lt;p&gt;下载新gpg并更新：&lt;/p&gt;
 
@@ -697,217 +729,4 @@ no input file
 
 &lt;p&gt;如果连接失败请检查连接,配置&lt;/p&gt;
 
-&lt;p&gt;连接后对raspberrypi进行操作&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry><entry><title type="html">使用安卓手机玩orangepi</title><link href="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html" rel="alternate" type="text/html" title="使用安卓手机玩orangepi" /><published>2018-08-09T00:00:00+08:00</published><updated>2018-08-09T00:00:00+08:00</updated><id>http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad</id><content type="html" xml:base="http://localhost:4000/2018/08/09/use-the-androidphone-to-play-the-arm-borad.html">&lt;h1 id=&quot;建议认真读完整篇教程并动脑思考后再进行操作&quot;&gt;建议认真读完整篇教程并动脑思考后再进行操作&lt;/h1&gt;
-
-&lt;h3 id=&quot;硬件使用&quot;&gt;硬件使用:&lt;/h3&gt;
-
-&lt;p&gt;香橙派&lt;/p&gt;
-
-&lt;p&gt;DC供电线&lt;/p&gt;
-
-&lt;p&gt;SD卡&lt;/p&gt;
-
-&lt;p&gt;usb数据线&lt;/p&gt;
-
-&lt;p&gt;安卓手机(root, 有内存卡插槽或otg和读卡器)&lt;/p&gt;
-
-&lt;h3 id=&quot;软件&quot;&gt;软件:&lt;/h3&gt;
-
-&lt;p&gt;juicessh (android)&lt;/p&gt;
-
-&lt;p&gt;解压软件 (android)&lt;/p&gt;
-
-&lt;p&gt;带有下载功能的浏览器 (android)&lt;/p&gt;
-
-&lt;h3 id=&quot;操作人要求&quot;&gt;操作人要求:&lt;/h3&gt;
-
-&lt;h4 id=&quot;有脑子&quot;&gt;有脑子&lt;/h4&gt;
-
-&lt;p&gt;会打字&lt;/p&gt;
-
-&lt;p&gt;拥有可以理解LINUX的头脑&lt;/p&gt;
-
-&lt;p&gt;懂得Linux基础操作&lt;/p&gt;
-
-&lt;p&gt;懂得相对路径和绝对路径&lt;/p&gt;
-
-&lt;p&gt;懂得dd 的用处以及误操作的后果&lt;/p&gt;
-
-&lt;p&gt;会百度&lt;/p&gt;
-
-&lt;h2 id=&quot;下载armbian镜像&quot;&gt;下载Armbian镜像:&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://dl.armbian.com/&quot;&gt;armbian&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;下载完成后使用解压软件将下载的压缩包内的文件&lt;/p&gt;
-
-&lt;p&gt;解压压缩文件内的img文件&lt;/p&gt;
-
-&lt;p&gt;移动到/sdcard/&lt;/p&gt;
-
-&lt;p&gt;并更名为Armbian.img&lt;/p&gt;
-
-&lt;h2 id=&quot;if-手机有内存卡插槽&quot;&gt;if 手机有内存卡插槽:&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机关机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;装入内存卡&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机开机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开手机设置&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;检查是否挂载内存卡,如有挂载请卸载&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
- # ls /dev/mmcblk1  #确认目标设备文件是否存在
- # ls /sdcard/Armbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;/dev/block/mmcblk1 在emmc手机上至少是这样(emmc:mmcblk0 sd:mmcblk1)&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;等待它写入完毕&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机关机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;取出内存卡&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;手机开机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;内存卡装入orangepi&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;if-手机没内存卡插槽或者不想扣电池&quot;&gt;if 手机没内存卡插槽或者不想扣电池&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;将sd卡插入读卡器&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;读卡器插入otg&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;otg插入手机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开手机设置&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;检查是否挂载读卡器&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;如有挂载请卸载&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开juicessh并新建一个本地终端的连接并执行以下命令&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;请充分了解dd的功能后再执行:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ su
- # ls /dev/sda  #确认目标设备文件是否存在
- # ls /sdcard/Armbian.img  #确认镜像文件是否存在
- # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/sda  #写入镜像到sd卡
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;bs=4194304 安卓的dd默认并不支持单位(4M x 1024 x 1024 = 4194304)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;/dev/block/sda 在emmc手机上至少是这样(emmc:mmcblk0 otg:sda)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;等待它写入完毕&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;取出内存卡&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;内存卡装入orangepi&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;开机&quot;&gt;开机&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;orangepi上电&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;并等待开机&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;连接&quot;&gt;连接&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;usb连接手机&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开手机设置并打开usb共享网络开关&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开juicessh,打开本地终端并执行:&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ su
-# busybox arp -a  # 查看orangepi ip
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;一般为192.168.4x.xxx&lt;/p&gt;
-
-&lt;p&gt;记住IP&lt;/p&gt;
-
-&lt;p&gt;退出本地终端&lt;/p&gt;
-
-&lt;p&gt;新建ssh连接&lt;/p&gt;
-
-&lt;p&gt;IP: 刚才记下的ip&lt;/p&gt;
-
-&lt;p&gt;端口: 22&lt;/p&gt;
-
-&lt;p&gt;用户名: root&lt;/p&gt;
-
-&lt;p&gt;密码: 1234&lt;/p&gt;
-
-&lt;p&gt;如果连接失败请检查连接,配置&lt;/p&gt;
-
-&lt;p&gt;连接后对orangepi进行操作&lt;/p&gt;
-
-&lt;p&gt;初始化完成后&lt;/p&gt;
-
-&lt;p&gt;请根据自行设置账户连接&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry></feed>
+&lt;p&gt;连接后对raspberrypi进行操作&lt;/p&gt;</content><author><name>Luhux</name></author><category term="android" /><category term="linux" /><category term="usb" /><category term="dd" /><category term="sdcard" /><summary type="html">建议认真读完整篇教程并动脑思考后再进行操作</summary></entry></feed>
