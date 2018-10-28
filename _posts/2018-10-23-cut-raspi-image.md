@@ -109,6 +109,11 @@ kpartx执行后会提示挂载点,我的为 /dev/mapper/loop0p1 和 p2
 
 	# mkdir /mnt/loop1p1
 	# mkdir /mnt/loop1p2
+
+挂载：
+
+    # mount /dev/mapper/loop1p1 /mnt/loop1p1
+    # mount /dev/mapper/loop1p2 /mnt/loop1p2
 	
 # 将原镜像复制搬迁到新镜像中
 
