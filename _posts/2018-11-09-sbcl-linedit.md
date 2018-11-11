@@ -14,9 +14,14 @@ comment: true
 
 在~/.sbclrc中加入
 
-    (ql:quickload "linedit")
-    (linedit:install-repl :wrap-current t :eof-quits t)
-
+    ;;; Check for --no-linedit command-line option.
+    (if (member "--no-linedit" sb-ext:*posix-argv* :test 'equal)
+        (setf sb-ext:*posix-argv* 
+          (remove "--no-linedit" sb-ext:*posix-argv* :test 'equal))
+        (when (interactive-stream-p *terminal-io*)
+          (require :sb-aclrepl)
+          (require :linedit)
+          (funcall (intern "INSTALL-REPL" :linedit) :wrap-current t)))
 
 # 安装rlwarp
 
@@ -31,15 +36,7 @@ comment: true
     It is mostly in the public domain; some portions are provided under
     BSD-style licenses.  See the CREDITS and COPYING files in the
     distribution for more information.
-    To load "linedit":
-      Load 1 ASDF system:
-        linedit
-    ; Loading "linedit"
-    ....
-
-    Linedit version 0.17.6, smart mode, ESC-h for help.
-    *
-
+    sbcl>
 
 # 测试
 
@@ -52,3 +49,10 @@ comment: true
 # 以后的使用
 
     $ rlwarp sbcl
+
+
+# 不影响slime 和 sly的使用
+
+在.emacs加入
+
+    (setq inferior-lisp-program "sbcl --noinform --no-linedit") 
