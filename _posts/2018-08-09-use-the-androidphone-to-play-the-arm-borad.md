@@ -75,7 +75,7 @@ juicessh (android)
 
 ```
  $ su
- # ls /dev/mmcblk1  #确认目标设备文件是否存在
+ # ls /dev/block/mmcblk1  #确认目标设备文件是否存在
  # ls /sdcard/Armbian.img  #确认镜像文件是否存在
  # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/mmcblk1  #写入镜像到sd卡
 ```
@@ -114,7 +114,7 @@ juicessh (android)
 
 ```
  $ su
- # ls /dev/sda  #确认目标设备文件是否存在
+ # ls /dev/block/sda  #确认目标设备文件是否存在
  # ls /sdcard/Armbian.img  #确认镜像文件是否存在
  # dd bs=4194304 if=/sdcard/Armbian.img of=/dev/block/sda  #写入镜像到sd卡
 ```
