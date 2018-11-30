@@ -509,7 +509,7 @@ x86 64的机器可以去linaro下载:
 
 在工作目录执行:
 
-    android # ./arm/magiskboot --repack boot.img
+    android # ./arm/magiskboot --repack boot.img new-boot.img
 
 这里的boot.img是原来的boot.img
 
