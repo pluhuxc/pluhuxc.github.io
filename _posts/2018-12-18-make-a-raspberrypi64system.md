@@ -10,9 +10,9 @@ comment: true
 
 markdown 排版不理想
 
-贴一个vim to html的地址
 
-[自行制作一个树梅派64位系统]()
+[github排版](https://github.com/pluhuxc/pluhuxc.github.io/blob/master/_posts/2018-12-18-make-a-raspberrypi64system.md)
+
 
 1. 准备环境
 
