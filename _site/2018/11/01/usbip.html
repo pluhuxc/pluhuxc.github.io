@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>使用usbip网络转发usb设备到远程主机 | LUHUX BLOG</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="使用usbip网络转发usb设备到远程主机" />
+<meta name="author" content="Luhux" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="环境:" />
+<meta property="og:description" content="环境:" />
+<link rel="canonical" href="https://pluhuxc.github.io//2018/11/01/usbip.html" />
+<meta property="og:url" content="https://pluhuxc.github.io//2018/11/01/usbip.html" />
+<meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-01T00:00:00+00:00" />
+<script type="application/ld+json">
+{"description":"环境:","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"https://pluhuxc.github.io//2018/11/01/usbip.html","headline":"使用usbip网络转发usb设备到远程主机","dateModified":"2018-11-01T00:00:00+00:00","datePublished":"2018-11-01T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pluhuxc.github.io//2018/11/01/usbip.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://pluhuxc.github.io//feed.xml" title="LUHUX BLOG" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX BLOG</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">使用usbip网络转发usb设备到远程主机</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-11-01T00:00:00+00:00" itemprop="datePublished">Nov 1, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Luhux</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>环境:</p>
+
+<hr />
+
+<p>两台Linux机器</p>
+
+<p>客户机: Linux A</p>
+
+<p>服务机: Linux B</p>
+
+<hr />
+
+<p>例子为转发服务机 Linux B 的一个usb设备到客户机 Linux A</p>
+
+<blockquote>
+  <p>需要内核支持</p>
+</blockquote>
+
+<h1 id="安装">安装</h1>
+
+<p>客户机和服务机都安装：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sudo apt install usbip
+
+# sudo apt install usbip
+</code></pre></div></div>
+
+<h1 id="在使用之前">在使用之前</h1>
+
+<p>两台机器都加载内核模块</p>
+
+<p>加载内核模块:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># modprobe usbip-core
+# modprobe usbip-host
+# modprobe usbip-vudc  # 服务端非必须
+# modprobe vhci-hcd
+</code></pre></div></div>
+
+<h1 id="使用">使用</h1>
+
+<p>服务机 Linux B:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usbipd -D  # 让usbipd在后台运行
+# usbip list --local   # 查看当前可用usb设备
+# usbip bind --busid=ID  # ID为看到的可用usb的id 比如: 1-1.1
+</code></pre></div></div>
+
+<p>比如我机器Linux B:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usbipd -D  
+# usbip list --local   # 可以看到我服务机有一个usb网卡和一个u盘
+ - busid 1-1.1 (0424:ec00)
+   Standard Microsystems Corp. : SMSC9512/9514 Fast Ethernet Adapter (0424:ec00)
+
+ - busid 1-1.2 (058f:6366)
+   Alcor Micro Corp. : Multi Flash Reader (058f:6366)
+
+# usbip bind --busid=1-1.1   # 我将第一个usb网卡绑定到了程序
+</code></pre></div></div>
+
+<h1 id="客户机-linux-a">客户机 Linux A</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usbip list --remote=服务机ip   # 查看服务机的bind绑定列表
+# usbip attach --remote=服务机ip --busid=ID  # id为查看到的id
+</code></pre></div></div>
+
+<p>在我的客户机 Linux A上:</p>
+
+<p>我要连接服务机B共享出来的usb网卡</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usb list --remote=10.10.10.14   #我服务机ip为10.10.10.14
+Exportable USB devices
+======================
+ - 10.10.10.14
+      1-1.2: Alcor Micro Corp. : Multi Flash Reader (058f:6366)
+           : /sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2
+           : (Defined at Interface level) (00/00/00)
+
+      1-1.1: Standard Microsystems Corp. : SMSC9512/9514 Fast Ethernet Adapter (0424:ec00)
+           : /sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.1
+           : Vendor Specific Class / unknown subclass / unknown protocol (ff/00/01)
+           :  0 - Vendor Specific Class / unknown subclass / unknown protocol (ff/00/ff)
+
+可以看到 usb网卡的id为 1-1.1
+
+# usb attach --remote=10.10.10.14 --busid=1-1.1  
+</code></pre></div></div>
+
+<p>这样客户机的服务机的网卡就映射到客户机的usb上了:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># dmesg
+[16136.594990] usb 5-1: new high-speed USB device number 3 using vhci_hcd
+[16136.721651] usb 5-1: SetAddress Request (3) to port 0
+[16136.750182] usb 5-1: New USB device found, idVendor=0424, idProduct=ec00, bcdDevice= 2.00
+[16136.750184] usb 5-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[16136.753349] smsc95xx v1.0.6
+[16136.959378] smsc95xx 5-1:1.0 eth0: register 'smsc95xx' at usb-vhci_hcd.0-1, smsc95xx USB 2.0 Ethernet, ba:94:5e:4d:e3:79
+</code></pre></div></div>
+
+<h1 id="用完之后呢">用完之后呢？</h1>
+
+<p>客户机:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usbip port  # 查看所有连接设备
+# usbip detach --port=ID  # 卸载设备 id为上方命令看到的id
+</code></pre></div></div>
+
+<p>我的客户机Linux A:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usbip port
+Imported USB devices
+====================
+Port 00: &lt;Port in Use&gt; at High Speed(480Mbps)
+       Standard Microsystems Corp. : SMSC9512/9514 Fast Ethernet Adapter (0424:ec00)
+       5-1 -&gt; usbip://10.10.10.14:3240/1-1.1
+           -&gt; remote bus/dev 001/003
+可以看到usb网卡的端口号为00
+
+# usbip detach --port=00
+
+usbip: info: Port 0 is now detached!
+
+</code></pre></div></div>
+<p>这样客户端就卸载完毕了.</p>
+
+<p>服务端:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usbip unbind --busid=ID  #取消usb设备的bind挂载  id为bind挂载的usb设备id
+# ps aux | grep usbipd  # 找到进程pid
+# kill PID   #  杀掉usbipd的进程 PID为上面找到的
+</code></pre></div></div>
+
+<p>我的服务端机 Linux B :</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># usbip unbind --busid=1-1.2  # 取消绑定我的usb网卡
+usbip: info: unbind device on busid 1-1.1: complete
+# ps aux | grep usbipd
+root      1046  0.0  0.1   2768  1576 ?        Ss   13:38   0:00 usbipd -D
+root      1178  0.0  0.0   4372   524 pts/0    S+   14:12   0:00 grep usbipd
+
+可以看出usbipd 的pid为 1046
+# kill 1046
+</code></pre></div></div>
+
+<p>ok 我的 usb网卡回来了</p>
+
+<p>发现个问题:</p>
+
+<p>usbipd 默认监听所有网卡并不能使用身份验证来连接设备</p>
+
+<p>我自己的解决:</p>
+
+<p>服务端监听 127.0.0.1 3240  (3240是默认端口)</p>
+
+<p>客户端ssh转发服务端 127.0.0.1 3240 到 客户端: 127.0.0.1 3240</p>
+
+<p>然后把客服务端ip替换为 127.0.0.1</p>
+
+<p>解决!</p>
+
+
+  </div><a class="u-url" href="/2018/11/01/usbip.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">LUHUX BLOG</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">LUHUX BLOG</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/luhux"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">luhux</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>LUHUX BLOG</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

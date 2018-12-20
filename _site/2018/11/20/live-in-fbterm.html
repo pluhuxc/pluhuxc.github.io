@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>活在fbterm | LUHUX BLOG</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="活在fbterm" />
+<meta name="author" content="Luhux" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在一台512M内存的机子使用xorg显示实在太费 所以用上了fbterm" />
+<meta property="og:description" content="在一台512M内存的机子使用xorg显示实在太费 所以用上了fbterm" />
+<link rel="canonical" href="https://pluhuxc.github.io//2018/11/20/live-in-fbterm.html" />
+<meta property="og:url" content="https://pluhuxc.github.io//2018/11/20/live-in-fbterm.html" />
+<meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-20T00:00:00+00:00" />
+<script type="application/ld+json">
+{"description":"在一台512M内存的机子使用xorg显示实在太费 所以用上了fbterm","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"https://pluhuxc.github.io//2018/11/20/live-in-fbterm.html","headline":"活在fbterm","dateModified":"2018-11-20T00:00:00+00:00","datePublished":"2018-11-20T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pluhuxc.github.io//2018/11/20/live-in-fbterm.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://pluhuxc.github.io//feed.xml" title="LUHUX BLOG" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX BLOG</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">活在fbterm</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-11-20T00:00:00+00:00" itemprop="datePublished">Nov 20, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Luhux</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>在一台512M内存的机子使用xorg显示实在太费
+所以用上了fbterm</p>
+
+<h1 id="安装">安装</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># apt install fbterm
+</code></pre></div></div>
+
+<h1 id="修改配置">修改配置</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ vim ~/.fbtermrc
+</code></pre></div></div>
+
+<p>要修改的几行:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 字体大小
+font-size=20
+
+# 前景和后景颜色
+color-foreground=3
+color-background=0
+</code></pre></div></div>
+
+<h1 id="启动fbterm">启动fbterm</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ fbterm  # 在tty里面启动
+</code></pre></div></div>
+
+<h1 id="上网中文输入写代码">上网,中文输入,写代码</h1>
+
+<p>使用emacs和w3m解决</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># apt install w3m
+
+M-x package-install RET w3m
+</code></pre></div></div>
+
+<p>启动emacs</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ emacs
+</code></pre></div></div>
+
+<p>启动w3m</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>M-x w3m RET
+</code></pre></div></div>
+
+<p>中文输入使用emacs的输入法</p>
+
+<p>在~/.emacs加入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;; buildin chineseIME
+(setq default-input-method "chinese-tonepy")
+(global-set-key (kbd "C-\\") 'toggle-input-method)
+</code></pre></div></div>
+
+<p>这样在emacs中使用 Ctrl + \ 就可以输入中文了</p>
+
+<ul>
+  <li>emacs 包管理器有一个 pyim 中文输入法</li>
+</ul>
+
+<p>写代码用emacs.</p>
+
+<h1 id="看图片--看视屏">看图片,  看视屏.</h1>
+
+<p>安装fbv</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># apt install fbv
+</code></pre></div></div>
+
+<p>如果源里面没有的话去下载源码编译</p>
+
+<p>看图:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ fbv 图片文件
+</code></pre></div></div>
+
+<p>看视屏用mplayer</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># apt install mplayer
+
+
+$ mplayer -vo fbdev 视屏文件
+</code></pre></div></div>
+
+<h1 id="看pdf">看pdf</h1>
+
+<p>看一些pdf文档</p>
+
+<p>pdf 转图片</p>
+
+<p>转成一页一页的</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># apt install imagemagick
+
+$ convert pdf文件 要转换的png文件前缀
+
+$ fbv 文件
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/2018/11/20/live-in-fbterm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">LUHUX BLOG</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">LUHUX BLOG</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/luhux"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">luhux</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>LUHUX BLOG</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

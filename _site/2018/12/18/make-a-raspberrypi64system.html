@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>自行制作一个树苺派64位系统 | LUHUX BLOG</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="自行制作一个树苺派64位系统" />
+<meta name="author" content="Luhux" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="markdown 排版不理想" />
+<meta property="og:description" content="markdown 排版不理想" />
+<link rel="canonical" href="https://pluhuxc.github.io//2018/12/18/make-a-raspberrypi64system.html" />
+<meta property="og:url" content="https://pluhuxc.github.io//2018/12/18/make-a-raspberrypi64system.html" />
+<meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-12-18T00:00:00+00:00" />
+<script type="application/ld+json">
+{"description":"markdown 排版不理想","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"https://pluhuxc.github.io//2018/12/18/make-a-raspberrypi64system.html","headline":"自行制作一个树苺派64位系统","dateModified":"2018-12-18T00:00:00+00:00","datePublished":"2018-12-18T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pluhuxc.github.io//2018/12/18/make-a-raspberrypi64system.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://pluhuxc.github.io//feed.xml" title="LUHUX BLOG" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX BLOG</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">自行制作一个树苺派64位系统</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-12-18T00:00:00+00:00" itemprop="datePublished">Dec 18, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Luhux</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>markdown 排版不理想</p>
+
+<p><a href="https://github.com/pluhuxc/pluhuxc.github.io/blob/master/_posts/2018-12-18-make-a-raspberrypi64system.md">github排版</a></p>
+
+<ol>
+  <li>
+    <p>准备环境</p>
+  </li>
+  <li>
+    <p>编译内核</p>
+  </li>
+  <li>
+    <p>创建镜像模板</p>
+  </li>
+  <li>
+    <p>制作rootfs</p>
+  </li>
+  <li>
+    <p>打包进镜像</p>
+  </li>
+  <li>
+    <p>测试</p>
+  </li>
+</ol>
+
+<ul>
+  <li>树梅派64位系统ARCH是aarch64 或 arm64</li>
+</ul>
+
+<h1 id="准备环境">准备环境</h1>
+
+<p>环境：</p>
+
+<hr />
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linux x86 或 Linux x86\_64
+5G硬盘空间
+网络
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="编译内核用的工具链-gcc-49">编译内核用的工具链 gcc-4.9</h2>
+
+<p>Linaro下载:</p>
+
+<p>https://releases.linaro.org/components/toolchain/binaries/</p>
+
+<p>内核建议使用gcc 4.9的工具链构建</p>
+
+<ul>
+  <li>下载</li>
+</ul>
+
+<p>64位：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/aarch64-linux-gnu/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu.tar.xz
+</code></pre></div></div>
+
+<p>32位:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/aarch64-linux-gnu/gcc-linaro-4.9.4-2017.01-i686_aarch64-linux-gnu.tar.xz
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>解压</p>
+
+    <p>$ mkdir ~/toolchains   # 创建目录</p>
+  </li>
+</ul>
+
+<p>64位:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tar xf gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu.tar.xz -C ~/toolchains/
+</code></pre></div></div>
+
+<p>32位:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tar xf gcc-linaro-4.9-2017.01-i686_aarch64-linux-gnu.tar.xz -C ~/toolchains
+</code></pre></div></div>
+
+<ul>
+  <li>创建工具链环境变量初始化脚本</li>
+</ul>
+
+<p>64位：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/toolchains/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/
+</code></pre></div></div>
+
+<p>32位：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/toolchains/gcc-linaro-4.9.4-2017.01-i686_aarch64-linux-gnu/
+</code></pre></div></div>
+
+<p>创建环境变量脚本</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo 'export PATH=${PATH}:$(pwd)/bin' &gt; env.sh	
+</code></pre></div></div>
+
+<p>应用环境变量脚本</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ source env.sh   # 将环境变量应用到当前终端
+</code></pre></div></div>
+
+<h2 id="一些编译内核要用到的工具-build-essential-bison-make">一些编译内核要用到的工具 build-essential bison make</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install build-essential bison make
+</code></pre></div></div>
+
+<h2 id="构建rootfs用的工具-debootstrap-qemu-user-static">构建rootfs用的工具 debootstrap qemu-user-static</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install debootstrap qemu-user-static
+
+$ sudo service binfmt-support start  # 启动binfmt服务
+</code></pre></div></div>
+
+<h2 id="挂载镜像用到的工具-partx">挂载镜像用到的工具 partx</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install partx
+</code></pre></div></div>
+
+<h2 id="分区镜像用到的工具-cfdisk">分区镜像用到的工具 cfdisk</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install util-linux
+</code></pre></div></div>
+
+<h2 id="编辑配置文件编辑器-vim">编辑配置文件编辑器 vim</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install vim
+</code></pre></div></div>
+
+<h2 id="树梅派内核">树梅派内核</h2>
+
+<p>这里使用官方内核</p>
+
+<p>创建工作目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mkdir kernel
+</code></pre></div></div>
+
+<p>进入工作目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd kernel 
+</code></pre></div></div>
+
+<p>git clone 源码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/raspberrypi/linux.git
+</code></pre></div></div>
+
+<p>克隆下来的文件夹在 ~/kernel/linux</p>
+
+<h2 id="树梅派boot文件">树梅派boot文件</h2>
+
+<p>手动下载:</p>
+
+<p>https://github.com/raspberrypi/firmware/tree/master/boot</p>
+
+<p>一健下载</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone --depth=1 https://github.com/raspberrypi/firmware/ 
+
+$ cd firmware/boot   # 下载好的文件
+</code></pre></div></div>
+
+<h2 id="树梅派wifi和蓝牙的固件">树梅派wifi和蓝牙的固件</h2>
+
+<p>需要的固件文件</p>
+
+<hr />
+
+<p>树梅派3b</p>
+
+<p>WIFI:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brcmfmac43430-sdio.bin
+brcmfmac43430-sdio.txt
+</code></pre></div></div>
+
+<p>Bluetooth:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BCM43430A1.hcd
+</code></pre></div></div>
+
+<hr />
+
+<p>树梅派3b+</p>
+
+<p>WIFI:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brcmfmac43455-sdio.bin
+brcmfmac43455-sdio.txt
+</code></pre></div></div>
+
+<p>Bluetooth:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BCM4345C0.hcd
+</code></pre></div></div>
+
+<hr />
+
+<p>建议从raspbian镜像内提取</p>
+
+<p>现成raspbian的 /lib/firmware/brcm/ 文件夹</p>
+
+<hr />
+
+<p>网络获取方法:</p>
+
+<p>手动下载</p>
+
+<p>Wifi:</p>
+
+<p>https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/brcm</p>
+
+<p>Bluetooth:</p>
+
+<p>https://github.com/RPi-Distro/bluez-firmware/tree/master/broadcom</p>
+
+<h1 id="编译内核">编译内核</h1>
+
+<p>检查工具链</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ which aarch64-linux-gnu-gcc
+</code></pre></div></div>
+
+<p>创建内核编译初始化脚本</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo 'export ARCH=arm64' &gt;&gt; env.sh
+$ echo 'export CROSS_COMPILE=aarch64-linux-gnu-' &gt;&gt; env.sh
+</code></pre></div></div>
+
+<p>初始化环境</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ source env.sh
+</code></pre></div></div>
+
+<p>检查环境变量</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo "${ARCH}"
+
+$ echo "${CROSS_COMPILE}"
+</code></pre></div></div>
+
+<p>如果ARCH为arm64，CROSS_COMPILE为aarch64-linux-gnu-则环境ok</p>
+
+<p>进入刚才你准备好的内核源码目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/kernel/linux
+</code></pre></div></div>
+
+<h2 id="使用默认配置">使用默认配置</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ make bcmrpi3_defconfig
+</code></pre></div></div>
+
+<h2 id="修改默认配置">修改默认配置</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ make bcmrpi3_defconfig
+$ make menuconfig
+</code></pre></div></div>
+
+<p>如果menuconfig失败请安装libncurses-dev</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ apt install libncurses5-dev
+</code></pre></div></div>
+
+<p>进入后的配置界面是这样的</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> .config - Linux/arm64 4.14.89 Kernel Configuration
+ ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ┌──────────────────────────────────────── Linux/arm64 4.14.89 Kernel Configuration ─────────────────────────────────────────┐
+  │  Arrow keys navigate the menu.  &lt;Enter&gt; selects submenus ---&gt; (or empty submenus ----).  Highlighted letters are hotkeys. │  
+  │  Pressing &lt;Y&gt; includes, &lt;N&gt; excludes, &lt;M&gt; modularizes features.  Press &lt;Esc&gt;&lt;Esc&gt; to exit, &lt;?&gt; for Help, &lt;/&gt; for Search.  │  
+  │  Legend: [*] built-in  [ ] excluded  &lt;M&gt; module  &lt; &gt; module capable                                                       │  
+  │                                                                                                                           │  
+  │ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+  │ │                            General setup  ---&gt;                                                                        │ │  
+  │ │                        [*] Enable loadable module support  ---&gt;                                                       │ │  
+  │ │                        [*] Enable the block layer  ---&gt;                                                               │ │  
+  │ │                            Platform selection  ---&gt;                                                                   │ │  
+  │ │                            Bus support  ---&gt;                                                                          │ │  
+  │ │                            Kernel Features  ---&gt;                                                                      │ │  
+  │ │                            Boot options  ---&gt;                                                                         │ │  
+  │ │                            Userspace binary formats  ---&gt;                                                             │ │  
+  │ │                            Power management options  ---&gt;                                                             │ │  
+  │ │                            CPU Power Management  ---&gt;                                                                 │ │  
+  │ │                        [*] Networking support  ---&gt;                                                                   │ │  
+  │ │                            Device Drivers  ---&gt;                                                                       │ │  
+  │ │                            Firmware Drivers  ---&gt;                                                                     │ │  
+  │ │                            File systems  ---&gt;                                                                         │ │  
+  │ │                        [ ] Virtualization  ----                                                                       │ │  
+  │ │                            Kernel hacking  ---&gt;                                                                       │ │  
+  │ │                            Security options  ---&gt;                                                                     │ │  
+  │ │                        -*- Cryptographic API  ---&gt;                                                                    │ │  
+  │ │                            Library routines  ---&gt;                                                                     │ │  
+  │ │                                                                                                                       │ │  
+  │ │                                                                                                                       │ │  
+  │ │                                                                                                                       │ │  
+  │ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ │  
+  ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+  │                                 &lt;Select&gt;    &lt; Exit &gt;    &lt; Help &gt;    &lt; Save &gt;    &lt; Load &gt;                                  │  
+  └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+</code></pre></div></div>
+
+<p>修改内核后缀</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>General setup  ---&gt; 
+		(-v8) Local version - append to kernel release
+</code></pre></div></div>
+
+<p>加入cgroup内核支持</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>General setup  ---&gt; 
+    -*- Control Group support  ---&gt;
+        [*]   Memory controller          
+	    [*]     Swap controller                               
+        [*]       Swap controller enabled by default (NEW)     
+        [*]   IO controller                        
+        -*-   CPU controller  ---&gt;                  
+            [*]     CPU bandwidth provisioning for FAIR_GROUP_SCHED    
+            [*]   Group scheduling for SCHED_RR/FIFO                    
+        [*]   PIDs controller                        
+        [*]   RDMA controller                         
+        [*]   Freezer controller                       
+        [*]   Cpuset controller     
+        [*]     Include legacy /proc/&lt;pid&gt;/cpuset file  
+        [*]   Device controller      
+        [*]   Simple CPU accounting controller                               
+
+</code></pre></div></div>
+
+<p>加入checkpoint支持</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>General setup  ---&gt; 
+    [*] Checkpoint/restore support  
+</code></pre></div></div>
+
+<p>加入KVM支持</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[*] Virtualization  ---&gt;
+    [*]   Kernel-based Virtual Machine (KVM) support
+    &lt;M&gt;   Host kernel accelerator for virtio net
+    [*]   Cross-endian support for vhost
+</code></pre></div></div>
+
+<p>勾选你需要的驱动</p>
+
+<p>比如rtlusb网卡驱动</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device Drivers  ---&gt;
+    [*] Network device support  ---&gt;
+        [*]   Wireless LAN  ---&gt;
+            [*]   Realtek devices                      
+		    &lt;M&gt;   Realtek 8187 and 8187B USB support               
+            &lt;M&gt;     Realtek rtlwifi family of devices  ---&gt;           
+		    &lt;M&gt;     Realtek 8192C USB WiFi                             
+            &lt;M&gt;    RTL8723AU/RTL8188[CR]U/RTL819[12]CU (mac80211) support       
+</code></pre></div></div>
+
+<p>选择完成后选择exit按钮退出并保存</p>
+
+<h2 id="编译内核-1">编译内核</h2>
+
+<p>确保bc的安装</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install bc
+</code></pre></div></div>
+
+<p>开始编译</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ make -j5
+</code></pre></div></div>
+
+<ul>
+  <li>-jx 表示可以同时进行编译的进程数建议为cpu线程数+1  比如双核4线程就取5</li>
+</ul>
+
+<h1 id="制作镜像模板">制作镜像模板</h1>
+
+<p>创建工作文件夹</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mkdir ~/images/
+</code></pre></div></div>
+
+<p>进入工作文件夹</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/images/
+</code></pre></div></div>
+
+<p>创建一个300MB的镜像模板</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dd bs=1M count=300 if=/dev/zero of=300M_TEMPLATE.img
+</code></pre></div></div>
+
+<p>为镜像模板分区</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cfdisk 300M_TEMPLATE.img
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
+
+
+
+
+
+
+
+
+                                       ┌ Select label type ───┐
+                                       │ gpt                  │
+                                       │ dos     *            │
+                                       │ sgi                  │
+                                       │ sun                  │
+                                       └──────────────────────┘
+
+
+
+
+
+
+
+
+
+
+                        Device does not contain a recognized partition table.
+                Select a type to create a new label or press 'L' to load script file.
+
+
+</code></pre></div></div>
+
+<p>分区表类型选dos</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device           Boot             Start         End      Sectors       Size      Id Type
+&gt;&gt;  Free space                         2048      614399       612352       299M                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [ * New  ]  [  Quit  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                 Create new partition from free space
+
+</code></pre></div></div>
+
+<p>选 new 创建分区</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device           Boot             Start         End      Sectors       Size      Id Type
+&gt;&gt;  Free space                         2048      614399       612352       299M                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Partition size: 100M
+
+
+                May be followed by M for MiB, G for GiB, T for TiB, or S for sectors.
+
+
+</code></pre></div></div>
+
+<p>分区大小为100M</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device           Boot             Start         End      Sectors       Size      Id Type
+&gt;&gt;  Free space                         2048      614399       612352       299M                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        [*primary ]  [extended]
+
+
+                                    0 primary, 0 extended, 4 free
+
+</code></pre></div></div>
+
+<p>分区类型选primary，主分区</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+&gt;&gt;  300M_TEMPLATE.img1      *               2048     206847      204800      100M     83 Linux        
+    Free space                            206848     614399      407552      199M
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ │    Attributes: 80                                                                                │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [ * Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+</code></pre></div></div>
+
+<p>选bootable使刚才创建的分区设定为可启动</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+&gt;&gt;  300M_TEMPLATE.img1      *               2048     206847      204800      100M     83 Linux        
+    Free space                            206848     614399      407552      199M
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ │    Attributes: 80                                                                                │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [ * Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                      Change the partition type
+
+
+</code></pre></div></div>
+
+<p>选type改变分区标识</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                               ┌ Select partition type ──────────────┐
+                               │  0 Empty                            │
+                               │  1 FAT12                            │
+                               │  2 XENIX root                       │
+                               │  3 XENIX usr                        │
+                               │  4 FAT16 &lt;32M                       │
+                               │  5 Extended                         │
+                               │  6 FAT16                            │
+                               │  7 HPFS/NTFS/exFAT                  │
+                               │  8 AIX                              │
+                               │  9 AIX bootable                     │
+                               │  a OS/2 Boot Manager                │
+                               │  b W95 FAT32          ****          │
+                               │  c W95 FAT32 (LBA)                  │
+                               │  e W95 FAT16 (LBA)                  │
+                               │  f W95 Ext'd (LBA)                  │
+                               │ 10 OPUS                             │
+                               │ 11 Hidden FAT12                     │
+                               │ 12 Compaq diagnostics               │
+                               │ 14 Hidden FAT16 &lt;32M                │
+                               │ 16 Hidden FAT16                     │
+                               │ 17 Hidden HPFS/NTFS                 │
+                               │ 18 AST SmartSleep                   │
+                               │ 1b Hidden W95 FAT32                 │
+                               │ 1c Hidden W95 FAT32 (LBA)           │
+                               └───────────────────────────────────↓─┘
+
+
+
+
+</code></pre></div></div>
+
+<p>选择找到W95 FAT32 并回车</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&gt;&gt;  Free space                            206848     614399      407552      199M                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [ *  New  ]  [  Quit  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                 Create new partition from free space
+
+
+</code></pre></div></div>
+
+<p>按方向健下，切换到空余空间.选择new新健一个分区</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&gt;&gt;  Free space                            206848     614399      407552      199M                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Partition size: 199M
+
+
+                May be followed by M for MiB, G for GiB, T for TiB, or S for sectors.
+
+</code></pre></div></div>
+
+<p>分区使用所有空余空间</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&gt;&gt;  Free space                            206848     614399      407552      199M                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        [ * primary]  [extended]
+
+
+                                    1 primary, 0 extended, 3 free
+
+
+</code></pre></div></div>
+
+<p>选择primary 主分区</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&gt;&gt;  300M_TEMPLATE.img2                    206848     614399      407552      199M     83 Linux        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [ * Write ]  [  Dump  ]
+
+
+                       Write partition table to disk (this might destroy data)
+
+
+</code></pre></div></div>
+
+<p>选择Write 将更改写入镜像</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&gt;&gt;  300M_TEMPLATE.img2                    206848     614399      407552      199M     83 Linux        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+ Are you sure you want to write the partition table to disk? yes
+
+
+                        Type "yes" or "no", or press ESC to leave this dialog.
+
+</code></pre></div></div>
+
+<p>输入yes，回车</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&gt;&gt;  300M_TEMPLATE.img2                    206848     614399      407552      199M     83 Linux        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [Bootable]  [ Delete ]  [ Resize ]  [ *  Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                 Quit program without writing changes
+
+
+</code></pre></div></div>
+
+<p>选择quit退出</p>
+
+<h2 id="为镜像模板创建文件系统">为镜像模板创建文件系统</h2>
+
+<p>使用kpartx挂载镜像到loop</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo kpartx -av 300M_TEMPLATE.img
+</code></pre></div></div>
+
+<p>输出的信息就是挂载到的目标设备文件</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>add map loop0p1 (254:0): 0 204800 linear 7:0 2048
+add map loop0p2 (254:1): 0 407552 linear 7:0 206848
+</code></pre></div></div>
+
+<p>loop0p1 为第一个分区
+loop0p2 为第二个分区</p>
+
+<p>安装dosfstool</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install dosfstools
+</code></pre></div></div>
+
+<p>格式化第一个分区为FAT32</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mkfs.vfat /dev/mapper/loop0p1
+</code></pre></div></div>
+
+<p>格式化第二个分区为ext4</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mkfs.ext4 /dev/mapper/loop0p2
+</code></pre></div></div>
+
+<p>如果你想把第二个分区格式化为f2fs</p>
+
+<p>安装f2fs-tools</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install f2fs-tools
+</code></pre></div></div>
+
+<p>格式化第二个分区为f2fs</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mkfs.f2fs -f /dev/mapper/loop0p2
+</code></pre></div></div>
+
+<h2 id="挂载镜像的boot分区">挂载镜像的boot分区</h2>
+
+<p>创建挂载点</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mkdir /mnt/loop0p1
+</code></pre></div></div>
+
+<p>挂载</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mount /dev/mapper/loop0p1 /mnt/loop0p1
+</code></pre></div></div>
+
+<h2 id="复制内核和boot所需文件">复制内核和boot所需文件</h2>
+
+<p>复制所需文件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp boot/* /mnt/loop0p1/
+</code></pre></div></div>
+
+<p>进入编译的内核的工作目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/kernel/linux/
+</code></pre></div></div>
+
+<p>复制编译好的内核</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo cp ./arch/arm64/boot/Image /mnt/loop0p1/kernel8.img
+</code></pre></div></div>
+
+<p>将32位的dtb文件更名</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mv /mnt/loop0p1/bcm2710-rpi-3-b.dtb /mnt/loop0p1/bcm2710-rpi-3-b.dtb_32
+
+$ sudo mv /mnt/loop0p1/bcm2710-rpi-3-b-plus.dtb /mnt/loop0p1/bcm2710-rpi-3-b-plus.dtb_32
+</code></pre></div></div>
+
+<p>复制64位的dtb文件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo cp ./arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b.dtb /mnt/loop0p1/bcm2710-rpi-3-b.dtb
+
+$ sudo cp ./arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dtb /mnt/loop0p1/bcm2710-rpi-3-b-plus.dtb
+</code></pre></div></div>
+
+<h2 id="写cmdlinetxt">写cmdline.txt</h2>
+
+<p>cmdline.txt写有内核启动时的启动参数</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo vim /mnt/loop0p1/cmdline.txt
+</code></pre></div></div>
+
+<p>写入,并保存退出:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait fsck.repair=yes
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>root=/dev/mmcblk0p2    将内存卡第二分区设置为根分区</p>
+  </li>
+  <li>
+    <p>rootfstype=ext4        根分区类型 f2fs应更换为f2fs</p>
+  </li>
+  <li>
+    <p>rw					 可写挂载跟分区</p>
+  </li>
+  <li>
+    <p>rootwait				 等待内核识别根分区设备后再挂载</p>
+  </li>
+  <li>
+    <p>fsck.repair=yes		 启动时自动检查修复文件系统错误</p>
+  </li>
+</ul>
+
+<p>操作完成后的/mnt/loop0p1就像这样子</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bcm2708-rpi-0-w.dtb     bcm2709-rpi-2-b.dtb       bcm2710-rpi-3-b-plus.dtb_32                fixup_db.dat      start_cd.elf
+bcm2708-rpi-b.dtb       bcm2710-rpi-3-b.dtb       bcm2710-rpi-cm3.dtb          COPYING.linux  fixup_x.dat       start_db.elf
+bcm2708-rpi-b-plus.dtb  bcm2710-rpi-3-b.dtb_32    bootcode.bin                 fixup_cd.dat   kernel8.img       start.elf
+bcm2708-rpi-cm.dtb      bcm2710-rpi-3-b-plus.dtb  cmdline.txt                  fixup.dat      LICENCE.broadcom  start_x.elf
+</code></pre></div></div>
+
+<h2 id="挂载根分区">挂载根分区</h2>
+
+<p>创建挂载点</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mkdir /mnt/loop0p2
+</code></pre></div></div>
+
+<p>挂载</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mount /dev/mapper/loop0p2 /mnt/loop0p2
+</code></pre></div></div>
+
+<h2 id="安装内核模块和固件">安装内核模块和固件</h2>
+
+<p>进入编译内核的工作目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/kernel/linux
+</code></pre></div></div>
+
+<p>切换root权限</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ su
+</code></pre></div></div>
+
+<p>并把工具链环境变量应用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cd /home/你的用户名/toolchains/你的工具链目录/
+
+# source env.sh
+</code></pre></div></div>
+
+<p>把内核编译环境变量应用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cd /home/你的用户名/kernel/
+
+# source env.sh
+</code></pre></div></div>
+
+<p>进入内核编译的工作目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cd /home/你的用户名/kernel/linux
+</code></pre></div></div>
+
+<p>安装模块</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># make modules_install INSTALL_MOD_PATH=/mnt/loop0p2
+</code></pre></div></div>
+
+<p>安装固件</p>
+
+<p>创建固件文件夹</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mkdir -p /mnt/loop0p2/lib/firmware/brcm
+</code></pre></div></div>
+
+<p>拷贝固件到目标文件夹</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cp wifi固件 /mnt/loop0p2/lib/firmware/brcm/
+
+# cp 蓝牙固件 /mnt/loop0p2/lib/firmware/brcm/
+</code></pre></div></div>
+
+<p>退出root</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># exit
+</code></pre></div></div>
+
+<p>镜像模板创建完成</p>
+
+<p>卸载挂载</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sync   # 同步写入
+$ sudo umount /dev/loop0p1
+$ sudo umount /dev/loop0p2
+$ sudo kpartx -dv /dev/loop0
+$ sudo losetup -d /dev/loop0
+</code></pre></div></div>
+
+<h1 id="制作rootfs">制作rootfs</h1>
+
+<p>创建工作文件夹</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mkdir ~/rootfs/
+</code></pre></div></div>
+
+<p>使用debootstrap制作rootfs</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo debootstrap --arch=arm64 发行代号 rootfs/发行代号
+</code></pre></div></div>
+
+<p>使用现成rootfs (使用root解压)</p>
+
+<p>Archlinux 64 位官方rootfs:</p>
+
+<p>http://mirrors.ustc.edu.cn/archlinuxarm/os/ArchLinuxARM-aarch64-latest.tar.gz</p>
+
+<p>Gentoo 64 位官方rootfs:</p>
+
+<p>http://distfiles.gentoo.org/experimental/arm64/</p>
+
+<p>Ubuntu 64 位官方rootfs:</p>
+
+<ul>
+  <li>xenial:</li>
+</ul>
+
+<p>http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/xenial/release/ubuntu-base-16.04.5-base-arm64.tar.gz</p>
+
+<ul>
+  <li>bionic:</li>
+</ul>
+
+<p>http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/bionic/release/ubuntu-base-18.04.1-base-arm64.tar.gz</p>
+
+<p>其他没有提供rootfs的发行可以通过像debootstarp一样的工具构建</p>
+
+<p>你也可以自行使用CLFS构建一个rootfs</p>
+
+<p>或者构建busybox</p>
+
+<p>制作完成后 rootfs/发行代号 文件夹看起来大概是这样</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls rootfs/发行代号
+bin
+boot
+dev
+etc
+home
+lib
+lib64
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+
+</code></pre></div></div>
+
+<h2 id="使用chroot进去安装配置">使用chroot进去安装配置</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd rootfs/发行代号
+</code></pre></div></div>
+
+<p>挂载必要的文件系统</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mount -o bind /dev/ dev
+$ sudo mount -o bind /dev/pts dev/pts
+$ sudo mount -o bind /proc proc
+$ sudo mount -o bind /sys sys
+</code></pre></div></div>
+
+<p>将外部的网络配置临时复制进rootfs</p>
+
+<p>备份原来的配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo cp etc/hosts etc/hosts.bak
+$ sudo cp etc/resolv.conf etc/resolv.conf.bak
+</code></pre></div></div>
+
+<p>复制外部配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo cp /etc/hosts etc/hosts
+$ sudo cp /etc/resolv.conf etc/resolv.conf
+</code></pre></div></div>
+
+<p>chroot 进</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo chroot ./ /bin/sh
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>chroot # 指代chroot内的操作</p>
+  </li>
+  <li>
+    <p>这里拿debian系的系统演示，其他系统请自行更换命令</p>
+  </li>
+</ul>
+
+<p>进入后:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot #
+</code></pre></div></div>
+
+<p>设置root密码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # passwd
+</code></pre></div></div>
+
+<p>添加新用户</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # adduser user
+</code></pre></div></div>
+
+<p>为新用户设置密码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # passwd user
+</code></pre></div></div>
+
+<p>安装必要的软件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt update
+
+chroot # apt install vim wpasupplicant net-tools 
+</code></pre></div></div>
+
+<p>安装音频管理</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install alsa-utils
+</code></pre></div></div>
+
+<p>安装蓝牙管理</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install bluez
+</code></pre></div></div>
+
+<p>安装ssh</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install openssh-server
+</code></pre></div></div>
+
+<p>安装bash补全(可选)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install bash-com*
+</code></pre></div></div>
+
+<p>安装桌面(可选)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install ligthdm    # 登陆管理器
+</code></pre></div></div>
+
+<p>xfce4：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install xfce4
+</code></pre></div></div>
+
+<p>lxde:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install lxde
+</code></pre></div></div>
+
+<p>mate:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # apt install mate
+</code></pre></div></div>
+
+<p>细节不过多描述，用过gentoo的用户应该懂</p>
+
+<ul>
+  <li>不同系统需要修改配置的内容不同，请根据具体情况操作</li>
+</ul>
+
+<h2 id="chroot-设置完成后">chroot 设置完成后</h2>
+
+<p>退出chroot</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chroot # exit
+</code></pre></div></div>
+
+<p>卸载文件系统</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo umount dev/pts
+$ sudo umount proc
+$ sudo umount sys
+</code></pre></div></div>
+
+<p>恢复网络配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mv etc/hosts.bak etc/hosts
+$ sudo mv etc/resolv.conf.bak etc/resolv.conf
+</code></pre></div></div>
+
+<h2 id="计算rootfs大小">计算rootfs大小</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo du -sh ./
+</code></pre></div></div>
+
+<h2 id="计算新镜像大小">计算新镜像大小</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>新镜像大小 = rootfs大小 + 原模板大小 + 200M
+</code></pre></div></div>
+
+<p>计算完成后记录下来</p>
+
+<h1 id="打包进镜像">打包进镜像</h1>
+
+<p>进入镜像工作目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/images/
+</code></pre></div></div>
+
+<p>复制模板</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp 300M_TEMPLATE 新镜像大小.img
+</code></pre></div></div>
+
+<p>扩展新镜像大小</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dd bs=1M count=rootfs大小（以m为单位) if=/dev/zero &gt;&gt; 新镜像大小.img
+</code></pre></div></div>
+
+<p>扩展新镜像第二分区</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cfdisk 新镜像大小.img
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&gt;&gt;  1000M.img2                                206848          614399          407552          199M         83 Linux               
+    Free space                                614400         2047999         1433600          700M
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                  [Bootable]  [ Delete ]  [  * Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                               Quit program without writing changes
+
+</code></pre></div></div>
+
+<p>使用方向键下 移动到第二分区 选择resize</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&gt;&gt;  1000M.img2                                206848          614399          407552          199M         83 Linux               
+    Free space                                614400         2047999         1433600          700M
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ New size: 899M
+
+
+                              May be followed by M for MiB, G for GiB, T for TiB, or S for sectors.
+
+
+</code></pre></div></div>
+
+<p>输入最大的分区大小  （第二分区 + 空闲区域)</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&gt;&gt;  1000M.img2                                206848         2047999         1841152          899M         83 Linux               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                  [Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [ *  Write ]  [  Dump  ]
+
+
+                                     Write partition table to disk (this might destroy data)
+
+</code></pre></div></div>
+
+<p>选择Write写入</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&gt;&gt;  1000M.img2                                206848         2047999         1841152          899M         83 Linux               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ Are you sure you want to write the partition table to disk? yes
+
+
+                                      Type "yes" or "no", or press ESC to leave this dialog.
+
+</code></pre></div></div>
+
+<p>yes同意</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&gt;&gt;  1000M.img2                                206848         2047999         1841152          899M         83 Linux               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                  [Bootable]  [ Delete ]  [ Resize ]  [   * Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                               Quit program without writing changes
+
+</code></pre></div></div>
+
+<p>选quit退出</p>
+
+<h2 id="扩展分区">扩展分区</h2>
+
+<p>loop挂载</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo kpartx -av 新镜像大小.img
+</code></pre></div></div>
+
+<p>使用工具扩展分区</p>
+
+<p>ext4:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo resize2fs /dev/mapper/loop0p2
+</code></pre></div></div>
+
+<p>f2fs:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo resize.f2fs /dev/mapper/loop0p2
+</code></pre></div></div>
+
+<p>不要卸载，下一步同步rootfs进镜像会用到第二分区</p>
+
+<h1 id="打包进镜像-1">打包进镜像</h1>
+
+<h2 id="同步rootfs进镜像第二分区">同步rootfs进镜像第二分区</h2>
+
+<p>进入rootfs目录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd ~/rootfs/发行代号/
+</code></pre></div></div>
+
+<p>挂载第二分区</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo mount /dev/mapper/loop0p2 /mnt/loop0p2
+</code></pre></div></div>
+
+<p>同步</p>
+
+<p>安装rsync</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install rsync
+</code></pre></div></div>
+
+<p>同步进去</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo rsync -HPavz -q ./ /mnt/loop0p2
+</code></pre></div></div>
+
+<p>等待同步完成</p>
+
+<p>卸载</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sync
+$ sudo umount /mnt/loop0p2
+$ sudo kpartx -dv /dev/loop0
+$ sudo losetup -d /dev/loop0
+</code></pre></div></div>
+
+<p>得到一个新镜像</p>
+
+<h1 id="测试">测试</h1>
+
+<p>自行刷入测试</p>
+
+<h1 id="一些问题">一些问题</h1>
+
+<ul>
+  <li>镜像刷入后黑屏无法启动</li>
+</ul>
+
+<p>检查内核编译环节和文件cmdline.txt</p>
+
+<ul>
+  <li>内核启动后panic</li>
+</ul>
+
+<p>检查rootfs和内核编译环节</p>
+
+<ul>
+  <li>启动后wifi没有</li>
+</ul>
+
+<p>检查固件和内核编译环节</p>
+
+<ul>
+  <li>f2fs不能在运行中扩展分区</li>
+</ul>
+
+<p>拆卡到电脑上扩展</p>
+
+<hr />
+
+<p>luhux@hotmail.com</p>
+
+<p>请勿商业转载</p>
+
+<p>转载请标明出处</p>
+
+<hr />
+
+  </div><a class="u-url" href="/2018/12/18/make-a-raspberrypi64system.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">LUHUX BLOG</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">LUHUX BLOG</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/luhux"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">luhux</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>LUHUX BLOG</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

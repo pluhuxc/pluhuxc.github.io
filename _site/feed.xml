@@ -1,0 +1,2537 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://pluhuxc.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://pluhuxc.github.io//" rel="alternate" type="text/html" /><updated>2018-12-20T12:28:10+00:00</updated><id>https://pluhuxc.github.io//feed.xml</id><title type="html">LUHUX BLOG</title><subtitle>LUHUX BLOG</subtitle><entry><title type="html">自行制作一个树苺派64位系统</title><link href="https://pluhuxc.github.io//2018/12/18/make-a-raspberrypi64system.html" rel="alternate" type="text/html" title="自行制作一个树苺派64位系统" /><published>2018-12-18T00:00:00+00:00</published><updated>2018-12-18T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/12/18/make-a-raspberrypi64system</id><content type="html" xml:base="https://pluhuxc.github.io//2018/12/18/make-a-raspberrypi64system.html">&lt;p&gt;markdown 排版不理想&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/pluhuxc/pluhuxc.github.io/blob/master/_posts/2018-12-18-make-a-raspberrypi64system.md&quot;&gt;github排版&lt;/a&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;准备环境&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;编译内核&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;创建镜像模板&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;制作rootfs&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;打包进镜像&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;树梅派64位系统ARCH是aarch64 或 arm64&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;准备环境&quot;&gt;准备环境&lt;/h1&gt;
+
+&lt;p&gt;环境：&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Linux x86 或 Linux x86\_64
+5G硬盘空间
+网络
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;编译内核用的工具链-gcc-49&quot;&gt;编译内核用的工具链 gcc-4.9&lt;/h2&gt;
+
+&lt;p&gt;Linaro下载:&lt;/p&gt;
+
+&lt;p&gt;https://releases.linaro.org/components/toolchain/binaries/&lt;/p&gt;
+
+&lt;p&gt;内核建议使用gcc 4.9的工具链构建&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;下载&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;64位：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/aarch64-linux-gnu/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu.tar.xz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;32位:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/aarch64-linux-gnu/gcc-linaro-4.9.4-2017.01-i686_aarch64-linux-gnu.tar.xz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;解压&lt;/p&gt;
+
+    &lt;p&gt;$ mkdir ~/toolchains   # 创建目录&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;64位:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ tar xf gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu.tar.xz -C ~/toolchains/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;32位:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ tar xf gcc-linaro-4.9-2017.01-i686_aarch64-linux-gnu.tar.xz -C ~/toolchains
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;创建工具链环境变量初始化脚本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;64位：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/toolchains/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;32位：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/toolchains/gcc-linaro-4.9.4-2017.01-i686_aarch64-linux-gnu/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;创建环境变量脚本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo 'export PATH=${PATH}:$(pwd)/bin' &amp;gt; env.sh	
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;应用环境变量脚本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source env.sh   # 将环境变量应用到当前终端
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;一些编译内核要用到的工具-build-essential-bison-make&quot;&gt;一些编译内核要用到的工具 build-essential bison make&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install build-essential bison make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;构建rootfs用的工具-debootstrap-qemu-user-static&quot;&gt;构建rootfs用的工具 debootstrap qemu-user-static&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install debootstrap qemu-user-static
+
+$ sudo service binfmt-support start  # 启动binfmt服务
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;挂载镜像用到的工具-partx&quot;&gt;挂载镜像用到的工具 partx&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install partx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;分区镜像用到的工具-cfdisk&quot;&gt;分区镜像用到的工具 cfdisk&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install util-linux
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;编辑配置文件编辑器-vim&quot;&gt;编辑配置文件编辑器 vim&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install vim
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;树梅派内核&quot;&gt;树梅派内核&lt;/h2&gt;
+
+&lt;p&gt;这里使用官方内核&lt;/p&gt;
+
+&lt;p&gt;创建工作目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ mkdir kernel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;进入工作目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd kernel 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;git clone 源码&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git clone https://github.com/raspberrypi/linux.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;克隆下来的文件夹在 ~/kernel/linux&lt;/p&gt;
+
+&lt;h2 id=&quot;树梅派boot文件&quot;&gt;树梅派boot文件&lt;/h2&gt;
+
+&lt;p&gt;手动下载:&lt;/p&gt;
+
+&lt;p&gt;https://github.com/raspberrypi/firmware/tree/master/boot&lt;/p&gt;
+
+&lt;p&gt;一健下载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git clone --depth=1 https://github.com/raspberrypi/firmware/ 
+
+$ cd firmware/boot   # 下载好的文件
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;树梅派wifi和蓝牙的固件&quot;&gt;树梅派wifi和蓝牙的固件&lt;/h2&gt;
+
+&lt;p&gt;需要的固件文件&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;树梅派3b&lt;/p&gt;
+
+&lt;p&gt;WIFI:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brcmfmac43430-sdio.bin
+brcmfmac43430-sdio.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Bluetooth:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;BCM43430A1.hcd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;树梅派3b+&lt;/p&gt;
+
+&lt;p&gt;WIFI:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brcmfmac43455-sdio.bin
+brcmfmac43455-sdio.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Bluetooth:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;BCM4345C0.hcd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;建议从raspbian镜像内提取&lt;/p&gt;
+
+&lt;p&gt;现成raspbian的 /lib/firmware/brcm/ 文件夹&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;网络获取方法:&lt;/p&gt;
+
+&lt;p&gt;手动下载&lt;/p&gt;
+
+&lt;p&gt;Wifi:&lt;/p&gt;
+
+&lt;p&gt;https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/brcm&lt;/p&gt;
+
+&lt;p&gt;Bluetooth:&lt;/p&gt;
+
+&lt;p&gt;https://github.com/RPi-Distro/bluez-firmware/tree/master/broadcom&lt;/p&gt;
+
+&lt;h1 id=&quot;编译内核&quot;&gt;编译内核&lt;/h1&gt;
+
+&lt;p&gt;检查工具链&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ which aarch64-linux-gnu-gcc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;创建内核编译初始化脚本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo 'export ARCH=arm64' &amp;gt;&amp;gt; env.sh
+$ echo 'export CROSS_COMPILE=aarch64-linux-gnu-' &amp;gt;&amp;gt; env.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;初始化环境&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source env.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;检查环境变量&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo &quot;${ARCH}&quot;
+
+$ echo &quot;${CROSS_COMPILE}&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果ARCH为arm64，CROSS_COMPILE为aarch64-linux-gnu-则环境ok&lt;/p&gt;
+
+&lt;p&gt;进入刚才你准备好的内核源码目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/kernel/linux
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用默认配置&quot;&gt;使用默认配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ make bcmrpi3_defconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;修改默认配置&quot;&gt;修改默认配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ make bcmrpi3_defconfig
+$ make menuconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果menuconfig失败请安装libncurses-dev&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ apt install libncurses5-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;进入后的配置界面是这样的&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; .config - Linux/arm64 4.14.89 Kernel Configuration
+ ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ┌──────────────────────────────────────── Linux/arm64 4.14.89 Kernel Configuration ─────────────────────────────────────────┐
+  │  Arrow keys navigate the menu.  &amp;lt;Enter&amp;gt; selects submenus ---&amp;gt; (or empty submenus ----).  Highlighted letters are hotkeys. │  
+  │  Pressing &amp;lt;Y&amp;gt; includes, &amp;lt;N&amp;gt; excludes, &amp;lt;M&amp;gt; modularizes features.  Press &amp;lt;Esc&amp;gt;&amp;lt;Esc&amp;gt; to exit, &amp;lt;?&amp;gt; for Help, &amp;lt;/&amp;gt; for Search.  │  
+  │  Legend: [*] built-in  [ ] excluded  &amp;lt;M&amp;gt; module  &amp;lt; &amp;gt; module capable                                                       │  
+  │                                                                                                                           │  
+  │ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ │  
+  │ │                            General setup  ---&amp;gt;                                                                        │ │  
+  │ │                        [*] Enable loadable module support  ---&amp;gt;                                                       │ │  
+  │ │                        [*] Enable the block layer  ---&amp;gt;                                                               │ │  
+  │ │                            Platform selection  ---&amp;gt;                                                                   │ │  
+  │ │                            Bus support  ---&amp;gt;                                                                          │ │  
+  │ │                            Kernel Features  ---&amp;gt;                                                                      │ │  
+  │ │                            Boot options  ---&amp;gt;                                                                         │ │  
+  │ │                            Userspace binary formats  ---&amp;gt;                                                             │ │  
+  │ │                            Power management options  ---&amp;gt;                                                             │ │  
+  │ │                            CPU Power Management  ---&amp;gt;                                                                 │ │  
+  │ │                        [*] Networking support  ---&amp;gt;                                                                   │ │  
+  │ │                            Device Drivers  ---&amp;gt;                                                                       │ │  
+  │ │                            Firmware Drivers  ---&amp;gt;                                                                     │ │  
+  │ │                            File systems  ---&amp;gt;                                                                         │ │  
+  │ │                        [ ] Virtualization  ----                                                                       │ │  
+  │ │                            Kernel hacking  ---&amp;gt;                                                                       │ │  
+  │ │                            Security options  ---&amp;gt;                                                                     │ │  
+  │ │                        -*- Cryptographic API  ---&amp;gt;                                                                    │ │  
+  │ │                            Library routines  ---&amp;gt;                                                                     │ │  
+  │ │                                                                                                                       │ │  
+  │ │                                                                                                                       │ │  
+  │ │                                                                                                                       │ │  
+  │ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ │  
+  ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤  
+  │                                 &amp;lt;Select&amp;gt;    &amp;lt; Exit &amp;gt;    &amp;lt; Help &amp;gt;    &amp;lt; Save &amp;gt;    &amp;lt; Load &amp;gt;                                  │  
+  └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;修改内核后缀&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;General setup  ---&amp;gt; 
+		(-v8) Local version - append to kernel release
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;加入cgroup内核支持&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;General setup  ---&amp;gt; 
+    -*- Control Group support  ---&amp;gt;
+        [*]   Memory controller          
+	    [*]     Swap controller                               
+        [*]       Swap controller enabled by default (NEW)     
+        [*]   IO controller                        
+        -*-   CPU controller  ---&amp;gt;                  
+            [*]     CPU bandwidth provisioning for FAIR_GROUP_SCHED    
+            [*]   Group scheduling for SCHED_RR/FIFO                    
+        [*]   PIDs controller                        
+        [*]   RDMA controller                         
+        [*]   Freezer controller                       
+        [*]   Cpuset controller     
+        [*]     Include legacy /proc/&amp;lt;pid&amp;gt;/cpuset file  
+        [*]   Device controller      
+        [*]   Simple CPU accounting controller                               
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;加入checkpoint支持&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;General setup  ---&amp;gt; 
+    [*] Checkpoint/restore support  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;加入KVM支持&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[*] Virtualization  ---&amp;gt;
+    [*]   Kernel-based Virtual Machine (KVM) support
+    &amp;lt;M&amp;gt;   Host kernel accelerator for virtio net
+    [*]   Cross-endian support for vhost
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;勾选你需要的驱动&lt;/p&gt;
+
+&lt;p&gt;比如rtlusb网卡驱动&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Device Drivers  ---&amp;gt;
+    [*] Network device support  ---&amp;gt;
+        [*]   Wireless LAN  ---&amp;gt;
+            [*]   Realtek devices                      
+		    &amp;lt;M&amp;gt;   Realtek 8187 and 8187B USB support               
+            &amp;lt;M&amp;gt;     Realtek rtlwifi family of devices  ---&amp;gt;           
+		    &amp;lt;M&amp;gt;     Realtek 8192C USB WiFi                             
+            &amp;lt;M&amp;gt;    RTL8723AU/RTL8188[CR]U/RTL819[12]CU (mac80211) support       
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选择完成后选择exit按钮退出并保存&lt;/p&gt;
+
+&lt;h2 id=&quot;编译内核-1&quot;&gt;编译内核&lt;/h2&gt;
+
+&lt;p&gt;确保bc的安装&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install bc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;开始编译&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ make -j5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-jx 表示可以同时进行编译的进程数建议为cpu线程数+1  比如双核4线程就取5&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;制作镜像模板&quot;&gt;制作镜像模板&lt;/h1&gt;
+
+&lt;p&gt;创建工作文件夹&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ mkdir ~/images/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;进入工作文件夹&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/images/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;创建一个300MB的镜像模板&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ dd bs=1M count=300 if=/dev/zero of=300M_TEMPLATE.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;为镜像模板分区&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cfdisk 300M_TEMPLATE.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+
+
+
+
+
+
+
+
+
+                                       ┌ Select label type ───┐
+                                       │ gpt                  │
+                                       │ dos     *            │
+                                       │ sgi                  │
+                                       │ sun                  │
+                                       └──────────────────────┘
+
+
+
+
+
+
+
+
+
+
+                        Device does not contain a recognized partition table.
+                Select a type to create a new label or press 'L' to load script file.
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;分区表类型选dos&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device           Boot             Start         End      Sectors       Size      Id Type
+&amp;gt;&amp;gt;  Free space                         2048      614399       612352       299M                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [ * New  ]  [  Quit  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                 Create new partition from free space
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选 new 创建分区&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device           Boot             Start         End      Sectors       Size      Id Type
+&amp;gt;&amp;gt;  Free space                         2048      614399       612352       299M                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Partition size: 100M
+
+
+                May be followed by M for MiB, G for GiB, T for TiB, or S for sectors.
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;分区大小为100M&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device           Boot             Start         End      Sectors       Size      Id Type
+&amp;gt;&amp;gt;  Free space                         2048      614399       612352       299M                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        [*primary ]  [extended]
+
+
+                                    0 primary, 0 extended, 4 free
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;分区类型选primary，主分区&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+&amp;gt;&amp;gt;  300M_TEMPLATE.img1      *               2048     206847      204800      100M     83 Linux        
+    Free space                            206848     614399      407552      199M
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ │    Attributes: 80                                                                                │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [ * Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选bootable使刚才创建的分区设定为可启动&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+&amp;gt;&amp;gt;  300M_TEMPLATE.img1      *               2048     206847      204800      100M     83 Linux        
+    Free space                            206848     614399      407552      199M
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ │    Attributes: 80                                                                                │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [ * Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                      Change the partition type
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选type改变分区标识&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                               ┌ Select partition type ──────────────┐
+                               │  0 Empty                            │
+                               │  1 FAT12                            │
+                               │  2 XENIX root                       │
+                               │  3 XENIX usr                        │
+                               │  4 FAT16 &amp;lt;32M                       │
+                               │  5 Extended                         │
+                               │  6 FAT16                            │
+                               │  7 HPFS/NTFS/exFAT                  │
+                               │  8 AIX                              │
+                               │  9 AIX bootable                     │
+                               │  a OS/2 Boot Manager                │
+                               │  b W95 FAT32          ****          │
+                               │  c W95 FAT32 (LBA)                  │
+                               │  e W95 FAT16 (LBA)                  │
+                               │  f W95 Ext'd (LBA)                  │
+                               │ 10 OPUS                             │
+                               │ 11 Hidden FAT12                     │
+                               │ 12 Compaq diagnostics               │
+                               │ 14 Hidden FAT16 &amp;lt;32M                │
+                               │ 16 Hidden FAT16                     │
+                               │ 17 Hidden HPFS/NTFS                 │
+                               │ 18 AST SmartSleep                   │
+                               │ 1b Hidden W95 FAT32                 │
+                               │ 1c Hidden W95 FAT32 (LBA)           │
+                               └───────────────────────────────────↓─┘
+
+
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选择找到W95 FAT32 并回车&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&amp;gt;&amp;gt;  Free space                            206848     614399      407552      199M                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [ *  New  ]  [  Quit  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                 Create new partition from free space
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;按方向健下，切换到空余空间.选择new新健一个分区&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&amp;gt;&amp;gt;  Free space                            206848     614399      407552      199M                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Partition size: 199M
+
+
+                May be followed by M for MiB, G for GiB, T for TiB, or S for sectors.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;分区使用所有空余空间&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&amp;gt;&amp;gt;  Free space                            206848     614399      407552      199M                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        [ * primary]  [extended]
+
+
+                                    1 primary, 0 extended, 3 free
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选择primary 主分区&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&amp;gt;&amp;gt;  300M_TEMPLATE.img2                    206848     614399      407552      199M     83 Linux        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [ * Write ]  [  Dump  ]
+
+
+                       Write partition table to disk (this might destroy data)
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选择Write 将更改写入镜像&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&amp;gt;&amp;gt;  300M_TEMPLATE.img2                    206848     614399      407552      199M     83 Linux        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+ Are you sure you want to write the partition table to disk? yes
+
+
+                        Type &quot;yes&quot; or &quot;no&quot;, or press ESC to leave this dialog.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;输入yes，回车&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+                                       Disk: 300M_TEMPLATE.img
+                            Size: 300 MiB, 314572800 bytes, 614400 sectors
+                                  Label: dos, identifier: 0x7cbd547b
+
+    Device                  Boot           Start        End     Sectors      Size     Id Type
+    300M_TEMPLATE.img1      *               2048     206847      204800      100M      b W95 FAT32
+&amp;gt;&amp;gt;  300M_TEMPLATE.img2                    206848     614399      407552      199M     83 Linux        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │Partition type: Linux (83)                                                                        │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────┘
+    [Bootable]  [ Delete ]  [ Resize ]  [ *  Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                 Quit program without writing changes
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选择quit退出&lt;/p&gt;
+
+&lt;h2 id=&quot;为镜像模板创建文件系统&quot;&gt;为镜像模板创建文件系统&lt;/h2&gt;
+
+&lt;p&gt;使用kpartx挂载镜像到loop&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo kpartx -av 300M_TEMPLATE.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;输出的信息就是挂载到的目标设备文件&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;add map loop0p1 (254:0): 0 204800 linear 7:0 2048
+add map loop0p2 (254:1): 0 407552 linear 7:0 206848
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;loop0p1 为第一个分区
+loop0p2 为第二个分区&lt;/p&gt;
+
+&lt;p&gt;安装dosfstool&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install dosfstools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;格式化第一个分区为FAT32&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mkfs.vfat /dev/mapper/loop0p1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;格式化第二个分区为ext4&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mkfs.ext4 /dev/mapper/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果你想把第二个分区格式化为f2fs&lt;/p&gt;
+
+&lt;p&gt;安装f2fs-tools&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install f2fs-tools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;格式化第二个分区为f2fs&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mkfs.f2fs -f /dev/mapper/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;挂载镜像的boot分区&quot;&gt;挂载镜像的boot分区&lt;/h2&gt;
+
+&lt;p&gt;创建挂载点&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mkdir /mnt/loop0p1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;挂载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mount /dev/mapper/loop0p1 /mnt/loop0p1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;复制内核和boot所需文件&quot;&gt;复制内核和boot所需文件&lt;/h2&gt;
+
+&lt;p&gt;复制所需文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp boot/* /mnt/loop0p1/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;进入编译的内核的工作目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/kernel/linux/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;复制编译好的内核&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo cp ./arch/arm64/boot/Image /mnt/loop0p1/kernel8.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将32位的dtb文件更名&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mv /mnt/loop0p1/bcm2710-rpi-3-b.dtb /mnt/loop0p1/bcm2710-rpi-3-b.dtb_32
+
+$ sudo mv /mnt/loop0p1/bcm2710-rpi-3-b-plus.dtb /mnt/loop0p1/bcm2710-rpi-3-b-plus.dtb_32
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;复制64位的dtb文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo cp ./arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b.dtb /mnt/loop0p1/bcm2710-rpi-3-b.dtb
+
+$ sudo cp ./arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dtb /mnt/loop0p1/bcm2710-rpi-3-b-plus.dtb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;写cmdlinetxt&quot;&gt;写cmdline.txt&lt;/h2&gt;
+
+&lt;p&gt;cmdline.txt写有内核启动时的启动参数&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo vim /mnt/loop0p1/cmdline.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;写入,并保存退出:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait fsck.repair=yes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;root=/dev/mmcblk0p2    将内存卡第二分区设置为根分区&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;rootfstype=ext4        根分区类型 f2fs应更换为f2fs&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;rw					 可写挂载跟分区&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;rootwait				 等待内核识别根分区设备后再挂载&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;fsck.repair=yes		 启动时自动检查修复文件系统错误&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;操作完成后的/mnt/loop0p1就像这样子&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bcm2708-rpi-0-w.dtb     bcm2709-rpi-2-b.dtb       bcm2710-rpi-3-b-plus.dtb_32                fixup_db.dat      start_cd.elf
+bcm2708-rpi-b.dtb       bcm2710-rpi-3-b.dtb       bcm2710-rpi-cm3.dtb          COPYING.linux  fixup_x.dat       start_db.elf
+bcm2708-rpi-b-plus.dtb  bcm2710-rpi-3-b.dtb_32    bootcode.bin                 fixup_cd.dat   kernel8.img       start.elf
+bcm2708-rpi-cm.dtb      bcm2710-rpi-3-b-plus.dtb  cmdline.txt                  fixup.dat      LICENCE.broadcom  start_x.elf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;挂载根分区&quot;&gt;挂载根分区&lt;/h2&gt;
+
+&lt;p&gt;创建挂载点&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mkdir /mnt/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;挂载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mount /dev/mapper/loop0p2 /mnt/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;安装内核模块和固件&quot;&gt;安装内核模块和固件&lt;/h2&gt;
+
+&lt;p&gt;进入编译内核的工作目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/kernel/linux
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;切换root权限&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ su
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;并把工具链环境变量应用&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /home/你的用户名/toolchains/你的工具链目录/
+
+# source env.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;把内核编译环境变量应用&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /home/你的用户名/kernel/
+
+# source env.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;进入内核编译的工作目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /home/你的用户名/kernel/linux
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装模块&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# make modules_install INSTALL_MOD_PATH=/mnt/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装固件&lt;/p&gt;
+
+&lt;p&gt;创建固件文件夹&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# mkdir -p /mnt/loop0p2/lib/firmware/brcm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;拷贝固件到目标文件夹&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cp wifi固件 /mnt/loop0p2/lib/firmware/brcm/
+
+# cp 蓝牙固件 /mnt/loop0p2/lib/firmware/brcm/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;退出root&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# exit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;镜像模板创建完成&lt;/p&gt;
+
+&lt;p&gt;卸载挂载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sync   # 同步写入
+$ sudo umount /dev/loop0p1
+$ sudo umount /dev/loop0p2
+$ sudo kpartx -dv /dev/loop0
+$ sudo losetup -d /dev/loop0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;制作rootfs&quot;&gt;制作rootfs&lt;/h1&gt;
+
+&lt;p&gt;创建工作文件夹&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ mkdir ~/rootfs/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用debootstrap制作rootfs&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo debootstrap --arch=arm64 发行代号 rootfs/发行代号
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用现成rootfs (使用root解压)&lt;/p&gt;
+
+&lt;p&gt;Archlinux 64 位官方rootfs:&lt;/p&gt;
+
+&lt;p&gt;http://mirrors.ustc.edu.cn/archlinuxarm/os/ArchLinuxARM-aarch64-latest.tar.gz&lt;/p&gt;
+
+&lt;p&gt;Gentoo 64 位官方rootfs:&lt;/p&gt;
+
+&lt;p&gt;http://distfiles.gentoo.org/experimental/arm64/&lt;/p&gt;
+
+&lt;p&gt;Ubuntu 64 位官方rootfs:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;xenial:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/xenial/release/ubuntu-base-16.04.5-base-arm64.tar.gz&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;bionic:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;http://mirrors.ustc.edu.cn/ubuntu-cdimage/ubuntu-base/releases/bionic/release/ubuntu-base-18.04.1-base-arm64.tar.gz&lt;/p&gt;
+
+&lt;p&gt;其他没有提供rootfs的发行可以通过像debootstarp一样的工具构建&lt;/p&gt;
+
+&lt;p&gt;你也可以自行使用CLFS构建一个rootfs&lt;/p&gt;
+
+&lt;p&gt;或者构建busybox&lt;/p&gt;
+
+&lt;p&gt;制作完成后 rootfs/发行代号 文件夹看起来大概是这样&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ls rootfs/发行代号
+bin
+boot
+dev
+etc
+home
+lib
+lib64
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用chroot进去安装配置&quot;&gt;使用chroot进去安装配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd rootfs/发行代号
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;挂载必要的文件系统&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mount -o bind /dev/ dev
+$ sudo mount -o bind /dev/pts dev/pts
+$ sudo mount -o bind /proc proc
+$ sudo mount -o bind /sys sys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将外部的网络配置临时复制进rootfs&lt;/p&gt;
+
+&lt;p&gt;备份原来的配置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo cp etc/hosts etc/hosts.bak
+$ sudo cp etc/resolv.conf etc/resolv.conf.bak
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;复制外部配置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo cp /etc/hosts etc/hosts
+$ sudo cp /etc/resolv.conf etc/resolv.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;chroot 进&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo chroot ./ /bin/sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;chroot # 指代chroot内的操作&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里拿debian系的系统演示，其他系统请自行更换命令&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;进入后:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot #
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;设置root密码&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # passwd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;添加新用户&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # adduser user
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;为新用户设置密码&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # passwd user
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装必要的软件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt update
+
+chroot # apt install vim wpasupplicant net-tools 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装音频管理&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install alsa-utils
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装蓝牙管理&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install bluez
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装ssh&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install openssh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装bash补全(可选)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install bash-com*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装桌面(可选)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install ligthdm    # 登陆管理器
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;xfce4：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install xfce4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;lxde:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install lxde
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;mate:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # apt install mate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;细节不过多描述，用过gentoo的用户应该懂&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;不同系统需要修改配置的内容不同，请根据具体情况操作&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;chroot-设置完成后&quot;&gt;chroot 设置完成后&lt;/h2&gt;
+
+&lt;p&gt;退出chroot&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chroot # exit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;卸载文件系统&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo umount dev/pts
+$ sudo umount proc
+$ sudo umount sys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;恢复网络配置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mv etc/hosts.bak etc/hosts
+$ sudo mv etc/resolv.conf.bak etc/resolv.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;计算rootfs大小&quot;&gt;计算rootfs大小&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo du -sh ./
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;计算新镜像大小&quot;&gt;计算新镜像大小&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;新镜像大小 = rootfs大小 + 原模板大小 + 200M
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;计算完成后记录下来&lt;/p&gt;
+
+&lt;h1 id=&quot;打包进镜像&quot;&gt;打包进镜像&lt;/h1&gt;
+
+&lt;p&gt;进入镜像工作目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/images/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;复制模板&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp 300M_TEMPLATE 新镜像大小.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;扩展新镜像大小&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ dd bs=1M count=rootfs大小（以m为单位) if=/dev/zero &amp;gt;&amp;gt; 新镜像大小.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;扩展新镜像第二分区&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cfdisk 新镜像大小.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&amp;gt;&amp;gt;  1000M.img2                                206848          614399          407552          199M         83 Linux               
+    Free space                                614400         2047999         1433600          700M
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                  [Bootable]  [ Delete ]  [  * Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                               Quit program without writing changes
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用方向键下 移动到第二分区 选择resize&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&amp;gt;&amp;gt;  1000M.img2                                206848          614399          407552          199M         83 Linux               
+    Free space                                614400         2047999         1433600          700M
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ New size: 899M
+
+
+                              May be followed by M for MiB, G for GiB, T for TiB, or S for sectors.
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;输入最大的分区大小  （第二分区 + 空闲区域)&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&amp;gt;&amp;gt;  1000M.img2                                206848         2047999         1841152          899M         83 Linux               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                  [Bootable]  [ Delete ]  [ Resize ]  [  Quit  ]  [  Type  ]  [  Help  ]  [ *  Write ]  [  Dump  ]
+
+
+                                     Write partition table to disk (this might destroy data)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选择Write写入&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&amp;gt;&amp;gt;  1000M.img2                                206848         2047999         1841152          899M         83 Linux               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ Are you sure you want to write the partition table to disk? yes
+
+
+                                      Type &quot;yes&quot; or &quot;no&quot;, or press ESC to leave this dialog.
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;yes同意&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+                                                         Disk: 1000M.img
+                                        Size: 1000 MiB, 1048576000 bytes, 2048000 sectors
+                                                Label: dos, identifier: 0x7cbd547b
+
+    Device              Boot                   Start             End         Sectors          Size         Id Type
+    1000M.img1          *                       2048          206847          204800          100M          b W95 FAT32
+&amp;gt;&amp;gt;  1000M.img2                                206848         2047999         1841152          899M         83 Linux               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │ Partition type: Linux (83)                                                                                                   │
+ │Filesystem UUID: c34348cf-fbb3-4056-a45c-70e28309bfb5                                                                         │
+ │     Filesystem: f2fs                                                                                                         │
+ └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                  [Bootable]  [ Delete ]  [ Resize ]  [   * Quit  ]  [  Type  ]  [  Help  ]  [  Write ]  [  Dump  ]
+
+
+                                               Quit program without writing changes
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;选quit退出&lt;/p&gt;
+
+&lt;h2 id=&quot;扩展分区&quot;&gt;扩展分区&lt;/h2&gt;
+
+&lt;p&gt;loop挂载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo kpartx -av 新镜像大小.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用工具扩展分区&lt;/p&gt;
+
+&lt;p&gt;ext4:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo resize2fs /dev/mapper/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;f2fs:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo resize.f2fs /dev/mapper/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;不要卸载，下一步同步rootfs进镜像会用到第二分区&lt;/p&gt;
+
+&lt;h1 id=&quot;打包进镜像-1&quot;&gt;打包进镜像&lt;/h1&gt;
+
+&lt;h2 id=&quot;同步rootfs进镜像第二分区&quot;&gt;同步rootfs进镜像第二分区&lt;/h2&gt;
+
+&lt;p&gt;进入rootfs目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd ~/rootfs/发行代号/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;挂载第二分区&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo mount /dev/mapper/loop0p2 /mnt/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;同步&lt;/p&gt;
+
+&lt;p&gt;安装rsync&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install rsync
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;同步进去&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo rsync -HPavz -q ./ /mnt/loop0p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;等待同步完成&lt;/p&gt;
+
+&lt;p&gt;卸载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sync
+$ sudo umount /mnt/loop0p2
+$ sudo kpartx -dv /dev/loop0
+$ sudo losetup -d /dev/loop0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;得到一个新镜像&lt;/p&gt;
+
+&lt;h1 id=&quot;测试&quot;&gt;测试&lt;/h1&gt;
+
+&lt;p&gt;自行刷入测试&lt;/p&gt;
+
+&lt;h1 id=&quot;一些问题&quot;&gt;一些问题&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;镜像刷入后黑屏无法启动&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;检查内核编译环节和文件cmdline.txt&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;内核启动后panic&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;检查rootfs和内核编译环节&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;启动后wifi没有&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;检查固件和内核编译环节&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;f2fs不能在运行中扩展分区&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;拆卡到电脑上扩展&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;luhux@hotmail.com&lt;/p&gt;
+
+&lt;p&gt;请勿商业转载&lt;/p&gt;
+
+&lt;p&gt;转载请标明出处&lt;/p&gt;
+
+&lt;hr /&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="raspberrypi" /><category term="arm64" /><category term="kernel" /><category term="rootfs" /><category term="debian" /><summary type="html">markdown 排版不理想</summary></entry><entry><title type="html">在slackware上使用alsa管理音频</title><link href="https://pluhuxc.github.io//2018/11/22/slackware-use-alsa.html" rel="alternate" type="text/html" title="在slackware上使用alsa管理音频" /><published>2018-11-22T00:00:00+00:00</published><updated>2018-11-22T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/22/slackware-use-alsa</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/22/slackware-use-alsa.html">&lt;p&gt;在slackware默认使用pulse管理音频，在没有安装pulse情况下 alsamixer 会有一堆报错使音频无法使用&lt;/p&gt;
+
+&lt;p&gt;解决:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# rm -rf /etc/asound.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;删除slackware自带的asound.conf&lt;/p&gt;</content><author><name>Luhux</name></author><category term="alsa" /><category term="linux" /><category term="audio" /><category term="slackware" /><summary type="html">在slackware默认使用pulse管理音频，在没有安装pulse情况下 alsamixer 会有一堆报错使音频无法使用</summary></entry><entry><title type="html">fbterm 中中文乱码的解决</title><link href="https://pluhuxc.github.io//2018/11/21/fbterm-encoding.html" rel="alternate" type="text/html" title="fbterm 中中文乱码的解决" /><published>2018-11-21T00:00:00+00:00</published><updated>2018-11-21T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/21/fbterm-encoding</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/21/fbterm-encoding.html">&lt;p&gt;fbterm 乱码的原因:&lt;/p&gt;
+
+&lt;h1 id=&quot;编码问题&quot;&gt;编码问题&lt;/h1&gt;
+
+&lt;p&gt;在我刚安装的slackware上默认编码不是utf8 而是ISO-xxxx&lt;/p&gt;
+
+&lt;p&gt;解决:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ echo 'export LANG=&quot;en_US.utf8&quot;' &amp;gt;&amp;gt; ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;重新进入终端解决&lt;/p&gt;</content><author><name>Luhux</name></author><category term="fbterm" /><category term="linux" /><category term="terminal" /><category term="utf8" /><category term="cn" /><summary type="html">fbterm 乱码的原因:</summary></entry><entry><title type="html">活在fbterm</title><link href="https://pluhuxc.github.io//2018/11/20/live-in-fbterm.html" rel="alternate" type="text/html" title="活在fbterm" /><published>2018-11-20T00:00:00+00:00</published><updated>2018-11-20T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/20/live-in-fbterm</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/20/live-in-fbterm.html">&lt;p&gt;在一台512M内存的机子使用xorg显示实在太费
+所以用上了fbterm&lt;/p&gt;
+
+&lt;h1 id=&quot;安装&quot;&gt;安装&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install fbterm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;修改配置&quot;&gt;修改配置&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vim ~/.fbtermrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;要修改的几行:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 字体大小
+font-size=20
+
+# 前景和后景颜色
+color-foreground=3
+color-background=0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;启动fbterm&quot;&gt;启动fbterm&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ fbterm  # 在tty里面启动
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;上网中文输入写代码&quot;&gt;上网,中文输入,写代码&lt;/h1&gt;
+
+&lt;p&gt;使用emacs和w3m解决&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install w3m
+
+M-x package-install RET w3m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;启动emacs&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ emacs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;启动w3m&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M-x w3m RET
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;中文输入使用emacs的输入法&lt;/p&gt;
+
+&lt;p&gt;在~/.emacs加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; buildin chineseIME
+(setq default-input-method &quot;chinese-tonepy&quot;)
+(global-set-key (kbd &quot;C-\\&quot;) 'toggle-input-method)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这样在emacs中使用 Ctrl + \ 就可以输入中文了&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;emacs 包管理器有一个 pyim 中文输入法&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;写代码用emacs.&lt;/p&gt;
+
+&lt;h1 id=&quot;看图片--看视屏&quot;&gt;看图片,  看视屏.&lt;/h1&gt;
+
+&lt;p&gt;安装fbv&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install fbv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果源里面没有的话去下载源码编译&lt;/p&gt;
+
+&lt;p&gt;看图:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ fbv 图片文件
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;看视屏用mplayer&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install mplayer
+
+
+$ mplayer -vo fbdev 视屏文件
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;看pdf&quot;&gt;看pdf&lt;/h1&gt;
+
+&lt;p&gt;看一些pdf文档&lt;/p&gt;
+
+&lt;p&gt;pdf 转图片&lt;/p&gt;
+
+&lt;p&gt;转成一页一页的&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install imagemagick
+
+$ convert pdf文件 要转换的png文件前缀
+
+$ fbv 文件
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="fbterm" /><category term="framebuffer" /><summary type="html">在一台512M内存的机子使用xorg显示实在太费 所以用上了fbterm</summary></entry><entry><title type="html">在安卓内核中添加usbwifi驱动</title><link href="https://pluhuxc.github.io//2018/11/14/add-usbwifi-driveto-android-kernel.html" rel="alternate" type="text/html" title="在安卓内核中添加usbwifi驱动" /><published>2018-11-14T00:00:00+00:00</published><updated>2018-11-14T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/14/add-usbwifi-driveto-android-kernel</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/14/add-usbwifi-driveto-android-kernel.html">&lt;p&gt;在make menuconfig中勾选&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[*] Networking support  ---&amp;gt;
+    -*-   Wireless  ---&amp;gt;
+         &amp;lt;*&amp;gt;   Generic IEEE 802.11 Networking Stack (mac80211)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    Device Drivers  ---&amp;gt;
+        [*] Network device support  ---&amp;gt;
+            [*]   Wireless LAN  ---&amp;gt;
+                &amp;lt; &amp;gt;   Marvell 8xxx Libertas WLAN driver support with thin firmware
+                &amp;lt; &amp;gt;   Atmel at76c503/at76c505/at76c505a USB cards
+                &amp;lt; &amp;gt;   Softmac Prism54 support (NEW)          
+                &amp;lt; &amp;gt;   Ralink driver support (NEW)  ---&amp;gt;         
+                &amp;lt; &amp;gt;   Realtek wireless card support
+                ....
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将有需要的网卡勾选
+并退出保存&lt;/p&gt;
+
+&lt;p&gt;编译内核请看:&lt;/p&gt;
+
+&lt;p&gt;https://pluhuxc.github.io/2018/11/13/costom-android-kernel.html&lt;/p&gt;
+
+&lt;p&gt;安装好内核后有一些硬件要有固件才可以使用:&lt;/p&gt;
+
+&lt;p&gt;在安卓机上执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # dmesg | grep bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;可以看出缺少的bin文件&lt;/p&gt;
+
+&lt;p&gt;缺少的bin文件可以去debian源内的 firmware- 软件包中下载&lt;/p&gt;
+
+&lt;p&gt;我这里打包了一份:&lt;/p&gt;
+
+&lt;p&gt;链接: https://pan.baidu.com/s/1nD9NiXwvEsORe0Kr8xGxFQ 提取码: dbcx&lt;/p&gt;
+
+&lt;p&gt;找到缺少的bin文件并拷贝到 安卓机的 /system/etc/firmware&lt;/p&gt;
+
+&lt;p&gt;权限不可写的话:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # mount -o remount,rw /system
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="android" /><category term="kernel" /><summary type="html">在make menuconfig中勾选</summary></entry><entry><title type="html">自行编译安卓内核</title><link href="https://pluhuxc.github.io//2018/11/13/costom-android-kernel.html" rel="alternate" type="text/html" title="自行编译安卓内核" /><published>2018-11-13T00:00:00+00:00</published><updated>2018-11-13T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/13/costom-android-kernel</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/13/costom-android-kernel.html">&lt;hr /&gt;
+&lt;ol&gt;
+  &lt;li&gt;确定设备信息&lt;/li&gt;
+  &lt;li&gt;寻找设备源码&lt;/li&gt;
+  &lt;li&gt;安装对应的工具链&lt;/li&gt;
+  &lt;li&gt;初始化环境&lt;/li&gt;
+  &lt;li&gt;config文件&lt;/li&gt;
+  &lt;li&gt;make menuconfig&lt;/li&gt;
+  &lt;li&gt;make -j4&lt;/li&gt;
+  &lt;li&gt;把编译出来的文件拷贝出来&lt;/li&gt;
+  &lt;li&gt;提取设备boot.img&lt;/li&gt;
+  &lt;li&gt;解包设备boot.img&lt;/li&gt;
+  &lt;li&gt;替换原内核&lt;/li&gt;
+  &lt;li&gt;打包boot.img&lt;/li&gt;
+  &lt;li&gt;刷入&lt;/li&gt;
+  &lt;li&gt;测试&lt;/li&gt;
+  &lt;li&gt;作者唠几句&lt;/li&gt;
+  &lt;li&gt;感谢名单&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;确定设备信息&quot;&gt;确定设备信息&lt;/h1&gt;
+
+&lt;h2 id=&quot;获取设备代号&quot;&gt;获取设备代号&lt;/h2&gt;
+
+&lt;p&gt;在安卓设备上执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # getprop | grep device
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;并寻找带有 ro.xx.device这一行&lt;/p&gt;
+
+&lt;p&gt;如果是cm它为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[ro.cm.device]: [设备代号]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我的设备：&lt;/p&gt;
+
+&lt;p&gt;我的设备是红米2,系统为rros:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # getprop | grep device
+[ro.boot.bootdevice]: [7824900.sdhci]
+[ro.device.cache_dir]: [/cache]
+[ro.device.chipset]: [Qualcomm MSM8916 Snapdragon 410]
+[ro.device.cpu]: [Quad-core 1.2 GHz Cortex-A53]
+[ro.device.front_cam]: [2 MP]
+[ro.device.gpu]: [Adreno 306]
+[ro.device.rear_cam]: [8 MP]
+[ro.device.screen_res]: [720x1280]
+[ro.device_owner]: [false]
+[ro.frp.pst]: [/dev/block/bootdevice/by-name/config]
+[ro.opa.eligible_device]: [true]
+[ro.product.device]: [HM2014811]
+[ro.rr.device]: [wt88047]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;可以看出最后一行为我的设备代号:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[ro.rr.device]: [wt88047]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;获取设备架构&quot;&gt;获取设备架构&lt;/h2&gt;
+
+&lt;p&gt;在安卓设备上执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # uname -m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果是armv7设备它会显示为:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;armv7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果是arm64设备它会显示为:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;armv8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我的安卓设备为红米2&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # uname -m
+armv7l
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;可以看出我的设备为armv7设备&lt;/p&gt;
+
+&lt;h2 id=&quot;获取设备内核版本&quot;&gt;获取设备内核版本&lt;/h2&gt;
+
+&lt;p&gt;在安卓设备上执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # uname -r 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;它会输出：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;版本.版本.版本-内核自定义字符串
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我的设备为红米2,rros:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # uname -r
+3.10.107-ImmortalKernel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;可以看出我的内核版本为 3.10.107&lt;/p&gt;
+
+&lt;h1 id=&quot;寻找设备源码&quot;&gt;寻找设备源码&lt;/h1&gt;
+
+&lt;h2 id=&quot;在github上&quot;&gt;在github上&lt;/h2&gt;
+
+&lt;p&gt;这里我直接拿我的红mi2举例 ， 请看举例&lt;/p&gt;
+
+&lt;h3 id=&quot;在lineageos寻找&quot;&gt;在LineageOS寻找&lt;/h3&gt;
+
+&lt;p&gt;LineageOS 的仓库地址:&lt;/p&gt;
+
+&lt;p&gt;https://github.com/LineageOS/&lt;/p&gt;
+
+&lt;p&gt;在仓库的搜索栏中输入:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kernel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;并搜索&lt;/p&gt;
+
+&lt;p&gt;并在搜索出来的仓库名中寻找你的设备&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android_kernel_设备厂商_cpu代号
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;比如我的红米2，厂商为小米， 设备代号为 wt88047 , cpu是msm8916(高通晓龙410)&lt;/p&gt;
+
+&lt;p&gt;但是我设备有点特殊，我设备的实际厂商为wingtech并不是XiaoMi&lt;/p&gt;
+
+&lt;p&gt;所以我找到了我的设备源码仓库:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://github.com/LineageOS/android_kernel_wingtech_msm8916
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;确认内核版本:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;内核版本离当前内核越近越好，版本差别太大的内核可能导致各种问题&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;查看源内的Makefile前几行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;VERSION = 3
+PATCHLEVEL = 10
+SUBLEVEL = 108
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;看出了:&lt;/p&gt;
+
+&lt;p&gt;这个源码版本为:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3.10.108
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我设备的为3.10.107&lt;/p&gt;
+
+&lt;p&gt;寻找属于我设备的config文件&lt;/p&gt;
+
+&lt;p&gt;在仓库内寻找:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arch/你设备的架构/configs/lineageos_你设备架构_defconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我的设备为红米2 架构为armv7 代号为wt88047&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arch/arm/configs/lineageos_wt88047_defconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;找到!&lt;/p&gt;
+
+&lt;p&gt;很符合我的设备，所以使用&lt;/p&gt;
+
+&lt;h3 id=&quot;下载源码&quot;&gt;下载源码：&lt;/h3&gt;
+
+&lt;p&gt;点 clone or download -&amp;gt; download zip&lt;/p&gt;
+
+&lt;h3 id=&quot;如果未找到符合的怎么办&quot;&gt;如果未找到符合的怎么办？&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;去论坛找源码&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;切换搜索方式试试&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;全github搜索&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;源码是找到了可是版本差距太大怎么办&quot;&gt;源码是找到了.可是版本差距太大怎么办&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;去切换当前仓库的分支&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;就拿这个凑活用&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;全github搜索&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;安装对应工具链&quot;&gt;安装对应工具链&lt;/h1&gt;
+
+&lt;p&gt;建议安装4.9.x的gcc工具链&lt;/p&gt;
+
+&lt;p&gt;如果是armv7设备:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arm-linux-gnueabihf-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果是arm64设备:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aarch64-linux-gnu-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;x86 64的机器可以去linaro下载:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;下载后解压到~/.local/&lt;/p&gt;
+
+&lt;p&gt;解压后看起来就像这样&lt;/p&gt;
+
+&lt;p&gt;我的设备armv7 用的 arm-linux-gnueabihf-&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ ls ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/
+arm-linux-gnueabihf  bin  include  lib  libexec  share
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果你编译内核的机器就是arm那么你直接apt或者yum安装一个gcc-arm-linux-gnueabihf 或者 gcc-aarch64-linux-gnu&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;初始化环境&quot;&gt;初始化环境&lt;/h1&gt;
+
+&lt;h2 id=&quot;添加工具链到环境变量&quot;&gt;添加工具链到环境变量&lt;/h2&gt;
+
+&lt;p&gt;记住你解压后的工具链目录名和路径&lt;/p&gt;
+
+&lt;p&gt;在工具链目录创建一个脚本来将工具链添加到PATH&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ touch ~/.local/你工具链目录/gccenv.sh
+linux $ vim ~/.local/你工具链目录/gccenv.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;添加:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export PATH=&quot;${PATH}:${HOME}/.local/你的工具链目录/bin&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;并保存关闭&lt;/p&gt;
+
+&lt;p&gt;比如我的linaro arm-linux-gnueabihf 工具链:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ touch ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/gccenv.sh
+linux $ vim ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/gccenv.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;加入:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export PATH=&quot;${PATH}:${HOME}/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;保存关闭&lt;/p&gt;
+
+&lt;h2 id=&quot;创建工作目录&quot;&gt;创建工作目录&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ mkdir ~/android_kernel_work
+$ cd ~/android_kernel_work
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将下载的源码解压并拷贝到此目录&lt;/p&gt;
+
+&lt;p&gt;我的看起来是这样:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ tree -L 2
+.
+├── android_kernel_wingtech_msm8916-lineage-16.0
+│   ├── android
+│   ├── AndroidKernel.mk
+│   ├── arch
+│   ├── block
+│   ├── COPYING
+│   ├── CREDITS
+│   ├── crypto
+│   ├── Documentation
+│   ├── drivers
+│   ├── env.sh
+│   ├── firmware
+│   ├── fs
+│   ├── include
+│   ├── init
+│   ├── ipc
+│   ├── Kbuild
+│   ├── Kconfig
+│   ├── kernel
+│   ├── lib
+│   ├── MAINTAINERS
+│   ├── Makefile
+│   ├── mm
+│   ├── net
+│   ├── README
+│   ├── REPORTING-BUGS
+│   ├── samples
+│   ├── scripts
+│   ├── security
+│   ├── sound
+│   ├── tools
+│   ├── usr
+│   └── virt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;设置编译变量&quot;&gt;设置编译变量&lt;/h2&gt;
+
+&lt;p&gt;创建初始化编译变量的脚本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ touch ~/android_kernel_work/env.sh
+$ vim ~/android_kernel_work/env.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;并加入:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export ARCH=你的安卓设备架构
+export CROSS_COMPILE=你的工具链前缀
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;保存退出&lt;/p&gt;
+
+&lt;p&gt;比如我的红米2 设备架构为 armv7 使用 arm-linux-gnueabihf-&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ touch ~/android_kernel_work/env.sh
+$ vim ~/android_kernel_work/env.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;保存并退出&lt;/p&gt;
+
+&lt;h2 id=&quot;应用环境变量&quot;&gt;应用环境变量:&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ source ~/.local/你的工具链目录/gccenv.sh
+linux $ source ~/android_kernel_work/env.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我的设备是红米2工具链目录为 gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf :所以&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ source ~/android_kernel_work/env.sh
+linux $ source ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/gccenv.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;检查源码目录&quot;&gt;检查源码目录&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cd ~/android_kernel_work/你的源码目录/
+linux $ make clean
+linux $ make distclean
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我的:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cd ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/
+linux $ make clean
+linux $ make distclean
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这样就创造了一个干净的编译目录&lt;/p&gt;
+
+&lt;h1 id=&quot;config文件&quot;&gt;config文件&lt;/h1&gt;
+
+&lt;h2 id=&quot;从设备提取&quot;&gt;从设备提取&lt;/h2&gt;
+
+&lt;p&gt;在安卓设备执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # ls /proc/config.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果存在的话使用cp将config.gz复制出来拷贝到电脑&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cp /proc/config.gz /sdcard/config.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;并拷贝到源码目录下面命名为 .config&lt;/p&gt;
+
+&lt;p&gt;像这样:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/.config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果不存在的话使用源码中的config文件&lt;/p&gt;
+
+&lt;h2 id=&quot;使用源码中的&quot;&gt;使用源码中的&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cp ~/android_kernel_work/你的源码目录/arch/设备架构/configs/你的设备_defconfig ~/android_kernel_work/你的源码目录/.config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;比如我的红米2 设备代号wt88047 架构armv7&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cp ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/arch/arm/configs/lineageos_wt88047_defconfig ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/.config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;make-menuconfig&quot;&gt;make menuconfig&lt;/h1&gt;
+
+&lt;p&gt;一切初始化就绪，现在开始定制内核&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cd ~/android_kernel_work/你的源码目录/
+linux $ make menuconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在其中勾选你需要的功能和驱动&lt;/p&gt;
+
+&lt;p&gt;勾选完成后保存退出&lt;/p&gt;
+
+&lt;p&gt;我的：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cd ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/
+linux $ make menuconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;make--j4&quot;&gt;make -j4&lt;/h1&gt;
+
+&lt;p&gt;万事就绪，只欠编译&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cd ~/android_kernel_work/你的源码目录/
+linux $ make -j4 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-j数字     代表编译的线程&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我的:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cd ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/
+linux $ make -j24
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;我的机器可以撑住24个线程同时编译&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;我曰编译失败了&quot;&gt;我曰，编译失败了….&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查config文件并返回初始化环境的make clean开始重新编译&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;检查源码并返回初始化环境的make clean开始重新编译&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;去掉不合理的config项并返回初始化环境的make clean开始重新编译&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;更换源码&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;把编译好的内核拷贝出来&quot;&gt;把编译好的内核拷贝出来&lt;/h1&gt;
+
+&lt;p&gt;编译完成后会在源码目录下的 arch/架构/boot/ 生成 zImage 文件&lt;/p&gt;
+
+&lt;p&gt;这个文件就是我们最终编译下来的内核&lt;/p&gt;
+
+&lt;p&gt;比如我的红米2 armv7:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ cp arch/arm/boot/zImage ~/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;提取设备bootimg&quot;&gt;提取设备boot.img&lt;/h1&gt;
+
+&lt;p&gt;在安卓设备执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # dd if=/dev/block/bootdevice/by-name/boot of=/sdcard/boot.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将boot.img拷贝到电脑一份，再在手机上留一份&lt;/p&gt;
+
+&lt;h1 id=&quot;解包设备bootimg&quot;&gt;解包设备boot.img&lt;/h1&gt;
+
+&lt;p&gt;其实这个方法我是觉得十分方便，哈哈。&lt;/p&gt;
+
+&lt;p&gt;当然网上也有好多方法可以用&lt;/p&gt;
+
+&lt;p&gt;在安卓手机执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # mkdir /data/bootimg_work
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;下载magisk卡刷包到手机并移动到&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/data/bootimg_work
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;进入工作目录:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cd /data/bootimg_work/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;解压卡刷包&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # unzip Magisk-v17.1.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用其中的解包打包二进制:&lt;/p&gt;
+
+&lt;p&gt;授予执行权限:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # chmod +x arm/*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将boot.img 拷贝到当前工作目录:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cp /sdcard/boot.img ./boot.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;解包:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # ./arm/magiskboot --unpack boot.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;解包下来的kernel就是内核:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # ls -lh kernel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;替换原内核&quot;&gt;替换原内核&lt;/h1&gt;
+
+&lt;p&gt;将编译好的zImage重新命名为kernel并拷贝到手机&lt;/p&gt;
+
+&lt;p&gt;并拷贝到工作目录替换原来的kernel文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # cp /sdcard/kernel ./kernel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;打包bootimg&quot;&gt;打包boot.img&lt;/h1&gt;
+
+&lt;p&gt;在工作目录执行:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;android # ./arm/magiskboot --repack boot.img new-boot.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这里的boot.img是原来的boot.img&lt;/p&gt;
+
+&lt;p&gt;这样的话生成了new-boot.img&lt;/p&gt;
+
+&lt;p&gt;将它拷贝到电脑&lt;/p&gt;
+
+&lt;h1 id=&quot;刷入&quot;&gt;刷入&lt;/h1&gt;
+
+&lt;p&gt;重启手机并使用fastboot刷入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;linux $ fastboot flash boot new-boot.img
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;测试&quot;&gt;测试&lt;/h1&gt;
+
+&lt;p&gt;刷入成功后重启
+并测试你要的功能&lt;/p&gt;
+
+&lt;p&gt;如果刷入失败或者启动失败，请重新进入fastboot刷入原来备份出来的boot.img(恢复原来内核)&lt;/p&gt;
+
+&lt;h1 id=&quot;我说几句&quot;&gt;我说几句&lt;/h1&gt;
+
+&lt;p&gt;总之就是看网上没有一个像样的安卓内核编译教程，自己心血来潮写了一个编译指南。提供给需要的人吧。&lt;/p&gt;
+
+&lt;p&gt;你要编译进去usb网卡的话可以拿otg 接 usb网卡和aircrack-ng配合抓包，或者攻击wpawifi，哈哈，&lt;/p&gt;
+
+&lt;p&gt;你要是再把kali-netunder的内核patch打进去的话你就有一个名副其实的黑客手机内核了,&lt;/p&gt;
+
+&lt;p&gt;用法很多，自己想吧&lt;/p&gt;
+
+&lt;h1 id=&quot;感谢名单&quot;&gt;感谢名单&lt;/h1&gt;
+
+&lt;p&gt;感谢纯真大佬与我交流这个想法&lt;/p&gt;
+
+&lt;p&gt;感谢xiaomi开源&lt;/p&gt;
+
+&lt;p&gt;感谢github&lt;/p&gt;
+
+&lt;p&gt;感谢天空&lt;/p&gt;
+
+&lt;p&gt;感谢大地&lt;/p&gt;
+
+&lt;p&gt;感谢重力&lt;/p&gt;
+
+&lt;p&gt;感谢电力&lt;/p&gt;
+
+&lt;p&gt;感谢&lt;/p&gt;
+
+&lt;p&gt;…&lt;/p&gt;
+
+&lt;p&gt;作者: luhux&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="android" /><category term="kernel" /><category term="driver" /><summary type="html">确定设备信息 寻找设备源码 安装对应的工具链 初始化环境 config文件 make menuconfig make -j4 把编译出来的文件拷贝出来 提取设备boot.img 解包设备boot.img 替换原内核 打包boot.img 刷入 测试 作者唠几句 感谢名单</summary></entry><entry><title type="html">个人对network-manager和/etc/interface文件的看法</title><link href="https://pluhuxc.github.io//2018/11/12/fuck-networkmanager.html" rel="alternate" type="text/html" title="个人对network-manager和/etc/interface文件的看法" /><published>2018-11-12T00:00:00+00:00</published><updated>2018-11-12T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/12/fuck-networkmanager</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/12/fuck-networkmanager.html">&lt;h1 id=&quot;etcinterface-网络管理文件&quot;&gt;/etc/interface 网络管理文件&lt;/h1&gt;
+
+&lt;p&gt;缺点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在各个linux發行上有不同版本，没有一个标准的一种,不通用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;networkmanager-网络管理器&quot;&gt;NetworkManager 网络管理器&lt;/h1&gt;
+
+&lt;p&gt;缺点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;没有我想要的许多功能，配置繁琐。&lt;/li&gt;
+  &lt;li&gt;和许多我要用到的自定义功能冲突&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;解决&quot;&gt;解决&lt;/h1&gt;
+
+&lt;p&gt;弃用NetworkManager自己写了网络初始化脚本和各个网卡的管理脚本&lt;/p&gt;</content><author><name>Luhux</name></author><category term="linux" /><category term="network" /><summary type="html">/etc/interface 网络管理文件</summary></entry><entry><title type="html">iptables设置对外白名单</title><link href="https://pluhuxc.github.io//2018/11/11/iptables-output-w.html" rel="alternate" type="text/html" title="iptables设置对外白名单" /><published>2018-11-11T00:00:00+00:00</published><updated>2018-11-11T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/11/iptables-output-w</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/11/iptables-output-w.html">&lt;h1 id=&quot;初始化&quot;&gt;初始化&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# iptables -P OUTPUT DROP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;将所有对外连接丢弃&lt;/p&gt;
+
+&lt;h1 id=&quot;添加允许访问的ip&quot;&gt;添加允许访问的ip&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# iptables -A OUTPUT -d 允许访问的IP -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;永远应用&quot;&gt;永远应用&lt;/h1&gt;
+
+&lt;p&gt;将iptables的命令添加到开机脚本:&lt;/p&gt;
+
+&lt;p&gt;例如只允许访问百度：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; iptables -P OUTPUT DROP
+ iptables -A OUTPUT -d 111.13.100.91 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Luhux</name></author><category term="iptbales" /><category term="drop" /><category term="linux" /><summary type="html">初始化</summary></entry><entry><title type="html">sbcl 启用命令行补全</title><link href="https://pluhuxc.github.io//2018/11/09/sbcl-linedit.html" rel="alternate" type="text/html" title="sbcl 启用命令行补全" /><published>2018-11-09T00:00:00+00:00</published><updated>2018-11-09T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/09/sbcl-linedit</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/09/sbcl-linedit.html">&lt;h1 id=&quot;安装linedit&quot;&gt;安装linedit&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sbcl
+sbcl&amp;gt; (ql:quickload &quot;linedit&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在~/.sbclrc中加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;;; Check for --no-linedit command-line option.
+(if (member &quot;--no-linedit&quot; sb-ext:*posix-argv* :test 'equal)
+    (setf sb-ext:*posix-argv* 
+      (remove &quot;--no-linedit&quot; sb-ext:*posix-argv* :test 'equal))
+    (when (interactive-stream-p *terminal-io*)
+      (require :sb-aclrepl)
+      (require :linedit)
+      (funcall (intern &quot;INSTALL-REPL&quot; :linedit) :wrap-current t)))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;安装rlwarp&quot;&gt;安装rlwarp&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install rlwarp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;启动&quot;&gt;启动&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rlwarp sbcl
+This is SBCL 1.4.12, an implementation of ANSI Common Lisp.
+More information about SBCL is available at &amp;lt;http://www.sbcl.org/&amp;gt;.
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+sbcl&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;测试&quot;&gt;测试&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rlwarp sbcl
+sbcl&amp;gt; (for  按下tab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;显示format 补全
+安装成功&lt;/p&gt;
+
+&lt;h1 id=&quot;以后的使用&quot;&gt;以后的使用&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rlwarp sbcl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;不影响slime-和-sly的使用&quot;&gt;不影响slime 和 sly的使用&lt;/h1&gt;
+
+&lt;p&gt;在.emacs加入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(setq inferior-lisp-program &quot;sbcl --noinform --no-linedit&quot;) 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Luhux</name></author><category term="sbcl" /><category term="commonlisp" /><category term="linedit" /><category term="quicklisp" /><summary type="html">安装linedit</summary></entry><entry><title type="html">简单使用lxc容器</title><link href="https://pluhuxc.github.io//2018/11/03/simple-lxc.html" rel="alternate" type="text/html" title="简单使用lxc容器" /><published>2018-11-03T00:00:00+00:00</published><updated>2018-11-03T00:00:00+00:00</updated><id>https://pluhuxc.github.io//2018/11/03/simple-lxc</id><content type="html" xml:base="https://pluhuxc.github.io//2018/11/03/simple-lxc.html">&lt;h1 id=&quot;安装&quot;&gt;安装&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install lxc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;设置&quot;&gt;设置&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# service start lxc     # 测试lxc是否可以初始化
+
+# systemctl enable lxc   # 加入开机启动项
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;创建容器&quot;&gt;创建容器&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# lxc-create -n 容器名 -t 模板名 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;模板目录 /usr/share/lxc/templates/&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;比如创建一个Debian容器&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# apt install debootstrap    # 创建容器内系统需要的工具
+
+# lxc-create -n debian00 -t debian
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;等待创建完成&lt;/p&gt;
+
+&lt;h1 id=&quot;配置容器&quot;&gt;配置容器&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /var/lib/lxc/容器名/rootfs
+
+# vim ./etc/ssh/sshd_config     # 修改ssh默认端口和允许root登录
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;加入或修改&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#Port 22
+Port 3322   # 修改默认监听端口为3322
+
+#PermitRootLogin prohibit-password
+PermitRootLogin yes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# lxc-exectue -n 容器名 passwd    # 设置容器内root密码
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;配置网络连接方式&quot;&gt;配置网络连接方式&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vim /var/lib/lxc/容器名/config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;加入或修改&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#lxc.network.type = empty
+lxc.network.type = none    # 与外部共享网络命名空间
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;启动&quot;&gt;启动&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# lxc-start -n 容器名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;连接&quot;&gt;连接&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ssh -p 3322 root@localhost    # 通过ssh连接
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;启动失败&quot;&gt;启动失败&lt;/h1&gt;
+
+&lt;p&gt;一些解决方案&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用htop追踪启动过程 查看无法启动的服务, 尝试禁用或修复&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;移除或修改容器内与外部服务(共用网络命名空间) 端口冲突的项&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Luhux</name></author><category term="lxc" /><category term="container" /><category term="linux" /><summary type="html">安装</summary></entry></feed>

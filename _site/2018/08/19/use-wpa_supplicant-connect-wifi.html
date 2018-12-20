@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>使用wpa_supplicant手动配置连接wifi | LUHUX BLOG</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="使用wpa_supplicant手动配置连接wifi" />
+<meta name="author" content="luhux" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="使用前请卸载掉NetowrkManager,wicd等网络管理工具" />
+<meta property="og:description" content="使用前请卸载掉NetowrkManager,wicd等网络管理工具" />
+<link rel="canonical" href="https://pluhuxc.github.io//2018/08/19/use-wpa_supplicant-connect-wifi.html" />
+<meta property="og:url" content="https://pluhuxc.github.io//2018/08/19/use-wpa_supplicant-connect-wifi.html" />
+<meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-19T00:00:00+00:00" />
+<script type="application/ld+json">
+{"description":"使用前请卸载掉NetowrkManager,wicd等网络管理工具","author":{"@type":"Person","name":"luhux"},"@type":"BlogPosting","url":"https://pluhuxc.github.io//2018/08/19/use-wpa_supplicant-connect-wifi.html","headline":"使用wpa_supplicant手动配置连接wifi","dateModified":"2018-08-19T00:00:00+00:00","datePublished":"2018-08-19T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pluhuxc.github.io//2018/08/19/use-wpa_supplicant-connect-wifi.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://pluhuxc.github.io//feed.xml" title="LUHUX BLOG" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX BLOG</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">使用wpa_supplicant手动配置连接wifi</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-19T00:00:00+00:00" itemprop="datePublished">Aug 19, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">luhux</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>使用前请卸载掉NetowrkManager,wicd等网络管理工具</p>
+
+<h2 id="wpa配置生成器创建框架">wpa配置生成器创建框架</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wpa_passphrase "&lt;wifi_ssid&gt;" "&lt;password&gt;" &gt;&gt; /etc/wpa_supplicant.conf
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>&lt;wifi_ssid&gt;为wifi名</p>
+  </li>
+  <li>
+    <p>&lt;password&gt; 为密码</p>
+  </li>
+  <li>
+    <p>&gt;&gt; /etc/wpa_supplicant.conf 为将输出追加至/etc/wpa_supplicant.conf</p>
+  </li>
+</ul>
+
+<p>例如:
+wifi名: Tenda_80211</p>
+
+<p>密码: I love linux</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wpa_passphase "Tenda_80211" "I love linux" &gt;&gt; /etc/wpa_suppliant.conf
+</code></pre></div></div>
+
+<h2 id="修改配置">修改配置</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># nano /etc/wpa_supplicant.conf
+</code></pre></div></div>
+
+<p>找到以下行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>network={
+	ssid="wifi_ssid"
+	#psk="密吗"
+	psk=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+}
+</code></pre></div></div>
+
+<p>例子:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>network={
+	ssid="Tenda_80211"  # wifi名
+	#psk="I love linux"  # 密码
+	psk=01d37dde39f4cdca60863afeb133f5f6b892ca45dd9c190586bea58141260274  # 加密后的密码
+}
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>ssid=”” 为要连接的ssid</p>
+  </li>
+  <li>
+    <p>psk=”” 为wifi密码 可选加密后也可明文</p>
+  </li>
+</ul>
+
+<h4 id="如果不想泄漏wifi密码则">如果不想泄漏wifi密码则:</h4>
+
+<ul>
+  <li>
+    <p>删除明文密码行</p>
+  </li>
+  <li>
+    <p>对配置文件设置 0600 权限</p>
+  </li>
+</ul>
+
+<h2 id="连接隐藏ssid的wfi">*连接隐藏ssid的wfi</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>network={
+	ssid="Tenda_80211"
+	#psk="I love linux"
+	psk=01d37dde39f4cdca60863afeb133f5f6b892ca45dd9c190586bea58141260274
+}
+</code></pre></div></div>
+<p>加入:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	scan_ssid=1
+</code></pre></div></div>
+<p>就像这样:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>network={
+	ssid="Tenda_80211"
+	scan_ssid=1
+	#psk="I love linux"
+	psk=01d37dde39f4cdca60863afeb133f5f6b892ca45dd9c190586bea58141260274
+}
+</code></pre></div></div>
+
+<h1 id="修改完成后保存">修改完成后保存</h1>
+
+<h2 id="测试连接配置">测试连接配置</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ifconfig wlan0 up
+</code></pre></div></div>
+
+<p>开启网卡</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wpa_supplicant -D nl80211 -i wlan0 -c /etc/wpa_supplicant.conf &amp;
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>-D 指定网卡驱动可为: nl80211 wext</p>
+  </li>
+  <li>
+    <p>-i 指定网卡</p>
+  </li>
+  <li>
+    <p>-c 指定配置文件</p>
+  </li>
+  <li>
+    <p>&amp; 挂起在后台</p>
+  </li>
+</ul>
+
+<h3 id="dhcp">dhcp:</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># dhclient
+</code></pre></div></div>
+
+<p>dhcp获取ip地址</p>
+
+<h3 id="如果静态ip请">如果静态ip请:</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ifconfig wlan0 192.168.1.119 netmask 255.255.255.0
+# route add default gw 192.168.1.1
+</code></pre></div></div>
+
+<p>自行更改:</p>
+
+<ul>
+  <li>
+    <p>192.168.1.119 为要设置的静态ip</p>
+  </li>
+  <li>
+    <p>255.255.255.0 为要设置的子网掩码</p>
+  </li>
+  <li>
+    <p>192.168.1.1 为要设置的网关</p>
+  </li>
+</ul>
+
+<p>无法上网请自行更改dns</p>
+
+<h2 id="如果无法连接">如果无法连接:</h2>
+
+<ul>
+  <li>
+    <p>kill 掉 wpa_supplicant 和 dhclient 的进程 以重新测试</p>
+  </li>
+  <li>
+    <p>检查网卡名</p>
+  </li>
+  <li>
+    <p>检查配置文件</p>
+  </li>
+  <li>
+    <p>-D更换驱动</p>
+  </li>
+</ul>
+
+<h2 id="测试完成后">测试完成后:</h2>
+
+<p>加入开机脚本:</p>
+
+<p>rc.local:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># touch /etc/rc.local
+# chmod +x /etc/rc.local
+</code></pre></div></div>
+
+<p>如果脚本为空:</p>
+
+<p>加入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+
+
+<span class="nb">exit </span>0
+</code></pre></div></div>
+
+<h3 id="写入开机连接命令">写入开机连接命令</h3>
+
+<p>在exit 0之前写</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig wlan0 up
+wpa_supplicant -B -D nl80211 -i wlan0 -c /etc/wpa_supplicant.conf
+dhclient 
+</code></pre></div></div>
+
+<ul>
+  <li>-B 参数为后台Daemon运行</li>
+</ul>
+
+<p>命令请自行更改为测试通过的命令</p>
+
+<p>重启:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ifconfig 
+</code></pre></div></div>
+
+<p>查看ip</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ping www.baidu.com
+</code></pre></div></div>
+
+<p>查看是否可以联网</p>
+
+
+  </div><a class="u-url" href="/2018/08/19/use-wpa_supplicant-connect-wifi.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">LUHUX BLOG</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">LUHUX BLOG</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/luhux"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">luhux</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>LUHUX BLOG</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
