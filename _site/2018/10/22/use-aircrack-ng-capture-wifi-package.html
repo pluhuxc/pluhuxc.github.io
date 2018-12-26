@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>编译安装aircrack-ng | LUHUX BLOG</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="编译安装aircrack-ng" />
+<meta name="author" content="Luhux" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="安装aircrack-ng" />
+<meta property="og:description" content="安装aircrack-ng" />
+<link rel="canonical" href="https://pluhuxc.github.io//2018/10/22/use-aircrack-ng-capture-wifi-package.html" />
+<meta property="og:url" content="https://pluhuxc.github.io//2018/10/22/use-aircrack-ng-capture-wifi-package.html" />
+<meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-22T00:00:00+00:00" />
+<script type="application/ld+json">
+{"description":"安装aircrack-ng","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"https://pluhuxc.github.io//2018/10/22/use-aircrack-ng-capture-wifi-package.html","headline":"编译安装aircrack-ng","dateModified":"2018-10-22T00:00:00+00:00","datePublished":"2018-10-22T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pluhuxc.github.io//2018/10/22/use-aircrack-ng-capture-wifi-package.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://pluhuxc.github.io//feed.xml" title="LUHUX BLOG" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX BLOG</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">编译安装aircrack-ng</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-10-22T00:00:00+00:00" itemprop="datePublished">Oct 22, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Luhux</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="安装aircrack-ng">安装aircrack-ng</h1>
+
+<p>aircrack-ng:
+<a href="https://github.com/aircrack-ng/aircrack-ng/releases">下载</a></p>
+
+<p>下载:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ wget https://github.com/aircrack-ng/aircrack-ng/archive/1.4.tar.gz
+</code></pre></div></div>
+
+<p>解压:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tar zxf 1.4.tar.gz
+</code></pre></div></div>
+
+<p>进入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd aircrack-ng-1.4
+</code></pre></div></div>
+
+<p>查看依赖;</p>
+
+<ul>
+  <li>README.md</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 28 ## Requirements
+ 29 
+ 30  * Autoconf
+ 31  * Automake
+ 32  * Libtool
+ 33  * shtool
+ 34  * OpenSSL development package or libgcrypt development package.
+ 35  * Airmon-ng (Linux) requires ethtool.
+ 36  * On windows, cygwin has to be used and it also requires w32api package.
+ 37  * On Windows, if using clang, libiconv and libiconv-devel
+ 38  * Linux: LibNetlink 1 or 3. It can be disabled by passing --disable-libnl to configure.
+ 39  * pkg-config (pkgconf on FreeBSD)
+ 40  * FreeBSD, OpenBSD, NetBSD, Solaris and OS X with macports: gmake
+ 41  * Linux/Cygwin: make and Standard C++ Library development package (Debian: libstdc++-dev)
+
+ 43 ## Optional stuff
+ 44 
+ 45  * If you want SSID filtering with regular expression in airodump-ng
+ 46    (-essid-regex) pcre development package is required.
+ 47  * If you want to use airolib-ng and '-r' option in aircrack-ng,
+ 48    SQLite development package &gt;= 3.3.17 (3.6.X version or better is recommended)
+ 49  * If you want to use Airpcap, the 'developer' directory from the CD/ISO/SDK is required.
+ 50  * In order to build `besside-ng`, `besside-ng-crawler`, `easside-ng`, `tkiptun-ng` and `wesside-ng`,
+ 51    libpcap development package is required (on Cygwin, use the Aircap SDK instead; see above)
+ 52  * For best performance on FreeBSD (50-70% more), install gcc5 (or better) via: pkg install gcc7
+ 53  * rfkill
+ 54  * For best performance on SMP machines, ensure the hwloc library and headers are installed. It is strongly recommended on high core count systems, it may give a serious speed boost
+ 55  * CMocka for unit testing
+
+</code></pre></div></div>
+
+<p>编译一个完整的aircrack-ng需要</p>
+
+<ul>
+  <li>autoconf</li>
+  <li>automake</li>
+  <li>libtool</li>
+  <li>shtool</li>
+  <li>libssl-dev</li>
+  <li>ethtool</li>
+  <li>libnl-3-dev</li>
+  <li>sqlite3</li>
+  <li>libpcap-dev</li>
+  <li>rfkill</li>
+  <li>gcc</li>
+  <li>make</li>
+  <li>pkg-config</li>
+</ul>
+
+<h2 id="在debian系安装依赖">在debian系安装依赖</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># apt install autoconf automake libtool shtool libssl1.0-dev ethtool libnl-3-dev sqlite3 libpcap-dev rfkill gcc make build-essential libnl-genl-3-dev zlib1g-dev libsqlite3-dev libpcre3-dev libcmocka-dev pkg-config 
+</code></pre></div></div>
+
+<h2 id="其他系统请自行编译库并指定include路径">其他系统请自行编译库并指定include路径</h2>
+
+<p>./autogen.sh</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./autogen.sh
+</code></pre></div></div>
+
+<p>./configure</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./configure --enable-libnl CFLAGS="-O2"
+</code></pre></div></div>
+
+<p>make</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ make
+</code></pre></div></div>
+
+<p>安装:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo make install 
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/2018/10/22/use-aircrack-ng-capture-wifi-package.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">LUHUX BLOG</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">LUHUX BLOG</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/luhux"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">luhux</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>LUHUX BLOG</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>自行编译安卓内核 | LUHUX BLOG</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="自行编译安卓内核" />
+<meta name="author" content="Luhux" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="确定设备信息 寻找设备源码 安装对应的工具链 初始化环境 config文件 make menuconfig make -j4 把编译出来的文件拷贝出来 提取设备boot.img 解包设备boot.img 替换原内核 打包boot.img 刷入 测试 作者唠几句 感谢名单" />
+<meta property="og:description" content="确定设备信息 寻找设备源码 安装对应的工具链 初始化环境 config文件 make menuconfig make -j4 把编译出来的文件拷贝出来 提取设备boot.img 解包设备boot.img 替换原内核 打包boot.img 刷入 测试 作者唠几句 感谢名单" />
+<link rel="canonical" href="https://pluhuxc.github.io//2018/11/13/costom-android-kernel.html" />
+<meta property="og:url" content="https://pluhuxc.github.io//2018/11/13/costom-android-kernel.html" />
+<meta property="og:site_name" content="LUHUX BLOG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-13T00:00:00+00:00" />
+<script type="application/ld+json">
+{"description":"确定设备信息 寻找设备源码 安装对应的工具链 初始化环境 config文件 make menuconfig make -j4 把编译出来的文件拷贝出来 提取设备boot.img 解包设备boot.img 替换原内核 打包boot.img 刷入 测试 作者唠几句 感谢名单","author":{"@type":"Person","name":"Luhux"},"@type":"BlogPosting","url":"https://pluhuxc.github.io//2018/11/13/costom-android-kernel.html","headline":"自行编译安卓内核","dateModified":"2018-11-13T00:00:00+00:00","datePublished":"2018-11-13T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://pluhuxc.github.io//2018/11/13/costom-android-kernel.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://pluhuxc.github.io//feed.xml" title="LUHUX BLOG" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">LUHUX BLOG</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">自行编译安卓内核</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-11-13T00:00:00+00:00" itemprop="datePublished">Nov 13, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Luhux</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <hr />
+<ol>
+  <li>确定设备信息</li>
+  <li>寻找设备源码</li>
+  <li>安装对应的工具链</li>
+  <li>初始化环境</li>
+  <li>config文件</li>
+  <li>make menuconfig</li>
+  <li>make -j4</li>
+  <li>把编译出来的文件拷贝出来</li>
+  <li>提取设备boot.img</li>
+  <li>解包设备boot.img</li>
+  <li>替换原内核</li>
+  <li>打包boot.img</li>
+  <li>刷入</li>
+  <li>测试</li>
+  <li>作者唠几句</li>
+  <li>感谢名单</li>
+</ol>
+
+<h1 id="确定设备信息">确定设备信息</h1>
+
+<h2 id="获取设备代号">获取设备代号</h2>
+
+<p>在安卓设备上执行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # getprop | grep device
+</code></pre></div></div>
+
+<p>并寻找带有 ro.xx.device这一行</p>
+
+<p>如果是cm它为：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ro.cm.device]: [设备代号]
+</code></pre></div></div>
+
+<p>我的设备：</p>
+
+<p>我的设备是红米2,系统为rros:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # getprop | grep device
+[ro.boot.bootdevice]: [7824900.sdhci]
+[ro.device.cache_dir]: [/cache]
+[ro.device.chipset]: [Qualcomm MSM8916 Snapdragon 410]
+[ro.device.cpu]: [Quad-core 1.2 GHz Cortex-A53]
+[ro.device.front_cam]: [2 MP]
+[ro.device.gpu]: [Adreno 306]
+[ro.device.rear_cam]: [8 MP]
+[ro.device.screen_res]: [720x1280]
+[ro.device_owner]: [false]
+[ro.frp.pst]: [/dev/block/bootdevice/by-name/config]
+[ro.opa.eligible_device]: [true]
+[ro.product.device]: [HM2014811]
+[ro.rr.device]: [wt88047]
+</code></pre></div></div>
+
+<p>可以看出最后一行为我的设备代号:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ro.rr.device]: [wt88047]
+</code></pre></div></div>
+
+<h2 id="获取设备架构">获取设备架构</h2>
+
+<p>在安卓设备上执行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # uname -m
+</code></pre></div></div>
+
+<p>如果是armv7设备它会显示为:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>armv7
+</code></pre></div></div>
+
+<p>如果是arm64设备它会显示为:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>armv8
+</code></pre></div></div>
+
+<p>我的安卓设备为红米2</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # uname -m
+armv7l
+</code></pre></div></div>
+
+<p>可以看出我的设备为armv7设备</p>
+
+<h2 id="获取设备内核版本">获取设备内核版本</h2>
+
+<p>在安卓设备上执行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # uname -r 
+</code></pre></div></div>
+
+<p>它会输出：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>版本.版本.版本-内核自定义字符串
+</code></pre></div></div>
+
+<p>我的设备为红米2,rros:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # uname -r
+3.10.107-ImmortalKernel
+</code></pre></div></div>
+
+<p>可以看出我的内核版本为 3.10.107</p>
+
+<h1 id="寻找设备源码">寻找设备源码</h1>
+
+<h2 id="在github上">在github上</h2>
+
+<p>这里我直接拿我的红mi2举例 ， 请看举例</p>
+
+<h3 id="在lineageos寻找">在LineageOS寻找</h3>
+
+<p>LineageOS 的仓库地址:</p>
+
+<p>https://github.com/LineageOS/</p>
+
+<p>在仓库的搜索栏中输入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kernel
+</code></pre></div></div>
+
+<p>并搜索</p>
+
+<p>并在搜索出来的仓库名中寻找你的设备</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android_kernel_设备厂商_cpu代号
+</code></pre></div></div>
+
+<p>比如我的红米2，厂商为小米， 设备代号为 wt88047 , cpu是msm8916(高通晓龙410)</p>
+
+<p>但是我设备有点特殊，我设备的实际厂商为wingtech并不是XiaoMi</p>
+
+<p>所以我找到了我的设备源码仓库:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://github.com/LineageOS/android_kernel_wingtech_msm8916
+</code></pre></div></div>
+
+<p>确认内核版本:</p>
+
+<ul>
+  <li>内核版本离当前内核越近越好，版本差别太大的内核可能导致各种问题</li>
+</ul>
+
+<p>查看源内的Makefile前几行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>VERSION = 3
+PATCHLEVEL = 10
+SUBLEVEL = 108
+</code></pre></div></div>
+
+<p>看出了:</p>
+
+<p>这个源码版本为:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3.10.108
+</code></pre></div></div>
+
+<p>我设备的为3.10.107</p>
+
+<p>寻找属于我设备的config文件</p>
+
+<p>在仓库内寻找:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>arch/你设备的架构/configs/lineageos_你设备架构_defconfig
+</code></pre></div></div>
+
+<p>我的设备为红米2 架构为armv7 代号为wt88047</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>arch/arm/configs/lineageos_wt88047_defconfig
+</code></pre></div></div>
+
+<p>找到!</p>
+
+<p>很符合我的设备，所以使用</p>
+
+<h3 id="下载源码">下载源码：</h3>
+
+<p>点 clone or download -&gt; download zip</p>
+
+<h3 id="如果未找到符合的怎么办">如果未找到符合的怎么办？</h3>
+
+<ul>
+  <li>
+    <p>去论坛找源码</p>
+  </li>
+  <li>
+    <p>切换搜索方式试试</p>
+  </li>
+  <li>
+    <p>全github搜索</p>
+  </li>
+</ul>
+
+<h3 id="源码是找到了可是版本差距太大怎么办">源码是找到了.可是版本差距太大怎么办</h3>
+
+<ul>
+  <li>
+    <p>去切换当前仓库的分支</p>
+  </li>
+  <li>
+    <p>就拿这个凑活用</p>
+  </li>
+  <li>
+    <p>全github搜索</p>
+  </li>
+</ul>
+
+<h1 id="安装对应工具链">安装对应工具链</h1>
+
+<p>建议安装4.9.x的gcc工具链</p>
+
+<p>如果是armv7设备:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>arm-linux-gnueabihf-
+</code></pre></div></div>
+
+<p>如果是arm64设备:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aarch64-linux-gnu-
+</code></pre></div></div>
+
+<p>x86 64的机器可以去linaro下载:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/
+</code></pre></div></div>
+
+<p>下载后解压到~/.local/</p>
+
+<p>解压后看起来就像这样</p>
+
+<p>我的设备armv7 用的 arm-linux-gnueabihf-</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ ls ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/
+arm-linux-gnueabihf  bin  include  lib  libexec  share
+</code></pre></div></div>
+
+<ul>
+  <li>如果你编译内核的机器就是arm那么你直接apt或者yum安装一个gcc-arm-linux-gnueabihf 或者 gcc-aarch64-linux-gnu</li>
+</ul>
+
+<h1 id="初始化环境">初始化环境</h1>
+
+<h2 id="添加工具链到环境变量">添加工具链到环境变量</h2>
+
+<p>记住你解压后的工具链目录名和路径</p>
+
+<p>在工具链目录创建一个脚本来将工具链添加到PATH</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ touch ~/.local/你工具链目录/gccenv.sh
+linux $ vim ~/.local/你工具链目录/gccenv.sh
+</code></pre></div></div>
+
+<p>添加:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PATH="${PATH}:${HOME}/.local/你的工具链目录/bin"
+</code></pre></div></div>
+
+<p>并保存关闭</p>
+
+<p>比如我的linaro arm-linux-gnueabihf 工具链:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ touch ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/gccenv.sh
+linux $ vim ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/gccenv.sh
+</code></pre></div></div>
+
+<p>加入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PATH="${PATH}:${HOME}/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin"
+</code></pre></div></div>
+
+<p>保存关闭</p>
+
+<h2 id="创建工作目录">创建工作目录</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mkdir ~/android_kernel_work
+$ cd ~/android_kernel_work
+</code></pre></div></div>
+
+<p>将下载的源码解压并拷贝到此目录</p>
+
+<p>我的看起来是这样:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ tree -L 2
+.
+├── android_kernel_wingtech_msm8916-lineage-16.0
+│   ├── android
+│   ├── AndroidKernel.mk
+│   ├── arch
+│   ├── block
+│   ├── COPYING
+│   ├── CREDITS
+│   ├── crypto
+│   ├── Documentation
+│   ├── drivers
+│   ├── env.sh
+│   ├── firmware
+│   ├── fs
+│   ├── include
+│   ├── init
+│   ├── ipc
+│   ├── Kbuild
+│   ├── Kconfig
+│   ├── kernel
+│   ├── lib
+│   ├── MAINTAINERS
+│   ├── Makefile
+│   ├── mm
+│   ├── net
+│   ├── README
+│   ├── REPORTING-BUGS
+│   ├── samples
+│   ├── scripts
+│   ├── security
+│   ├── sound
+│   ├── tools
+│   ├── usr
+│   └── virt
+</code></pre></div></div>
+
+<h2 id="设置编译变量">设置编译变量</h2>
+
+<p>创建初始化编译变量的脚本</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ touch ~/android_kernel_work/env.sh
+$ vim ~/android_kernel_work/env.sh
+</code></pre></div></div>
+
+<p>并加入:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export ARCH=你的安卓设备架构
+export CROSS_COMPILE=你的工具链前缀
+</code></pre></div></div>
+
+<p>保存退出</p>
+
+<p>比如我的红米2 设备架构为 armv7 使用 arm-linux-gnueabihf-</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ touch ~/android_kernel_work/env.sh
+$ vim ~/android_kernel_work/env.sh
+</code></pre></div></div>
+
+<p>加入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+</code></pre></div></div>
+
+<p>保存并退出</p>
+
+<h2 id="应用环境变量">应用环境变量:</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ source ~/.local/你的工具链目录/gccenv.sh
+linux $ source ~/android_kernel_work/env.sh
+</code></pre></div></div>
+
+<p>我的设备是红米2工具链目录为 gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf :所以</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ source ~/android_kernel_work/env.sh
+linux $ source ~/.local/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/gccenv.sh
+</code></pre></div></div>
+
+<h2 id="检查源码目录">检查源码目录</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cd ~/android_kernel_work/你的源码目录/
+linux $ make clean
+linux $ make distclean
+</code></pre></div></div>
+
+<p>我的:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cd ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/
+linux $ make clean
+linux $ make distclean
+</code></pre></div></div>
+
+<p>这样就创造了一个干净的编译目录</p>
+
+<h1 id="config文件">config文件</h1>
+
+<h2 id="从设备提取">从设备提取</h2>
+
+<p>在安卓设备执行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # ls /proc/config.gz
+</code></pre></div></div>
+
+<p>如果存在的话使用cp将config.gz复制出来拷贝到电脑</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cp /proc/config.gz /sdcard/config.gz
+</code></pre></div></div>
+
+<p>并拷贝到源码目录下面命名为 .config</p>
+
+<p>像这样:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/.config
+</code></pre></div></div>
+
+<p>如果不存在的话使用源码中的config文件</p>
+
+<h2 id="使用源码中的">使用源码中的</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cp ~/android_kernel_work/你的源码目录/arch/设备架构/configs/你的设备_defconfig ~/android_kernel_work/你的源码目录/.config
+</code></pre></div></div>
+
+<p>比如我的红米2 设备代号wt88047 架构armv7</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cp ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/arch/arm/configs/lineageos_wt88047_defconfig ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/.config
+</code></pre></div></div>
+
+<h1 id="make-menuconfig">make menuconfig</h1>
+
+<p>一切初始化就绪，现在开始定制内核</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cd ~/android_kernel_work/你的源码目录/
+linux $ make menuconfig
+</code></pre></div></div>
+
+<p>在其中勾选你需要的功能和驱动</p>
+
+<p>勾选完成后保存退出</p>
+
+<p>我的：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cd ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/
+linux $ make menuconfig
+</code></pre></div></div>
+
+<h1 id="make--j4">make -j4</h1>
+
+<p>万事就绪，只欠编译</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cd ~/android_kernel_work/你的源码目录/
+linux $ make -j4 
+</code></pre></div></div>
+
+<ul>
+  <li>-j数字     代表编译的线程</li>
+</ul>
+
+<p>我的:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cd ~/android_kernel_work/android_kernel_wingtech_msm8916-lineage-16.0/
+linux $ make -j24
+</code></pre></div></div>
+
+<ul>
+  <li>我的机器可以撑住24个线程同时编译</li>
+</ul>
+
+<h1 id="我曰编译失败了">我曰，编译失败了….</h1>
+
+<ul>
+  <li>
+    <p>检查config文件并返回初始化环境的make clean开始重新编译</p>
+  </li>
+  <li>
+    <p>检查源码并返回初始化环境的make clean开始重新编译</p>
+  </li>
+  <li>
+    <p>去掉不合理的config项并返回初始化环境的make clean开始重新编译</p>
+  </li>
+  <li>
+    <p>更换源码</p>
+  </li>
+</ul>
+
+<h1 id="把编译好的内核拷贝出来">把编译好的内核拷贝出来</h1>
+
+<p>编译完成后会在源码目录下的 arch/架构/boot/ 生成 zImage 文件</p>
+
+<p>这个文件就是我们最终编译下来的内核</p>
+
+<p>比如我的红米2 armv7:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ cp arch/arm/boot/zImage ~/
+</code></pre></div></div>
+
+<h1 id="提取设备bootimg">提取设备boot.img</h1>
+
+<p>在安卓设备执行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # dd if=/dev/block/bootdevice/by-name/boot of=/sdcard/boot.img
+</code></pre></div></div>
+
+<p>将boot.img拷贝到电脑一份，再在手机上留一份</p>
+
+<h1 id="解包设备bootimg">解包设备boot.img</h1>
+
+<p>其实这个方法我是觉得十分方便，哈哈。</p>
+
+<p>当然网上也有好多方法可以用</p>
+
+<p>在安卓手机执行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # mkdir /data/bootimg_work
+</code></pre></div></div>
+
+<p>下载magisk卡刷包到手机并移动到</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/data/bootimg_work
+</code></pre></div></div>
+
+<p>进入工作目录:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cd /data/bootimg_work/
+</code></pre></div></div>
+
+<p>解压卡刷包</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # unzip Magisk-v17.1.zip
+</code></pre></div></div>
+
+<p>使用其中的解包打包二进制:</p>
+
+<p>授予执行权限:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # chmod +x arm/*
+</code></pre></div></div>
+
+<p>将boot.img 拷贝到当前工作目录:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cp /sdcard/boot.img ./boot.img
+</code></pre></div></div>
+
+<p>解包:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # ./arm/magiskboot --unpack boot.img
+</code></pre></div></div>
+
+<p>解包下来的kernel就是内核:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # ls -lh kernel
+</code></pre></div></div>
+
+<h1 id="替换原内核">替换原内核</h1>
+
+<p>将编译好的zImage重新命名为kernel并拷贝到手机</p>
+
+<p>并拷贝到工作目录替换原来的kernel文件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # cp /sdcard/kernel ./kernel
+</code></pre></div></div>
+
+<h1 id="打包bootimg">打包boot.img</h1>
+
+<p>在工作目录执行:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android # ./arm/magiskboot --repack boot.img new-boot.img
+</code></pre></div></div>
+
+<p>这里的boot.img是原来的boot.img</p>
+
+<p>这样的话生成了new-boot.img</p>
+
+<p>将它拷贝到电脑</p>
+
+<h1 id="刷入">刷入</h1>
+
+<p>重启手机并使用fastboot刷入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linux $ fastboot flash boot new-boot.img
+</code></pre></div></div>
+
+<h1 id="测试">测试</h1>
+
+<p>刷入成功后重启
+并测试你要的功能</p>
+
+<p>如果刷入失败或者启动失败，请重新进入fastboot刷入原来备份出来的boot.img(恢复原来内核)</p>
+
+<h1 id="我说几句">我说几句</h1>
+
+<p>总之就是看网上没有一个像样的安卓内核编译教程，自己心血来潮写了一个编译指南。提供给需要的人吧。</p>
+
+<p>你要编译进去usb网卡的话可以拿otg 接 usb网卡和aircrack-ng配合抓包，或者攻击wpawifi，哈哈，</p>
+
+<p>你要是再把kali-netunder的内核patch打进去的话你就有一个名副其实的黑客手机内核了,</p>
+
+<p>用法很多，自己想吧</p>
+
+<h1 id="感谢名单">感谢名单</h1>
+
+<p>感谢纯真大佬与我交流这个想法</p>
+
+<p>感谢xiaomi开源</p>
+
+<p>感谢github</p>
+
+<p>感谢天空</p>
+
+<p>感谢大地</p>
+
+<p>感谢重力</p>
+
+<p>感谢电力</p>
+
+<p>感谢</p>
+
+<p>…</p>
+
+<p>作者: luhux</p>
+
+  </div><a class="u-url" href="/2018/11/13/costom-android-kernel.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">LUHUX BLOG</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">LUHUX BLOG</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/luhux"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">luhux</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>LUHUX BLOG</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
