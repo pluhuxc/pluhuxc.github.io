@@ -100,9 +100,9 @@ https://releases.linaro.org/components/toolchain/binaries/
 
 	$ sudo service binfmt-support start  # 启动binfmt服务
 
-## 挂载镜像用到的工具 partx
+## 挂载镜像用到的工具 kpartx
 
-	$ sudo apt install partx
+	$ sudo apt install kpartx
 
 ## 分区镜像用到的工具 cfdisk
 
