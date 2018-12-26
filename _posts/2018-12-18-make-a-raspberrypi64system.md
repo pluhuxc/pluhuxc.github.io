@@ -26,7 +26,9 @@ markdown 排版不理想
 
 6. 测试
 
-* 树梅派64位系统ARCH是aarch64 或 arm64
+
+# 树梅派64位系统ARCH是aarch64 或 arm64
+
 
 # 准备环境
 
@@ -34,11 +36,23 @@ markdown 排版不理想
 
 --------------
 
-	Linux x86 或 Linux x86\_64
+	Linux x86 或 Linux x86_64
 	5G硬盘空间
 	网络
 
 --------------
+
+
+## 格式
+
+32位64位是指x86架构
+
+树梅派架构一般标识为arm64或aarch64
+
+```
+$ 指普通用户
+# 指root账户
+```
 
 
 ## 编译内核用的工具链 gcc-4.9
@@ -1173,6 +1187,44 @@ mate:
 细节不过多描述，用过gentoo的用户应该懂
 
 * 不同系统需要修改配置的内容不同，请根据具体情况操作
+
+
+
+### Slackware
+
+再列举个sysv发行的初始化
+
+去官方开发者源下载rootfs
+
+ftp://ftp.arm.slackware.com/slackwarearm/slackwarearm-devtools/minirootfs/roots
+
+解压并chroot进去后:
+
+设置密码
+
+添加用户
+
+为用户设置密码
+
+上面的操作和debian一样
+
+设置开机项:
+
+
+	chroot # cd /etc/rc.d/
+
+启用开机项:
+
+	chroot # chmod +x 服务脚本名
+
+禁用开机项:
+
+	chroot # chmod -x 服务脚本名
+
+### 最小化busybox
+
+建议拿lxc构建的出来自己改
+
 
 ## chroot 设置完成后
 
