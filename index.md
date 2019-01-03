@@ -4,3 +4,9 @@
 
 layout: home
 ---
+
+
+友情链接:  
+
+[keke'Blog](http://www.lanact.xyz)
+[纯真'blog](http://www.droidkali.xyz)
